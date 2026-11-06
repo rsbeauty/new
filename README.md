@@ -10,17 +10,29 @@ A responsive salon website with a separate public page and admin page, using Sup
 - `app.js` — public site, customer auth, booking and WhatsApp integration.
 - `admin.js` — admin authentication, appointment status management and inquiries.
 - `config.js` — Supabase URL, anon key and salon WhatsApp number.
-- `supabase.sql` — fresh-install schema, supplied menu seed, triggers and RLS policies.
-- `supabase-menu-migration.sql` — add the supplied menu to an existing Supabase project.
+- `supabase.sql` — schema, seed services, triggers and Row Level Security policies.
 
 ## 1. Create and configure Supabase
 
 1. Create a project at https://supabase.com.
 2. Open **SQL Editor** in the Supabase dashboard.
-3. For a new project, run `supabase.sql`. For your existing project from the earlier package, run `supabase-menu-migration.sql` instead.
-4. In **Project Settings → API**, copy the Project URL and anon/publishable key.
-5. Paste them into `config.js`. Do not use the `service_role` key in browser code.
-6. The WhatsApp number from your uploaded menu is preconfigured as `919625447178` in `config.js`.
+3. Paste and run all of `supabase.sql`.
+4. The supplied Project URL and publishable key are already configured in `config.js`.
+5. The salon WhatsApp number is already set to `919625447178`.
+6. Never use the `service_role` key or database password in browser code.
+
+
+## Supabase CLI (optional)
+
+Run these commands from this extracted project folder if you want to manage Supabase migrations from your computer:
+
+```bash
+supabase login
+supabase init
+supabase link --project-ref kqjzziybvkbkrlpemxdp
+```
+
+The database connection string you supplied contains `[YOUR-PASSWORD]`, which is a placeholder. If the CLI later asks for a database password, enter it locally in the terminal or use the CLI prompt. Do not paste the database password into `config.js`, website JavaScript, or a public repository. The browser website needs only the Project URL and publishable key.
 
 ## 2. Create the admin account
 
@@ -72,10 +84,3 @@ For hosted deployment, upload the complete folder to Netlify, Vercel, Cloudflare
 - “No admin access” — run the role promotion SQL for the exact account email.
 - Services show fallback menu — confirm `supabase.sql` ran and the `services` table has active rows.
 - WhatsApp does not open — set `SALON_WHATSAPP` in `config.js` to country code + phone digits only.
-
-
-## Imported salon menu
-
-The public service menu now uses all 60 menu items from your uploaded `services.html`, across Cleanup, Facial, Makeup, Waxing, Waxing (Rica), Basic Work, Hair Services, Hair Cut, D-Tan and Pre-Bridal. Names and prices are preserved as supplied. The source menu did not specify durations, so the public page says “Ask salon” rather than displaying invented durations.
-
-For an existing Supabase database, run `supabase-menu-migration.sql` once. It deactivates the earlier starter/demo categories and inserts the supplied menu while leaving profiles and bookings untouched.
