@@ -32,7 +32,7 @@
 
     <!-- TABS -->
     <div class="flex flex-wrap gap-2 my-4">
-      <button onclick="showTab('bookings', this)" class="tab-btn bg-pink-600 text-white px-4 py-2 rounded-lg text-xs font-semibold">1. Bookings & Appointments</button>
+      <button onclick="showTab('bookings', this)" class="tab-btn bg-pink-600 text-white px-4 py-2 rounded-lg text-xs font-semibold">1. Bookings & Cart Orders</button>
       <button onclick="showTab('menu', this)" class="tab-btn bg-pink-100 text-pink-800 px-4 py-2 rounded-lg text-xs font-semibold">2. Edit Menu / Prices</button>
       <button onclick="showTab('sliders', this)" class="tab-btn bg-pink-100 text-pink-800 px-4 py-2 rounded-lg text-xs font-semibold">3. Edit Slider Images</button>
       <button onclick="showTab('customers', this)" class="tab-btn bg-pink-100 text-pink-800 px-4 py-2 rounded-lg text-xs font-semibold">4. Registered Customers</button>
@@ -46,7 +46,7 @@
             <th class="p-2.5">Date & Time</th>
             <th class="p-2.5">Customer</th>
             <th class="p-2.5">Phone</th>
-            <th class="p-2.5">Service</th>
+            <th class="p-2.5">Services & Total</th>
             <th class="p-2.5">Address</th>
             <th class="p-2.5">Status</th>
             <th class="p-2.5">Action</th>
@@ -150,7 +150,7 @@
           <td class="p-2.5">${b.booking_date}</td>
           <td class="p-2.5 font-bold">${b.customer_name}</td>
           <td class="p-2.5"><a href="https://wa.me/91${b.phone}" target="_blank" class="text-green-600 underline font-semibold">${b.phone}</a></td>
-          <td class="p-2.5">${b.service_name}</td>
+          <td class="p-2.5 font-medium">${b.service_name}</td>
           <td class="p-2.5">${b.address}</td>
           <td class="p-2.5 font-bold text-pink-600">${b.status}</td>
           <td class="p-2.5 flex gap-1">

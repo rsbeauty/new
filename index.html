@@ -8,9 +8,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body class="pb-20 md:pb-0">
+<body class="pb-24 md:pb-12">
 
-  <!-- TOP NAVBAR (Admin link completely removed) -->
+  <!-- TOP NAVBAR -->
   <nav class="bg-white shadow-md sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
       <a href="index.html" class="flex items-center gap-3">
@@ -30,7 +30,12 @@
         <a href="contact.html" class="hover:text-pink-600">Contact</a>
       </div>
 
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2.5">
+        <button onclick="openCartDrawer()" class="relative bg-pink-50 hover:bg-pink-100 text-pink-700 p-2 rounded-full border border-pink-200" title="View Cart">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <span class="cart-badge hidden absolute -top-1 -right-1 bg-pink-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+        </button>
+
         <button id="nav-auth-btn" onclick="openAuthModal()" class="bg-pink-600 hover:bg-pink-700 text-white text-xs md:text-sm px-4 py-2 rounded-full font-medium shadow">
           Customer Login
         </button>
@@ -42,7 +47,7 @@
     </div>
   </nav>
 
-  <!-- HERO SLIDER (Dynamic from Supabase + Static Fallback) -->
+  <!-- HERO SLIDER -->
   <section class="relative max-w-6xl mx-auto mt-4 px-3">
     <div id="slider-container" class="relative rounded-2xl overflow-hidden shadow-lg bg-pink-100 h-56 sm:h-80 md:h-[420px]">
       <div class="slide active h-full relative">
@@ -51,8 +56,8 @@
           <div class="text-white max-w-md">
             <span class="bg-pink-600 text-xs px-3 py-1 rounded-full uppercase tracking-wider">Girls & Women Only</span>
             <h1 class="text-2xl md:text-4xl font-bold mt-2">Salon Luxury at Your Doorstep</h1>
-            <p class="text-xs md:text-sm text-pink-100 mt-2">Bridal Makeup, Facial, Waxing & Hair Spa in the comfort of your home.</p>
-            <a href="booking.html" class="inline-block mt-4 bg-pink-600 hover:bg-pink-700 text-white text-sm px-5 py-2.5 rounded-full font-semibold">Book Home Service</a>
+            <p class="text-xs md:text-sm text-pink-100 mt-2">Add multiple services to cart & book your home appointment directly on WhatsApp.</p>
+            <a href="services.html" class="inline-block mt-4 bg-pink-600 hover:bg-pink-700 text-white text-sm px-5 py-2.5 rounded-full font-semibold">Explore Menu & Add to Cart</a>
           </div>
         </div>
       </div>
@@ -81,8 +86,8 @@
       <p class="text-xs text-gray-500 mt-1">Safe & comfortable home service</p>
     </div>
     <div class="bg-white p-4 rounded-xl shadow-sm border border-pink-100">
-      <div class="text-pink-600 font-bold text-base">Affordable Menu</div>
-      <p class="text-xs text-gray-500 mt-1">Transparent salon pricing at home</p>
+      <div class="text-pink-600 font-bold text-base">Multi-Service Cart</div>
+      <p class="text-xs text-gray-500 mt-1">Select combo services & book at once</p>
     </div>
     <div class="bg-white p-4 rounded-xl shadow-sm border border-pink-100">
       <div class="text-pink-600 font-bold text-base">Instant Booking</div>
@@ -90,14 +95,14 @@
     </div>
   </section>
 
-  <!-- POPULAR SERVICES MENU (Dynamic from Supabase) -->
+  <!-- POPULAR SERVICES MENU (With Add to Cart) -->
   <section class="max-w-6xl mx-auto px-4 py-6">
     <div class="flex justify-between items-end mb-6">
       <div>
         <h2 class="text-2xl md:text-3xl font-bold text-pink-800">Our Popular Services</h2>
-        <p class="text-xs md:text-sm text-gray-600">Select a service to book your home appointment</p>
+        <p class="text-xs md:text-sm text-gray-600">Add services to your cart and send full order on WhatsApp</p>
       </div>
-      <a href="services.html" class="text-sm text-pink-600 font-semibold hover:underline">View Full Menu →</a>
+      <a href="services.html" class="text-sm text-pink-600 font-semibold hover:underline">Full Rate Card →</a>
     </div>
 
     <div id="home-services-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -105,11 +110,14 @@
         <img src="assets/images/services/facial.jpg" onerror="this.src='https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80'" class="w-full h-48 object-cover" alt="Facial">
         <div class="p-4">
           <div class="flex justify-between items-center">
-            <h3 class="font-bold text-lg text-gray-800">Glow & Gold Facial</h3>
+            <h3 class="font-bold text-lg text-gray-800">VLCC Facial</h3>
             <span class="text-pink-600 font-bold">₹959</span>
           </div>
-          <p class="text-xs text-gray-500 mt-1">Deep cleansing, scrubbing, massage & radiant glow pack.</p>
-          <a href="booking.html?service=Glow%20%26%20Gold%20Facial%20(₹959)" class="mt-4 block text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-sm font-medium">Book Now</a>
+          <p class="text-xs text-gray-500 mt-1">VLCC salon facial kit for glowing skin.</p>
+          <div class="grid grid-cols-2 gap-2 mt-4">
+            <button onclick="addToCart('def-1', 'VLCC Facial', 959, 'Facial')" class="bg-pink-100 hover:bg-pink-200 text-pink-800 py-2 rounded-lg text-xs font-bold">+ Add to Cart</button>
+            <a href="booking.html?service=VLCC%20Facial%20(₹959)" class="text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-xs font-semibold">Direct Book</a>
+          </div>
         </div>
       </div>
 
@@ -117,11 +125,14 @@
         <img src="assets/images/services/hair.jpg" onerror="this.src='https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=600&q=80'" class="w-full h-48 object-cover" alt="Hair">
         <div class="p-4">
           <div class="flex justify-between items-center">
-            <h3 class="font-bold text-lg text-gray-800">Hair Spa & Styling</h3>
+            <h3 class="font-bold text-lg text-gray-800">Hair Spa</h3>
             <span class="text-pink-600 font-bold">₹839</span>
           </div>
-          <p class="text-xs text-gray-500 mt-1">Nourishing hair spa, steam, head massage & blow dry.</p>
-          <a href="booking.html?service=Hair%20Spa%20%26%20Styling%20(₹839)" class="mt-4 block text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-sm font-medium">Book Now</a>
+          <p class="text-xs text-gray-500 mt-1">Nourishing hair spa with steam & head massage.</p>
+          <div class="grid grid-cols-2 gap-2 mt-4">
+            <button onclick="addToCart('def-2', 'Hair Spa', 839, 'Hair Services')" class="bg-pink-100 hover:bg-pink-200 text-pink-800 py-2 rounded-lg text-xs font-bold">+ Add to Cart</button>
+            <a href="booking.html?service=Hair%20Spa%20(₹839)" class="text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-xs font-semibold">Direct Book</a>
+          </div>
         </div>
       </div>
 
@@ -129,11 +140,14 @@
         <img src="assets/images/services/makeup.jpg" onerror="this.src='https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=600&q=80'" class="w-full h-48 object-cover" alt="Makeup">
         <div class="p-4">
           <div class="flex justify-between items-center">
-            <h3 class="font-bold text-lg text-gray-800">Party & Bridal Makeup</h3>
+            <h3 class="font-bold text-lg text-gray-800">Party Makeup Light</h3>
             <span class="text-pink-600 font-bold">₹1439</span>
           </div>
-          <p class="text-xs text-gray-500 mt-1">HD waterproof makeup with hair styling & saree draping.</p>
-          <a href="booking.html?service=Party%20%26%20Bridal%20Makeup%20(₹1439)" class="mt-4 block text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-sm font-medium">Book Now</a>
+          <p class="text-xs text-gray-500 mt-1">Soft glam party makeup with hair styling.</p>
+          <div class="grid grid-cols-2 gap-2 mt-4">
+            <button onclick="addToCart('def-3', 'Party Makeup Light', 1439, 'Makeup')" class="bg-pink-100 hover:bg-pink-200 text-pink-800 py-2 rounded-lg text-xs font-bold">+ Add to Cart</button>
+            <a href="booking.html?service=Party%20Makeup%20Light%20(₹1439)" class="text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-xs font-semibold">Direct Book</a>
+          </div>
         </div>
       </div>
     </div>
@@ -148,7 +162,7 @@
 
   
   <!-- MOBILE APP-STYLE FIXED BOTTOM NAVIGATION -->
-  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-pink-100 shadow-[0_-4px_12px_rgba(0,0,0,0.06)] z-50">
+  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-pink-100 shadow-[0_-4px_12px_rgba(0,0,0,0.06)] z-40">
     <div class="grid grid-cols-5 py-2 text-center text-[11px]">
       <a href="index.html" class="flex flex-col items-center justify-center gap-0.5 text-pink-600 font-bold">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
@@ -158,12 +172,13 @@
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
         <span>Menu</span>
       </a>
-      <a href="booking.html" class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-pink-600">
-        <div class="bg-pink-600 text-white p-1.5 rounded-full -mt-4 shadow-md border-2 border-white">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+      <button onclick="openCartDrawer()" class="flex flex-col items-center justify-center gap-0.5 relative">
+        <div class="bg-pink-600 text-white p-1.5 rounded-full -mt-4 shadow-md border-2 border-white relative">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <span class="cart-badge hidden absolute -top-1.5 -right-1.5 bg-green-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
         </div>
-        <span class="font-semibold text-pink-600">Book</span>
-      </a>
+        <span class="font-semibold text-pink-600">Cart</span>
+      </button>
       <a href="gallery.html" class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-pink-600">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
         <span>Gallery</span>
@@ -197,6 +212,7 @@
   </div>
 
   <script src="assets/js/config.js"></script>
+  <script src="assets/js/cart.js"></script>
   <script>
     let currentSlide = 0;
     function showSlide(n) {
@@ -223,22 +239,30 @@
         `).join('');
       }
 
-      const { data: services } = await sb.from('services').select('*').order('created_at', { ascending: false }).limit(6);
+      const { data: services } = await sb.from('services').select('*').order('created_at', { ascending: true }).limit(6);
       if (services && services.length > 0) {
-        document.getElementById('home-services-grid').innerHTML = services.map(s => `
-          <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden">
-            ${s.image_url ? `<img src="${s.image_url}" class="w-full h-48 object-cover" alt="${s.name}">` : ''}
-            <div class="p-4">
-              <span class="text-[10px] uppercase bg-pink-100 text-pink-700 px-2 py-0.5 rounded-full font-semibold">${s.category || 'Salon'}</span>
-              <div class="flex justify-between items-center mt-1.5">
-                <h3 class="font-bold text-lg text-gray-800">${s.name}</h3>
-                <span class="text-pink-600 font-bold">₹${s.price}</span>
+        document.getElementById('home-services-grid').innerHTML = services.map(s => {
+          const safeName = s.name.replace(/'/g, "\\'");
+          const safeCat = (s.category || 'Salon').replace(/'/g, "\\'");
+          return `
+          <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden flex flex-col justify-between">
+            <div>
+              ${s.image_url ? `<img src="${s.image_url}" class="w-full h-44 object-cover" alt="${s.name}">` : ''}
+              <div class="p-4">
+                <span class="text-[10px] uppercase bg-pink-100 text-pink-700 px-2 py-0.5 rounded-full font-semibold">${s.category || 'Salon'}</span>
+                <div class="flex justify-between items-center mt-1.5">
+                  <h3 class="font-bold text-lg text-gray-800">${s.name}</h3>
+                  <span class="text-pink-600 font-bold">₹${s.price}</span>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">${s.description || ''}</p>
               </div>
-              <p class="text-xs text-gray-500 mt-1">${s.description || ''}</p>
-              <a href="booking.html?service=${encodeURIComponent(s.name + ' (₹' + s.price + ')')}" class="mt-4 block text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-sm font-medium">Book Now</a>
             </div>
-          </div>
-        `).join('');
+            <div class="p-4 pt-0 grid grid-cols-2 gap-2">
+              <button onclick="addToCart('${s.id}', '${safeName}', ${s.price}, '${safeCat}')" class="bg-pink-100 hover:bg-pink-200 text-pink-800 py-2 rounded-lg text-xs font-bold">+ Add to Cart</button>
+              <a href="booking.html?service=${encodeURIComponent(s.name + ' (₹' + s.price + ')')}" class="text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-xs font-semibold">Direct Book</a>
+            </div>
+          </div>`;
+        }).join('');
       }
     }
 

@@ -8,7 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body class="pb-20 md:pb-0">
+<body class="pb-28 md:pb-16">
 
   <nav class="bg-white shadow-md sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
@@ -22,17 +22,25 @@
         <a href="gallery.html" class="hover:text-pink-600">Gallery</a>
         <a href="about.html" class="hover:text-pink-600">About</a>
         <a href="contact.html" class="hover:text-pink-600">Contact</a>
-        <a href="booking.html" class="bg-pink-600 text-white px-4 py-1.5 rounded-full">Book Now</a>
       </div>
+      <button onclick="openCartDrawer()" class="relative bg-pink-600 text-white px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow">
+        <span>Cart</span>
+        <span class="cart-badge hidden bg-white text-pink-700 text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+      </button>
     </div>
   </nav>
 
   <main class="max-w-6xl mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold text-pink-800 text-center">Home Salon Rate Card</h1>
-    <p class="text-center text-xs md:text-sm text-gray-600 mt-1">Ladies Home Service Only • Tap any service to book on WhatsApp</p>
+    <p class="text-center text-xs md:text-sm text-gray-600 mt-1">Add multiple services to cart & send full list on WhatsApp</p>
+
+    <!-- SEARCH BAR -->
+    <div class="max-w-md mx-auto mt-4">
+      <input type="text" id="menu-search" onkeyup="searchServices()" placeholder="Search service (e.g. Facial, Rica, Bridal, Waxing)..." class="w-full border border-pink-200 rounded-full px-4 py-2 text-xs bg-white shadow-sm focus:outline-none focus:border-pink-500">
+    </div>
 
     <!-- CATEGORY FILTER BUTTONS -->
-    <div id="category-tabs" class="flex flex-wrap justify-center gap-2 mt-6">
+    <div id="category-tabs" class="flex flex-wrap justify-center gap-2 mt-4">
       <button onclick="filterCategory('All', this)" class="cat-btn bg-pink-600 text-white px-4 py-1.5 rounded-full text-xs font-semibold shadow-sm">All Services</button>
     </div>
 
@@ -44,7 +52,7 @@
 
   
   <!-- MOBILE APP-STYLE FIXED BOTTOM NAVIGATION -->
-  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-pink-100 shadow-[0_-4px_12px_rgba(0,0,0,0.06)] z-50">
+  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-pink-100 shadow-[0_-4px_12px_rgba(0,0,0,0.06)] z-40">
     <div class="grid grid-cols-5 py-2 text-center text-[11px]">
       <a href="index.html" class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-pink-600">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
@@ -54,12 +62,13 @@
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
         <span>Menu</span>
       </a>
-      <a href="booking.html" class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-pink-600">
-        <div class="bg-pink-600 text-white p-1.5 rounded-full -mt-4 shadow-md border-2 border-white">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+      <button onclick="openCartDrawer()" class="flex flex-col items-center justify-center gap-0.5 relative">
+        <div class="bg-pink-600 text-white p-1.5 rounded-full -mt-4 shadow-md border-2 border-white relative">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <span class="cart-badge hidden absolute -top-1.5 -right-1.5 bg-green-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
         </div>
-        <span class="font-semibold text-pink-600">Book</span>
-      </a>
+        <span class="font-semibold text-pink-600">Cart</span>
+      </button>
       <a href="gallery.html" class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-pink-600">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
         <span>Gallery</span>
@@ -72,8 +81,10 @@
   </nav>
 
   <script src="assets/js/config.js"></script>
+  <script src="assets/js/cart.js"></script>
   <script>
     let allServices = [];
+    let activeCategory = 'All';
 
     async function loadMenu() {
       if (!sb) return;
@@ -92,21 +103,35 @@
     }
 
     function filterCategory(category, btn) {
+      activeCategory = category;
       document.querySelectorAll('.cat-btn').forEach(b => {
         b.classList.remove('bg-pink-600', 'text-white');
         b.classList.add('bg-white', 'text-pink-800', 'border', 'border-pink-200');
       });
       btn.classList.remove('bg-white', 'text-pink-800', 'border', 'border-pink-200');
       btn.classList.add('bg-pink-600', 'text-white');
+      searchServices();
+    }
 
-      const filtered = category === 'All'
-        ? allServices
-        : allServices.filter(s => (s.category || 'General') === category);
+    function searchServices() {
+      const q = document.getElementById('menu-search').value.toLowerCase();
+      const filtered = allServices.filter(s => {
+        const matchCat = activeCategory === 'All' || (s.category || 'General') === activeCategory;
+        const matchText = s.name.toLowerCase().includes(q) || (s.description || '').toLowerCase().includes(q);
+        return matchCat && matchText;
+      });
       renderServices(filtered);
     }
 
     function renderServices(list) {
-      document.getElementById('all-services-grid').innerHTML = list.map(s => `
+      if (list.length === 0) {
+        document.getElementById('all-services-grid').innerHTML = `<p class="col-span-full text-center text-gray-400 text-xs py-8">No matching service found.</p>`;
+        return;
+      }
+      document.getElementById('all-services-grid').innerHTML = list.map(s => {
+        const safeName = s.name.replace(/'/g, "\\'");
+        const safeCat = (s.category || 'Salon').replace(/'/g, "\\'");
+        return `
         <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden flex flex-col justify-between hover:shadow-md transition">
           <div>
             ${s.image_url ? `<img src="${s.image_url}" class="w-full h-44 object-cover" alt="${s.name}">` : ''}
@@ -121,13 +146,16 @@
               <p class="text-xs text-gray-500 mt-1.5">${s.description || ''}</p>
             </div>
           </div>
-          <div class="p-4 pt-0">
-            <a href="booking.html?service=${encodeURIComponent(s.name + ' (₹' + s.price + ')')}" class="block text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-xs font-semibold">
-              Book Home Visit
+          <div class="p-4 pt-0 grid grid-cols-2 gap-2">
+            <button onclick="addToCart('${s.id}', '${safeName}', ${s.price}, '${safeCat}')" class="bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-xs font-bold shadow-sm">
+              + Add to Cart
+            </button>
+            <a href="booking.html?service=${encodeURIComponent(s.name + ' (₹' + s.price + ')')}" class="block text-center bg-pink-50 hover:bg-pink-100 text-pink-800 border border-pink-200 py-2 rounded-lg text-xs font-semibold">
+              Single Book
             </a>
           </div>
-        </div>
-      `).join('');
+        </div>`;
+      }).join('');
     }
 
     loadMenu();
