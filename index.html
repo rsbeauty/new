@@ -9,8 +9,9 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-    body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1f2937; }
-    .uc-card-shadow { box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+    body { font-family: 'Inter', sans-serif; background-color: #fff5f8; color: #2d1f27; }
+    .uc-card-shadow { box-shadow: 0 3px 12px rgba(219, 39, 119, 0.14); }
+    .pink-grad { background: linear-gradient(135deg, #ec4899 0%, #db2777 55%, #be185d 100%); }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .slide { display: none; }
     .slide.active { display: block; animation: fade 0.5s ease-in-out; }
@@ -20,33 +21,33 @@
 <body class="pb-32 md:pb-16">
 
   <!-- TOP APP HEADER -->
-  <header class="bg-white sticky top-0 z-40 border-b border-gray-100">
+  <header class="bg-white/95 backdrop-blur sticky top-0 z-40 border-b border-pink-100 shadow-sm">
     <div class="max-w-3xl mx-auto px-4 py-3 flex justify-between items-center">
       <div class="flex items-center gap-3">
-        <img src="assets/images/logo/logo.jpeg" onerror="this.src='https://placehold.co/100x100/db2777/white?text=RS'" alt="Rs Beauty" class="w-10 h-10 rounded-full object-cover border border-pink-200">
+        <img src="assets/images/logo/logo.jpeg" onerror="this.src='https://placehold.co/100x100/db2777/white?text=RS'" alt="Rs Beauty" class="w-10 h-10 rounded-full object-cover border-2 border-pink-400">
         <div>
-          <h1 class="text-base md:text-lg font-bold text-gray-900 leading-tight">Rs Beauty Parlour</h1>
-          <p class="text-[11px] text-gray-500 flex items-center gap-1">
-            <span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
+          <h1 class="text-base md:text-lg font-bold text-pink-900 leading-tight">Rs Beauty Parlour</h1>
+          <p class="text-[11px] text-pink-600 font-medium flex items-center gap-1">
+            <span class="w-2 h-2 rounded-full bg-pink-500 inline-block"></span>
             Ladies Home Service Only
           </p>
         </div>
       </div>
 
       <div class="flex items-center gap-2">
-        <a href="services.html" class="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-gray-50" title="Search Services">
+        <a href="services.html" class="w-9 h-9 rounded-full bg-pink-50 border border-pink-200 flex items-center justify-center text-pink-700 hover:bg-pink-100" title="Search Services">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
         </a>
-        <button onclick="openCartDrawer()" class="relative w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-gray-50" title="Cart">
+        <button onclick="openCartDrawer()" class="relative w-9 h-9 rounded-full bg-pink-50 border border-pink-200 flex items-center justify-center text-pink-700 hover:bg-pink-100" title="Cart">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-          <span class="cart-badge hidden absolute -top-1 -right-1 bg-purple-700 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+          <span class="cart-badge hidden absolute -top-1 -right-1 bg-pink-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
         </button>
-        <button id="nav-auth-btn" onclick="openAuthModal()" class="text-xs font-semibold bg-gray-900 text-white px-3.5 py-2 rounded-full">
+        <button id="nav-auth-btn" onclick="openAuthModal()" class="text-xs font-semibold pink-grad text-white px-3.5 py-2 rounded-full shadow-sm">
           Login
         </button>
         <div id="nav-user-box" class="hidden items-center gap-1.5">
-          <a href="booking.html" class="bg-purple-50 text-purple-700 border border-purple-200 text-xs px-3 py-1.5 rounded-full font-semibold" id="nav-user-name">My Bookings</a>
-          <button onclick="logoutCustomer()" class="text-[11px] text-red-500 font-semibold">Exit</button>
+          <a href="booking.html" class="bg-pink-100 text-pink-800 border border-pink-200 text-xs px-3 py-1.5 rounded-full font-semibold" id="nav-user-name">My Bookings</a>
+          <button onclick="logoutCustomer()" class="text-[11px] text-rose-600 font-semibold">Exit</button>
         </div>
       </div>
     </div>
@@ -56,15 +57,15 @@
 
     <!-- TOP HERO IMAGE SLIDER -->
     <section class="relative mb-5">
-      <div id="top-hero-slider" class="relative rounded-2xl overflow-hidden shadow-md bg-pink-100 h-48 sm:h-64 md:h-80">
+      <div id="top-hero-slider" class="relative rounded-2xl overflow-hidden shadow-md bg-pink-100 border border-pink-200 h-48 sm:h-64 md:h-80">
         <div class="slide active h-full relative">
           <img src="assets/images/sliders/banner1.jpeg" onerror="this.src='https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=80'" class="w-full h-full object-cover" alt="Banner 1">
-          <div class="absolute inset-0 bg-gradient-to-r from-black/65 via-black/25 to-transparent flex items-center p-5 sm:p-8">
+          <div class="absolute inset-0 bg-gradient-to-r from-pink-950/75 via-pink-900/35 to-transparent flex items-center p-5 sm:p-8">
             <div class="text-white max-w-xs sm:max-w-md">
-              <span class="bg-pink-600 text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-semibold">Girls & Women Only</span>
+              <span class="bg-pink-500 text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-semibold">Girls & Women Only</span>
               <h2 class="text-xl sm:text-3xl font-extrabold mt-1.5 leading-tight">Salon Luxury at Your Doorstep</h2>
               <p class="text-[11px] sm:text-xs text-pink-100 mt-1">Bridal Makeup, Facial, Rica Wax & Hair Spa at Home</p>
-              <a href="services.html" class="inline-block mt-3 bg-white text-gray-900 text-xs font-bold px-4 py-2 rounded-lg shadow">Book Now</a>
+              <a href="services.html" class="inline-block mt-3 bg-white text-pink-700 text-xs font-bold px-4 py-2 rounded-lg shadow">Book Now</a>
             </div>
           </div>
         </div>
@@ -78,142 +79,138 @@
           <img src="assets/images/sliders/banner4.jpeg" onerror="this.src='https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=1200&q=80'" class="w-full h-full object-cover" alt="Banner 4">
         </div>
       </div>
-      <button onclick="prevSlide()" class="absolute left-2.5 top-1/2 -translate-y-1/2 bg-white/85 hover:bg-white text-gray-800 w-8 h-8 rounded-full shadow font-bold text-sm">‹</button>
-      <button onclick="nextSlide()" class="absolute right-2.5 top-1/2 -translate-y-1/2 bg-white/85 hover:bg-white text-gray-800 w-8 h-8 rounded-full shadow font-bold text-sm">›</button>
+      <button onclick="prevSlide()" class="absolute left-2.5 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-pink-700 w-8 h-8 rounded-full shadow font-bold text-sm">‹</button>
+      <button onclick="nextSlide()" class="absolute right-2.5 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-pink-700 w-8 h-8 rounded-full shadow font-bold text-sm">›</button>
     </section>
 
     <!-- 4-COLUMN CATEGORY TILE GRID -->
-    <section class="mt-4">
+    <section class="bg-white rounded-2xl p-4 border border-pink-100 shadow-sm">
       <div class="grid grid-cols-4 gap-x-3 gap-y-5 text-center">
         <a href="services.html?cat=Cleanup" class="group flex flex-col items-center">
-          <div class="w-full aspect-square rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 relative">
+          <div class="w-full aspect-square rounded-2xl bg-pink-50 overflow-hidden border border-pink-200 relative">
             <img src="assets/images/services/facial.jpg" onerror="this.src='https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover group-hover:scale-105 transition" alt="Cleanup">
           </div>
-          <span class="text-[11px] font-medium text-gray-800 mt-1.5 leading-tight">Cleanup</span>
+          <span class="text-[11px] font-semibold text-pink-950 mt-1.5 leading-tight">Cleanup</span>
         </a>
 
         <a href="services.html?cat=Facial" class="group flex flex-col items-center">
-          <div class="w-full aspect-square rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 relative">
-            <span class="absolute top-0 left-0 bg-rose-900 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-br-lg z-10">Popular</span>
+          <div class="w-full aspect-square rounded-2xl bg-pink-50 overflow-hidden border border-pink-200 relative">
+            <span class="absolute top-0 left-0 bg-pink-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-br-lg z-10">Popular</span>
             <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover group-hover:scale-105 transition" alt="Facial">
           </div>
-          <span class="text-[11px] font-medium text-gray-800 mt-1.5 leading-tight">Signature Facial</span>
+          <span class="text-[11px] font-semibold text-pink-950 mt-1.5 leading-tight">Signature Facial</span>
         </a>
 
         <a href="services.html?cat=Waxing" class="group flex flex-col items-center">
-          <div class="w-full aspect-square rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 relative">
+          <div class="w-full aspect-square rounded-2xl bg-pink-50 overflow-hidden border border-pink-200 relative">
             <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover group-hover:scale-105 transition" alt="Waxing">
           </div>
-          <span class="text-[11px] font-medium text-gray-800 mt-1.5 leading-tight">Waxing & threading</span>
+          <span class="text-[11px] font-semibold text-pink-950 mt-1.5 leading-tight">Waxing & threading</span>
         </a>
 
         <a href="services.html?cat=Waxing%20(Rica)" class="group flex flex-col items-center">
-          <div class="w-full aspect-square rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 relative">
-            <span class="absolute top-0 left-0 bg-rose-900 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-br-lg z-10">Rica</span>
+          <div class="w-full aspect-square rounded-2xl bg-pink-50 overflow-hidden border border-pink-200 relative">
+            <span class="absolute top-0 left-0 bg-pink-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-br-lg z-10">Rica</span>
             <img src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover group-hover:scale-105 transition" alt="Rica Wax">
           </div>
-          <span class="text-[11px] font-medium text-gray-800 mt-1.5 leading-tight">Italian Rica wax</span>
+          <span class="text-[11px] font-semibold text-pink-950 mt-1.5 leading-tight">Italian Rica wax</span>
         </a>
 
         <a href="services.html?cat=Makeup" class="group flex flex-col items-center">
-          <div class="w-full aspect-square rounded-2xl bg-amber-50 overflow-hidden border border-amber-200 relative">
-            <span class="absolute top-0 inset-x-0 bg-amber-600 text-white text-[9px] font-bold py-0.5 z-10">Bridal</span>
+          <div class="w-full aspect-square rounded-2xl bg-pink-50 overflow-hidden border border-pink-300 relative">
+            <span class="absolute top-0 inset-x-0 bg-pink-600 text-white text-[9px] font-bold py-0.5 z-10">Bridal</span>
             <img src="assets/images/services/makeup.jpg" onerror="this.src='https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover group-hover:scale-105 transition" alt="Makeup">
           </div>
-          <span class="text-[11px] font-medium text-gray-800 mt-1.5 leading-tight">Party & Bridal makeup</span>
+          <span class="text-[11px] font-semibold text-pink-950 mt-1.5 leading-tight">Party & Bridal makeup</span>
         </a>
 
         <a href="services.html?cat=Hair%20Services" class="group flex flex-col items-center">
-          <div class="w-full aspect-square rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 relative">
+          <div class="w-full aspect-square rounded-2xl bg-pink-50 overflow-hidden border border-pink-200 relative">
             <img src="assets/images/services/hair.jpg" onerror="this.src='https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover group-hover:scale-105 transition" alt="Hair">
           </div>
-          <span class="text-[11px] font-medium text-gray-800 mt-1.5 leading-tight">Hair spa & keratin</span>
+          <span class="text-[11px] font-semibold text-pink-950 mt-1.5 leading-tight">Hair spa & keratin</span>
         </a>
 
         <a href="services.html?cat=Basic%20Work" class="group flex flex-col items-center">
-          <div class="w-full aspect-square rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 relative">
+          <div class="w-full aspect-square rounded-2xl bg-pink-50 overflow-hidden border border-pink-200 relative">
             <img src="https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover group-hover:scale-105 transition" alt="Pedicure">
           </div>
-          <span class="text-[11px] font-medium text-gray-800 mt-1.5 leading-tight">Pedicure & manicure</span>
+          <span class="text-[11px] font-semibold text-pink-950 mt-1.5 leading-tight">Pedicure & manicure</span>
         </a>
 
         <a href="services.html?cat=D-Tan" class="group flex flex-col items-center">
-          <div class="w-full aspect-square rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 relative">
+          <div class="w-full aspect-square rounded-2xl bg-pink-50 overflow-hidden border border-pink-200 relative">
             <img src="https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover group-hover:scale-105 transition" alt="D-Tan">
           </div>
-          <span class="text-[11px] font-medium text-gray-800 mt-1.5 leading-tight">Bleach, detan & polish</span>
+          <span class="text-[11px] font-semibold text-pink-950 mt-1.5 leading-tight">Bleach, detan & polish</span>
         </a>
       </div>
     </section>
 
-    <hr class="my-6 border-gray-100 border-t-4">
-
     <!-- FESTIVE / BRIDAL PROMO CARD -->
-    <section>
-      <h2 class="text-xl font-extrabold text-gray-900 mb-3">Festive & Bridal ready</h2>
-      <div class="relative rounded-2xl overflow-hidden bg-gradient-to-r from-rose-100 via-pink-100 to-rose-200 border border-pink-200">
+    <section class="mt-6">
+      <h2 class="text-lg font-extrabold text-pink-950 mb-2.5">Festive & Bridal ready</h2>
+      <div class="relative rounded-2xl overflow-hidden bg-gradient-to-r from-pink-200 via-rose-100 to-pink-200 border border-pink-300 shadow-sm">
         <div class="flex items-center justify-between p-5 sm:p-7 min-h-[180px]">
           <div class="max-w-[58%] z-10">
-            <p class="text-sm font-semibold text-gray-800">Bridal & Festive glow package</p>
-            <h3 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mt-1">20% off</h3>
-            <p class="text-xs text-gray-600 mt-2">Pick from O3+ facials, Rica waxing, bridal makeup & more</p>
-            <a href="services.html" class="inline-block mt-3 bg-gray-900 text-white text-xs font-semibold px-4 py-2 rounded-lg">Explore Packages</a>
+            <p class="text-sm font-semibold text-pink-900">Bridal & Festive glow package</p>
+            <h3 class="text-3xl sm:text-4xl font-extrabold text-pink-700 mt-1">20% off</h3>
+            <p class="text-xs text-pink-900/80 mt-2">Pick from O3+ facials, Rica waxing, bridal makeup & more</p>
+            <a href="services.html" class="inline-block mt-3 pink-grad text-white text-xs font-bold px-4 py-2 rounded-lg shadow">Explore Packages</a>
           </div>
-          <img src="https://images.unsplash.com/photo-1595959183082-7b570b7e08e2?auto=format&fit=crop&w=400&q=80" class="w-36 sm:w-48 h-40 object-cover rounded-xl shadow-md" alt="Festive Offer">
+          <img src="https://images.unsplash.com/photo-1595959183082-7b570b7e08e2?auto=format&fit=crop&w=400&q=80" class="w-36 sm:w-48 h-40 object-cover rounded-xl shadow-md border-2 border-white" alt="Festive Offer">
         </div>
       </div>
     </section>
 
-    <hr class="my-6 border-gray-100 border-t-4">
-
-    <!-- URBAN COMPANY STYLE SERVICE LIST -->
-    <section>
+    <!-- PINKISH SERVICE LIST -->
+    <section class="mt-6 bg-white rounded-2xl p-4 sm:p-5 border border-pink-100 shadow-sm">
       <div class="flex justify-between items-center mb-2">
-        <h2 class="text-xl font-extrabold text-gray-900">Popular Services</h2>
-        <a href="services.html" class="text-xs font-bold text-purple-700 hover:underline">View full menu →</a>
+        <h2 class="text-lg font-extrabold text-pink-950">Popular Services</h2>
+        <a href="services.html" class="text-xs font-bold text-pink-600 hover:underline">View full menu →</a>
       </div>
 
-      <div id="home-services-list" class="divide-y divide-gray-200">
-        <p class="text-xs text-gray-400 py-6 text-center">Loading salon menu...</p>
+      <div id="home-services-list" class="divide-y divide-pink-100">
+        <p class="text-xs text-pink-400 py-6 text-center">Loading salon menu...</p>
       </div>
     </section>
 
   </main>
 
-  <!-- FLOATING DARK "MENU" PILL BUTTON -->
+  <!-- FLOATING PINK "MENU" PILL BUTTON -->
   <div class="fixed bottom-16 md:bottom-6 inset-x-0 flex justify-center z-30 pointer-events-none">
-    <button onclick="toggleQuickMenu()" class="pointer-events-auto bg-neutral-900 hover:bg-black text-white px-5 py-2.5 rounded-full shadow-xl flex items-center gap-2 text-xs font-bold tracking-wide">
+    <button onclick="toggleQuickMenu()" class="pointer-events-auto pink-grad hover:opacity-95 text-white px-5 py-2.5 rounded-full shadow-xl border border-pink-300/40 flex items-center gap-2 text-xs font-bold tracking-wide">
       <span>☰</span>
       <span>Menu</span>
     </button>
   </div>
 
   <!-- QUICK CATEGORY JUMP POPUP -->
-  <div id="quick-menu-modal" class="fixed inset-0 bg-black/50 hidden items-end md:items-center justify-center z-50 p-4" onclick="if(event.target===this) toggleQuickMenu()">
-    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl">
-      <div class="flex justify-between items-center border-b pb-3">
-        <h3 class="font-bold text-base text-gray-900">Jump to Category</h3>
-        <button onclick="toggleQuickMenu()" class="text-xl font-bold text-gray-400">×</button>
+  <div id="quick-menu-modal" class="fixed inset-0 bg-pink-950/50 hidden items-end md:items-center justify-center z-50 p-4" onclick="if(event.target===this) toggleQuickMenu()">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-pink-100">
+      <div class="flex justify-between items-center border-b border-pink-100 pb-3">
+        <h3 class="font-bold text-base text-pink-900">Jump to Category</h3>
+        <button onclick="toggleQuickMenu()" class="text-xl font-bold text-pink-400">×</button>
       </div>
       <div class="grid grid-cols-2 gap-2 mt-3 text-xs font-semibold">
-        <a href="services.html?cat=Cleanup" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">Cleanup</a>
-        <a href="services.html?cat=Facial" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">Facial</a>
-        <a href="services.html?cat=Makeup" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">Makeup</a>
-        <a href="services.html?cat=Waxing" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">Waxing</a>
-        <a href="services.html?cat=Waxing%20(Rica)" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">Waxing (Rica)</a>
-        <a href="services.html?cat=Basic%20Work" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">Pedicure & Basic</a>
-        <a href="services.html?cat=Hair%20Services" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">Hair Services</a>
-        <a href="services.html?cat=Hair%20Cut" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">Hair Cut</a>
-        <a href="services.html?cat=D-Tan" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">D-Tan</a>
-        <a href="services.html?cat=Pre-Bridal" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">Pre-Bridal</a>
+        <a href="services.html?cat=Cleanup" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Cleanup</a>
+        <a href="services.html?cat=Facial" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Facial</a>
+        <a href="services.html?cat=Makeup" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Makeup</a>
+        <a href="services.html?cat=Waxing" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Waxing</a>
+        <a href="services.html?cat=Waxing%20(Rica)" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Waxing (Rica)</a>
+        <a href="services.html?cat=Basic%20Work" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Pedicure & Basic</a>
+        <a href="services.html?cat=Hair%20Services" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Hair Services</a>
+        <a href="services.html?cat=Hair%20Cut" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Hair Cut</a>
+        <a href="services.html?cat=D-Tan" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">D-Tan</a>
+        <a href="services.html?cat=Pre-Bridal" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Pre-Bridal</a>
       </div>
     </div>
   </div>
 
   <!-- MOBILE BOTTOM BAR -->
-  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 z-40">
+  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-pink-100 z-40 shadow-[0_-4px_12px_rgba(219,39,119,0.06)]">
     <div class="grid grid-cols-5 py-2 text-center text-[11px]">
-      <a href="index.html" class="flex flex-col items-center gap-0.5 text-purple-700 font-bold">
+      <a href="index.html" class="flex flex-col items-center gap-0.5 text-pink-600 font-bold">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
         <span>Home</span>
       </a>
@@ -221,10 +218,10 @@
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
         <span>Rate Card</span>
       </a>
-      <button onclick="openCartDrawer()" class="flex flex-col items-center gap-0.5 text-gray-500 relative">
-        <svg class="w-5 h-5 text-purple-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-        <span class="cart-badge hidden absolute top-0 right-4 bg-purple-700 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
-        <span class="font-semibold text-purple-700">Cart</span>
+      <button onclick="openCartDrawer()" class="flex flex-col items-center gap-0.5 text-pink-600 relative">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <span class="cart-badge hidden absolute top-0 right-4 bg-pink-600 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+        <span class="font-bold">Cart</span>
       </button>
       <a href="booking.html" class="flex flex-col items-center gap-0.5 text-gray-500">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -238,20 +235,20 @@
   </nav>
 
   <!-- CUSTOMER LOGIN / SIGNUP MODAL -->
-  <div id="auth-modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl max-w-sm w-full p-6 relative shadow-2xl">
-      <button onclick="closeAuthModal()" class="absolute right-4 top-3 text-gray-400 hover:text-gray-700 text-xl font-bold">×</button>
-      <h3 class="text-lg font-bold text-gray-900 text-center">Customer Login / Signup</h3>
+  <div id="auth-modal" class="fixed inset-0 bg-pink-950/60 hidden items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 relative shadow-2xl border border-pink-100">
+      <button onclick="closeAuthModal()" class="absolute right-4 top-3 text-pink-400 hover:text-pink-700 text-xl font-bold">×</button>
+      <h3 class="text-lg font-bold text-pink-900 text-center">Customer Login / Signup</h3>
       <p class="text-xs text-gray-500 text-center mt-1">Track your booking confirmation status live</p>
       <div class="mt-4 space-y-3">
-        <input type="text" id="cust-name" placeholder="Full Name (For New Signup)" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
-        <input type="tel" id="cust-phone" placeholder="Mobile Number (10 digits)" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
-        <input type="email" id="cust-email" placeholder="Email Address" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
-        <input type="password" id="cust-pass" placeholder="Password (min 6 chars)" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+        <input type="text" id="cust-name" placeholder="Full Name (For New Signup)" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-500">
+        <input type="tel" id="cust-phone" placeholder="Mobile Number (10 digits)" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-500">
+        <input type="email" id="cust-email" placeholder="Email Address" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-500">
+        <input type="password" id="cust-pass" placeholder="Password (min 6 chars)" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-500">
         <p id="auth-msg" class="text-xs text-red-500 text-center"></p>
         <div class="grid grid-cols-2 gap-2 pt-1">
-          <button onclick="handleCustomerLogin()" class="bg-gray-900 text-white py-2.5 rounded-lg text-sm font-semibold">Login</button>
-          <button onclick="handleCustomerSignup()" class="bg-purple-100 text-purple-800 py-2.5 rounded-lg text-sm font-semibold">New Signup</button>
+          <button onclick="handleCustomerLogin()" class="pink-grad text-white py-2.5 rounded-lg text-sm font-semibold shadow">Login</button>
+          <button onclick="handleCustomerSignup()" class="bg-pink-100 text-pink-800 py-2.5 rounded-lg text-sm font-semibold">New Signup</button>
         </div>
       </div>
     </div>
@@ -298,7 +295,7 @@
         document.getElementById('top-hero-slider').innerHTML = sliders.map((sl, idx) => `
           <div class="slide ${idx === 0 ? 'active' : ''} h-full relative">
             <img src="${sl.image_url}" class="w-full h-full object-cover" alt="${sl.title || 'Banner'}">
-            ${sl.title ? `<div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-5 text-white"><h2 class="text-lg sm:text-2xl font-bold">${sl.title}</h2></div>` : ''}
+            ${sl.title ? `<div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-pink-950/75 to-transparent p-5 text-white"><h2 class="text-lg sm:text-2xl font-bold">${sl.title}</h2></div>` : ''}
           </div>
         `).join('');
       }
@@ -313,24 +310,24 @@
         return `
         <div class="py-5 flex justify-between items-start gap-4">
           <div class="flex-1 pr-1">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-purple-700">${s.category || 'Salon'}</span>
-            <h3 class="text-base font-bold text-gray-900 mt-0.5">${s.name}</h3>
-            <div class="flex items-center gap-2 mt-1.5 text-xs">
-              <span class="font-bold text-gray-900 text-sm">₹${s.price}</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider bg-pink-100 text-pink-700 px-2 py-0.5 rounded-full">${s.category || 'Salon'}</span>
+            <h3 class="text-base font-bold text-gray-900 mt-1">${s.name}</h3>
+            <div class="flex items-center gap-2 mt-1 text-xs">
+              <span class="font-bold text-pink-700 text-sm">₹${s.price}</span>
               <span class="text-gray-400">• Doorstep Home Visit</span>
             </div>
             <ul class="mt-2 space-y-1 text-xs text-gray-600 list-disc pl-4">
               <li>${s.description || 'Hygienic single-use salon kit included'}</li>
               <li>Strictly for girls & women at home</li>
             </ul>
-            <a href="booking.html?service=${encodeURIComponent(s.name + ' (₹' + s.price + ')')}" class="inline-block mt-3 text-xs font-bold text-purple-700 hover:underline">
+            <a href="booking.html?service=${encodeURIComponent(s.name + ' (₹' + s.price + ')')}" class="inline-block mt-3 text-xs font-bold text-pink-600 hover:underline">
               Direct single book →
             </a>
           </div>
 
           <div class="relative w-28 sm:w-32 shrink-0 pb-3">
-            <img src="${img}" onerror="this.src='https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=300&q=80'" class="w-28 sm:w-32 h-28 sm:h-32 rounded-2xl object-cover border border-gray-100" alt="${s.name}">
-            <button onclick="addToCart('${s.id}', '${safeName}', ${s.price}, '${safeCat}')" class="absolute bottom-0 inset-x-3 bg-white hover:bg-purple-50 text-purple-700 border border-gray-200 uc-card-shadow py-1.5 rounded-lg text-xs font-bold transition">
+            <img src="${img}" onerror="this.src='https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=300&q=80'" class="w-28 sm:w-32 h-28 sm:h-32 rounded-2xl object-cover border border-pink-200" alt="${s.name}">
+            <button onclick="addToCart('${s.id}', '${safeName}', ${s.price}, '${safeCat}')" class="absolute bottom-0 inset-x-3 bg-white hover:bg-pink-50 text-pink-600 border border-pink-300 uc-card-shadow py-1.5 rounded-lg text-xs font-bold transition">
               Add
             </button>
           </div>
