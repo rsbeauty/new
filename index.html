@@ -11,11 +11,15 @@
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1f2937; }
     .uc-card-shadow { box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .slide { display: none; }
+    .slide.active { display: block; animation: fade 0.5s ease-in-out; }
+    @keyframes fade { from { opacity: 0.4; } to { opacity: 1; } }
   </style>
 </head>
 <body class="pb-32 md:pb-16">
 
-  <!-- TOP APP HEADER (Urban Company Style) -->
+  <!-- TOP APP HEADER -->
   <header class="bg-white sticky top-0 z-40 border-b border-gray-100">
     <div class="max-w-3xl mx-auto px-4 py-3 flex justify-between items-center">
       <div class="flex items-center gap-3">
@@ -24,7 +28,7 @@
           <h1 class="text-base md:text-lg font-bold text-gray-900 leading-tight">Rs Beauty Parlour</h1>
           <p class="text-[11px] text-gray-500 flex items-center gap-1">
             <span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
-            Earliest slot: Today, 10:00 AM • Ladies Only
+            Ladies Home Service Only
           </p>
         </div>
       </div>
@@ -50,29 +54,36 @@
 
   <main class="max-w-3xl mx-auto px-4 pt-3">
 
-    <!-- RATING & SLOT BAR -->
-    <div class="flex justify-between items-center text-xs pb-3 border-b border-gray-100">
-      <div class="flex items-center gap-1 font-semibold text-gray-800">
-        <span>★ 4.92</span>
-        <span class="text-gray-500 underline font-normal">(1.2K+ home bookings)</span>
-      </div>
-      <span class="bg-gray-100 text-gray-700 px-2.5 py-1 rounded-md font-medium text-[11px]">Doorstep Home Service</span>
-    </div>
-
-    <!-- OFFER BANNER BOX (Green % Icon Style) -->
-    <div class="mt-3 border border-gray-200 rounded-xl p-3 flex items-center justify-between bg-white">
-      <div class="flex items-center gap-3">
-        <div class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">%</div>
-        <div>
-          <p class="text-xs font-bold text-gray-900">Get 15% off upto ₹200 on Combo Bookings</p>
-          <p class="text-[11px] text-gray-500">Single-use hygienic kits • Strictly for Girls & Women</p>
+    <!-- TOP HERO IMAGE SLIDER -->
+    <section class="relative mb-5">
+      <div id="top-hero-slider" class="relative rounded-2xl overflow-hidden shadow-md bg-pink-100 h-48 sm:h-64 md:h-80">
+        <div class="slide active h-full relative">
+          <img src="assets/images/sliders/banner1.jpeg" onerror="this.src='https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=80'" class="w-full h-full object-cover" alt="Banner 1">
+          <div class="absolute inset-0 bg-gradient-to-r from-black/65 via-black/25 to-transparent flex items-center p-5 sm:p-8">
+            <div class="text-white max-w-xs sm:max-w-md">
+              <span class="bg-pink-600 text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-semibold">Girls & Women Only</span>
+              <h2 class="text-xl sm:text-3xl font-extrabold mt-1.5 leading-tight">Salon Luxury at Your Doorstep</h2>
+              <p class="text-[11px] sm:text-xs text-pink-100 mt-1">Bridal Makeup, Facial, Rica Wax & Hair Spa at Home</p>
+              <a href="services.html" class="inline-block mt-3 bg-white text-gray-900 text-xs font-bold px-4 py-2 rounded-lg shadow">Book Now</a>
+            </div>
+          </div>
+        </div>
+        <div class="slide h-full relative">
+          <img src="assets/images/sliders/banner2.jpeg" onerror="this.src='https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=1200&q=80'" class="w-full h-full object-cover" alt="Banner 2">
+        </div>
+        <div class="slide h-full relative">
+          <img src="assets/images/sliders/banner3.jpeg" onerror="this.src='https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=1200&q=80'" class="w-full h-full object-cover" alt="Banner 3">
+        </div>
+        <div class="slide h-full relative">
+          <img src="assets/images/sliders/banner4.jpeg" onerror="this.src='https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=1200&q=80'" class="w-full h-full object-cover" alt="Banner 4">
         </div>
       </div>
-      <span class="text-[11px] text-gray-400 font-semibold">1/2</span>
-    </div>
+      <button onclick="prevSlide()" class="absolute left-2.5 top-1/2 -translate-y-1/2 bg-white/85 hover:bg-white text-gray-800 w-8 h-8 rounded-full shadow font-bold text-sm">‹</button>
+      <button onclick="nextSlide()" class="absolute right-2.5 top-1/2 -translate-y-1/2 bg-white/85 hover:bg-white text-gray-800 w-8 h-8 rounded-full shadow font-bold text-sm">›</button>
+    </section>
 
-    <!-- 4-COLUMN CATEGORY TILE GRID (Exact Screenshot 2 Layout) -->
-    <section class="mt-6">
+    <!-- 4-COLUMN CATEGORY TILE GRID -->
+    <section class="mt-4">
       <div class="grid grid-cols-4 gap-x-3 gap-y-5 text-center">
         <a href="services.html?cat=Cleanup" class="group flex flex-col items-center">
           <div class="w-full aspect-square rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 relative">
@@ -137,25 +148,25 @@
 
     <hr class="my-6 border-gray-100 border-t-4">
 
-    <!-- FESTIVE / BRIDAL PROMO BANNER (Screenshot 2 Bottom Banner Style) -->
+    <!-- FESTIVE / BRIDAL PROMO CARD -->
     <section>
       <h2 class="text-xl font-extrabold text-gray-900 mb-3">Festive & Bridal ready</h2>
-      <div id="slider-container" class="relative rounded-2xl overflow-hidden bg-gradient-to-r from-rose-100 via-pink-100 to-rose-200 border border-pink-200">
-        <div class="slide active flex items-center justify-between p-5 sm:p-7 min-h-[185px]">
+      <div class="relative rounded-2xl overflow-hidden bg-gradient-to-r from-rose-100 via-pink-100 to-rose-200 border border-pink-200">
+        <div class="flex items-center justify-between p-5 sm:p-7 min-h-[180px]">
           <div class="max-w-[58%] z-10">
             <p class="text-sm font-semibold text-gray-800">Bridal & Festive glow package</p>
             <h3 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mt-1">20% off</h3>
             <p class="text-xs text-gray-600 mt-2">Pick from O3+ facials, Rica waxing, bridal makeup & more</p>
             <a href="services.html" class="inline-block mt-3 bg-gray-900 text-white text-xs font-semibold px-4 py-2 rounded-lg">Explore Packages</a>
           </div>
-          <img src="assets/images/sliders/banner1.jpeg" onerror="this.src='https://images.unsplash.com/photo-1595959183082-7b570b7e08e2?auto=format&fit=crop&w=400&q=80'" class="w-36 sm:w-48 h-40 object-cover rounded-xl shadow-md" alt="Festive Offer">
+          <img src="https://images.unsplash.com/photo-1595959183082-7b570b7e08e2?auto=format&fit=crop&w=400&q=80" class="w-36 sm:w-48 h-40 object-cover rounded-xl shadow-md" alt="Festive Offer">
         </div>
       </div>
     </section>
 
     <hr class="my-6 border-gray-100 border-t-4">
 
-    <!-- URBAN COMPANY STYLE SERVICE LIST (Left Info + Right Image with Overlapping Add Button) -->
+    <!-- URBAN COMPANY STYLE SERVICE LIST -->
     <section>
       <div class="flex justify-between items-center mb-2">
         <h2 class="text-xl font-extrabold text-gray-900">Popular Services</h2>
@@ -169,7 +180,7 @@
 
   </main>
 
-  <!-- FLOATING DARK "MENU" PILL BUTTON (Exact Screenshot Style) -->
+  <!-- FLOATING DARK "MENU" PILL BUTTON -->
   <div class="fixed bottom-16 md:bottom-6 inset-x-0 flex justify-center z-30 pointer-events-none">
     <button onclick="toggleQuickMenu()" class="pointer-events-auto bg-neutral-900 hover:bg-black text-white px-5 py-2.5 rounded-full shadow-xl flex items-center gap-2 text-xs font-bold tracking-wide">
       <span>☰</span>
@@ -249,6 +260,18 @@
   <script src="assets/js/config.js"></script>
   <script src="assets/js/cart.js"></script>
   <script>
+    let currentSlide = 0;
+    function showSlide(n) {
+      const slides = document.querySelectorAll('#top-hero-slider .slide');
+      if (!slides.length) return;
+      slides.forEach(s => s.classList.remove('active'));
+      currentSlide = (n + slides.length) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }
+    function nextSlide() { showSlide(currentSlide + 1); }
+    function prevSlide() { showSlide(currentSlide - 1); }
+    setInterval(nextSlide, 4500);
+
     const defaultImgs = {
       'Cleanup': 'assets/images/services/facial.jpg',
       'Facial': 'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=300&q=80',
@@ -270,17 +293,14 @@
 
     async function loadHomeServices() {
       if (!sb) return;
-      const { data: sliders } = await sb.from('sliders').select('*').order('created_at', { ascending: false }).limit(1);
+      const { data: sliders } = await sb.from('sliders').select('*').order('created_at', { ascending: false });
       if (sliders && sliders.length > 0) {
-        document.getElementById('slider-container').innerHTML = `
-          <div class="flex items-center justify-between p-5 sm:p-7 min-h-[185px]">
-            <div class="max-w-[58%]">
-              <span class="text-[10px] uppercase font-bold text-rose-800 bg-white/80 px-2 py-0.5 rounded">Special Offer</span>
-              <h3 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mt-1.5">${sliders[0].title || 'Luxury Home Salon'}</h3>
-              <a href="services.html" class="inline-block mt-3 bg-gray-900 text-white text-xs font-semibold px-4 py-2 rounded-lg">Book Now</a>
-            </div>
-            <img src="${sliders[0].image_url}" class="w-36 sm:w-48 h-40 object-cover rounded-xl shadow-md" alt="Banner">
-          </div>`;
+        document.getElementById('top-hero-slider').innerHTML = sliders.map((sl, idx) => `
+          <div class="slide ${idx === 0 ? 'active' : ''} h-full relative">
+            <img src="${sl.image_url}" class="w-full h-full object-cover" alt="${sl.title || 'Banner'}">
+            ${sl.title ? `<div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-5 text-white"><h2 class="text-lg sm:text-2xl font-bold">${sl.title}</h2></div>` : ''}
+          </div>
+        `).join('');
       }
 
       const { data: services } = await sb.from('services').select('*').order('created_at', { ascending: true }).limit(10);
@@ -295,17 +315,13 @@
           <div class="flex-1 pr-1">
             <span class="text-[10px] font-bold uppercase tracking-wider text-purple-700">${s.category || 'Salon'}</span>
             <h3 class="text-base font-bold text-gray-900 mt-0.5">${s.name}</h3>
-            <div class="flex items-center gap-1.5 text-xs text-gray-600 mt-1">
-              <span class="font-semibold text-gray-800">★ 4.9</span>
-              <span>(240+ reviews)</span>
-            </div>
             <div class="flex items-center gap-2 mt-1.5 text-xs">
               <span class="font-bold text-gray-900 text-sm">₹${s.price}</span>
-              <span class="text-gray-400">• 45 mins</span>
+              <span class="text-gray-400">• Doorstep Home Visit</span>
             </div>
-            <ul class="mt-2.5 space-y-1 text-xs text-gray-600 list-disc pl-4">
+            <ul class="mt-2 space-y-1 text-xs text-gray-600 list-disc pl-4">
               <li>${s.description || 'Hygienic single-use salon kit included'}</li>
-              <li>Doorstep service strictly for girls & women</li>
+              <li>Strictly for girls & women at home</li>
             </ul>
             <a href="booking.html?service=${encodeURIComponent(s.name + ' (₹' + s.price + ')')}" class="inline-block mt-3 text-xs font-bold text-purple-700 hover:underline">
               Direct single book →
