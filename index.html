@@ -3,187 +3,223 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rs Beauty Parlour | Home Service Ladies Salon</title>
+  <title>Rs Beauty Parlour | Home Salon Services</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1f2937; }
+    .uc-card-shadow { box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  </style>
 </head>
-<body class="pb-24 md:pb-12">
+<body class="pb-32 md:pb-16">
 
-  <!-- TOP NAVBAR -->
-  <nav class="bg-white shadow-md sticky top-0 z-40">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-      <a href="index.html" class="flex items-center gap-3">
-        <img src="assets/images/logo/logo.jpeg" onerror="this.src='https://placehold.co/100x100/db2777/white?text=RS'" alt="Rs Beauty Parlour" class="h-11 w-11 rounded-full object-cover border-2 border-pink-500">
+  <!-- TOP APP HEADER (Urban Company Style) -->
+  <header class="bg-white sticky top-0 z-40 border-b border-gray-100">
+    <div class="max-w-3xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <img src="assets/images/logo/logo.jpeg" onerror="this.src='https://placehold.co/100x100/db2777/white?text=RS'" alt="Rs Beauty" class="w-10 h-10 rounded-full object-cover border border-pink-200">
         <div>
-          <span class="brand-font text-xl font-bold text-pink-700 block leading-none">Rs Beauty Parlour</span>
-          <span class="text-[11px] text-pink-500 font-medium">Ladies Home Service Only</span>
+          <h1 class="text-base md:text-lg font-bold text-gray-900 leading-tight">Rs Beauty Parlour</h1>
+          <p class="text-[11px] text-gray-500 flex items-center gap-1">
+            <span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
+            Earliest slot: Today, 10:00 AM • Ladies Only
+          </p>
         </div>
-      </a>
-
-      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
-        <a href="index.html" class="text-pink-600 font-semibold">Home</a>
-        <a href="services.html" class="hover:text-pink-600">Services & Menu</a>
-        <a href="gallery.html" class="hover:text-pink-600">Gallery</a>
-        <a href="about.html" class="hover:text-pink-600">About</a>
-        <a href="booking.html" class="hover:text-pink-600">Book Appointment</a>
-        <a href="contact.html" class="hover:text-pink-600">Contact</a>
       </div>
 
-      <div class="flex items-center gap-2.5">
-        <button onclick="openCartDrawer()" class="relative bg-pink-50 hover:bg-pink-100 text-pink-700 p-2 rounded-full border border-pink-200" title="View Cart">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-          <span class="cart-badge hidden absolute -top-1 -right-1 bg-pink-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+      <div class="flex items-center gap-2">
+        <a href="services.html" class="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-gray-50" title="Search Services">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </a>
+        <button onclick="openCartDrawer()" class="relative w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-gray-50" title="Cart">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <span class="cart-badge hidden absolute -top-1 -right-1 bg-purple-700 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
         </button>
-
-        <button id="nav-auth-btn" onclick="openAuthModal()" class="bg-pink-600 hover:bg-pink-700 text-white text-xs md:text-sm px-4 py-2 rounded-full font-medium shadow">
-          Customer Login
+        <button id="nav-auth-btn" onclick="openAuthModal()" class="text-xs font-semibold bg-gray-900 text-white px-3.5 py-2 rounded-full">
+          Login
         </button>
-        <div id="nav-user-box" class="hidden items-center gap-2">
-          <a href="booking.html" class="bg-pink-100 text-pink-700 text-xs px-3 py-1.5 rounded-full font-semibold" id="nav-user-name">My Account</a>
-          <button onclick="logoutCustomer()" class="text-xs text-red-500 underline">Logout</button>
+        <div id="nav-user-box" class="hidden items-center gap-1.5">
+          <a href="booking.html" class="bg-purple-50 text-purple-700 border border-purple-200 text-xs px-3 py-1.5 rounded-full font-semibold" id="nav-user-name">My Bookings</a>
+          <button onclick="logoutCustomer()" class="text-[11px] text-red-500 font-semibold">Exit</button>
         </div>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <!-- HERO SLIDER -->
-  <section class="relative max-w-6xl mx-auto mt-4 px-3">
-    <div id="slider-container" class="relative rounded-2xl overflow-hidden shadow-lg bg-pink-100 h-56 sm:h-80 md:h-[420px]">
-      <div class="slide active h-full relative">
-        <img src="assets/images/sliders/banner1.jpeg" onerror="this.src='https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=80'" class="w-full h-full object-cover" alt="Banner 1">
-        <div class="absolute inset-0 bg-gradient-to-r from-black/65 via-black/30 to-transparent flex items-center p-6 md:p-12">
-          <div class="text-white max-w-md">
-            <span class="bg-pink-600 text-xs px-3 py-1 rounded-full uppercase tracking-wider">Girls & Women Only</span>
-            <h1 class="text-2xl md:text-4xl font-bold mt-2">Salon Luxury at Your Doorstep</h1>
-            <p class="text-xs md:text-sm text-pink-100 mt-2">Add multiple services to cart & book your home appointment directly on WhatsApp.</p>
-            <a href="services.html" class="inline-block mt-4 bg-pink-600 hover:bg-pink-700 text-white text-sm px-5 py-2.5 rounded-full font-semibold">Explore Menu & Add to Cart</a>
-          </div>
+  <main class="max-w-3xl mx-auto px-4 pt-3">
+
+    <!-- RATING & SLOT BAR -->
+    <div class="flex justify-between items-center text-xs pb-3 border-b border-gray-100">
+      <div class="flex items-center gap-1 font-semibold text-gray-800">
+        <span>★ 4.92</span>
+        <span class="text-gray-500 underline font-normal">(1.2K+ home bookings)</span>
+      </div>
+      <span class="bg-gray-100 text-gray-700 px-2.5 py-1 rounded-md font-medium text-[11px]">Doorstep Home Service</span>
+    </div>
+
+    <!-- OFFER BANNER BOX (Green % Icon Style) -->
+    <div class="mt-3 border border-gray-200 rounded-xl p-3 flex items-center justify-between bg-white">
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">%</div>
+        <div>
+          <p class="text-xs font-bold text-gray-900">Get 15% off upto ₹200 on Combo Bookings</p>
+          <p class="text-[11px] text-gray-500">Single-use hygienic kits • Strictly for Girls & Women</p>
         </div>
       </div>
-      <div class="slide h-full relative">
-        <img src="assets/images/sliders/banner2.jpeg" onerror="this.src='https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=1200&q=80'" class="w-full h-full object-cover" alt="Banner 2">
-      </div>
-      <div class="slide h-full relative">
-        <img src="assets/images/sliders/banner3.jpeg" onerror="this.src='https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=1200&q=80'" class="w-full h-full object-cover" alt="Banner 3">
-      </div>
-      <div class="slide h-full relative">
-        <img src="assets/images/sliders/banner4.jpeg" onerror="this.src='https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=1200&q=80'" class="w-full h-full object-cover" alt="Banner 4">
-      </div>
-    </div>
-    <button onclick="prevSlide()" class="absolute left-5 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-pink-700 w-9 h-9 rounded-full shadow font-bold">‹</button>
-    <button onclick="nextSlide()" class="absolute right-5 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-pink-700 w-9 h-9 rounded-full shadow font-bold">›</button>
-  </section>
-
-  <!-- HIGHLIGHTS -->
-  <section class="max-w-6xl mx-auto px-4 py-8 grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-pink-100">
-      <div class="text-pink-600 font-bold text-base">100% Hygienic</div>
-      <p class="text-xs text-gray-500 mt-1">Single-use kits & branded products</p>
-    </div>
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-pink-100">
-      <div class="text-pink-600 font-bold text-base">Ladies Only</div>
-      <p class="text-xs text-gray-500 mt-1">Safe & comfortable home service</p>
-    </div>
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-pink-100">
-      <div class="text-pink-600 font-bold text-base">Multi-Service Cart</div>
-      <p class="text-xs text-gray-500 mt-1">Select combo services & book at once</p>
-    </div>
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-pink-100">
-      <div class="text-pink-600 font-bold text-base">Instant Booking</div>
-      <p class="text-xs text-gray-500 mt-1">Direct confirmation on WhatsApp</p>
-    </div>
-  </section>
-
-  <!-- POPULAR SERVICES MENU (With Add to Cart) -->
-  <section class="max-w-6xl mx-auto px-4 py-6">
-    <div class="flex justify-between items-end mb-6">
-      <div>
-        <h2 class="text-2xl md:text-3xl font-bold text-pink-800">Our Popular Services</h2>
-        <p class="text-xs md:text-sm text-gray-600">Add services to your cart and send full order on WhatsApp</p>
-      </div>
-      <a href="services.html" class="text-sm text-pink-600 font-semibold hover:underline">Full Rate Card →</a>
+      <span class="text-[11px] text-gray-400 font-semibold">1/2</span>
     </div>
 
-    <div id="home-services-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden">
-        <img src="assets/images/services/facial.jpg" onerror="this.src='https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80'" class="w-full h-48 object-cover" alt="Facial">
-        <div class="p-4">
-          <div class="flex justify-between items-center">
-            <h3 class="font-bold text-lg text-gray-800">VLCC Facial</h3>
-            <span class="text-pink-600 font-bold">₹959</span>
+    <!-- 4-COLUMN CATEGORY TILE GRID (Exact Screenshot 2 Layout) -->
+    <section class="mt-6">
+      <div class="grid grid-cols-4 gap-x-3 gap-y-5 text-center">
+        <a href="services.html?cat=Cleanup" class="group flex flex-col items-center">
+          <div class="w-full aspect-square rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 relative">
+            <img src="assets/images/services/facial.jpg" onerror="this.src='https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover group-hover:scale-105 transition" alt="Cleanup">
           </div>
-          <p class="text-xs text-gray-500 mt-1">VLCC salon facial kit for glowing skin.</p>
-          <div class="grid grid-cols-2 gap-2 mt-4">
-            <button onclick="addToCart('def-1', 'VLCC Facial', 959, 'Facial')" class="bg-pink-100 hover:bg-pink-200 text-pink-800 py-2 rounded-lg text-xs font-bold">+ Add to Cart</button>
-            <a href="booking.html?service=VLCC%20Facial%20(₹959)" class="text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-xs font-semibold">Direct Book</a>
+          <span class="text-[11px] font-medium text-gray-800 mt-1.5 leading-tight">Cleanup</span>
+        </a>
+
+        <a href="services.html?cat=Facial" class="group flex flex-col items-center">
+          <div class="w-full aspect-square rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 relative">
+            <span class="absolute top-0 left-0 bg-rose-900 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-br-lg z-10">Popular</span>
+            <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover group-hover:scale-105 transition" alt="Facial">
           </div>
+          <span class="text-[11px] font-medium text-gray-800 mt-1.5 leading-tight">Signature Facial</span>
+        </a>
+
+        <a href="services.html?cat=Waxing" class="group flex flex-col items-center">
+          <div class="w-full aspect-square rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 relative">
+            <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover group-hover:scale-105 transition" alt="Waxing">
+          </div>
+          <span class="text-[11px] font-medium text-gray-800 mt-1.5 leading-tight">Waxing & threading</span>
+        </a>
+
+        <a href="services.html?cat=Waxing%20(Rica)" class="group flex flex-col items-center">
+          <div class="w-full aspect-square rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 relative">
+            <span class="absolute top-0 left-0 bg-rose-900 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-br-lg z-10">Rica</span>
+            <img src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover group-hover:scale-105 transition" alt="Rica Wax">
+          </div>
+          <span class="text-[11px] font-medium text-gray-800 mt-1.5 leading-tight">Italian Rica wax</span>
+        </a>
+
+        <a href="services.html?cat=Makeup" class="group flex flex-col items-center">
+          <div class="w-full aspect-square rounded-2xl bg-amber-50 overflow-hidden border border-amber-200 relative">
+            <span class="absolute top-0 inset-x-0 bg-amber-600 text-white text-[9px] font-bold py-0.5 z-10">Bridal</span>
+            <img src="assets/images/services/makeup.jpg" onerror="this.src='https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover group-hover:scale-105 transition" alt="Makeup">
+          </div>
+          <span class="text-[11px] font-medium text-gray-800 mt-1.5 leading-tight">Party & Bridal makeup</span>
+        </a>
+
+        <a href="services.html?cat=Hair%20Services" class="group flex flex-col items-center">
+          <div class="w-full aspect-square rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 relative">
+            <img src="assets/images/services/hair.jpg" onerror="this.src='https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover group-hover:scale-105 transition" alt="Hair">
+          </div>
+          <span class="text-[11px] font-medium text-gray-800 mt-1.5 leading-tight">Hair spa & keratin</span>
+        </a>
+
+        <a href="services.html?cat=Basic%20Work" class="group flex flex-col items-center">
+          <div class="w-full aspect-square rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 relative">
+            <img src="https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover group-hover:scale-105 transition" alt="Pedicure">
+          </div>
+          <span class="text-[11px] font-medium text-gray-800 mt-1.5 leading-tight">Pedicure & manicure</span>
+        </a>
+
+        <a href="services.html?cat=D-Tan" class="group flex flex-col items-center">
+          <div class="w-full aspect-square rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 relative">
+            <img src="https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover group-hover:scale-105 transition" alt="D-Tan">
+          </div>
+          <span class="text-[11px] font-medium text-gray-800 mt-1.5 leading-tight">Bleach, detan & polish</span>
+        </a>
+      </div>
+    </section>
+
+    <hr class="my-6 border-gray-100 border-t-4">
+
+    <!-- FESTIVE / BRIDAL PROMO BANNER (Screenshot 2 Bottom Banner Style) -->
+    <section>
+      <h2 class="text-xl font-extrabold text-gray-900 mb-3">Festive & Bridal ready</h2>
+      <div id="slider-container" class="relative rounded-2xl overflow-hidden bg-gradient-to-r from-rose-100 via-pink-100 to-rose-200 border border-pink-200">
+        <div class="slide active flex items-center justify-between p-5 sm:p-7 min-h-[185px]">
+          <div class="max-w-[58%] z-10">
+            <p class="text-sm font-semibold text-gray-800">Bridal & Festive glow package</p>
+            <h3 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mt-1">20% off</h3>
+            <p class="text-xs text-gray-600 mt-2">Pick from O3+ facials, Rica waxing, bridal makeup & more</p>
+            <a href="services.html" class="inline-block mt-3 bg-gray-900 text-white text-xs font-semibold px-4 py-2 rounded-lg">Explore Packages</a>
+          </div>
+          <img src="assets/images/sliders/banner1.jpeg" onerror="this.src='https://images.unsplash.com/photo-1595959183082-7b570b7e08e2?auto=format&fit=crop&w=400&q=80'" class="w-36 sm:w-48 h-40 object-cover rounded-xl shadow-md" alt="Festive Offer">
         </div>
       </div>
+    </section>
 
-      <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden">
-        <img src="assets/images/services/hair.jpg" onerror="this.src='https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=600&q=80'" class="w-full h-48 object-cover" alt="Hair">
-        <div class="p-4">
-          <div class="flex justify-between items-center">
-            <h3 class="font-bold text-lg text-gray-800">Hair Spa</h3>
-            <span class="text-pink-600 font-bold">₹839</span>
-          </div>
-          <p class="text-xs text-gray-500 mt-1">Nourishing hair spa with steam & head massage.</p>
-          <div class="grid grid-cols-2 gap-2 mt-4">
-            <button onclick="addToCart('def-2', 'Hair Spa', 839, 'Hair Services')" class="bg-pink-100 hover:bg-pink-200 text-pink-800 py-2 rounded-lg text-xs font-bold">+ Add to Cart</button>
-            <a href="booking.html?service=Hair%20Spa%20(₹839)" class="text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-xs font-semibold">Direct Book</a>
-          </div>
-        </div>
+    <hr class="my-6 border-gray-100 border-t-4">
+
+    <!-- URBAN COMPANY STYLE SERVICE LIST (Left Info + Right Image with Overlapping Add Button) -->
+    <section>
+      <div class="flex justify-between items-center mb-2">
+        <h2 class="text-xl font-extrabold text-gray-900">Popular Services</h2>
+        <a href="services.html" class="text-xs font-bold text-purple-700 hover:underline">View full menu →</a>
       </div>
 
-      <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden">
-        <img src="assets/images/services/makeup.jpg" onerror="this.src='https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=600&q=80'" class="w-full h-48 object-cover" alt="Makeup">
-        <div class="p-4">
-          <div class="flex justify-between items-center">
-            <h3 class="font-bold text-lg text-gray-800">Party Makeup Light</h3>
-            <span class="text-pink-600 font-bold">₹1439</span>
-          </div>
-          <p class="text-xs text-gray-500 mt-1">Soft glam party makeup with hair styling.</p>
-          <div class="grid grid-cols-2 gap-2 mt-4">
-            <button onclick="addToCart('def-3', 'Party Makeup Light', 1439, 'Makeup')" class="bg-pink-100 hover:bg-pink-200 text-pink-800 py-2 rounded-lg text-xs font-bold">+ Add to Cart</button>
-            <a href="booking.html?service=Party%20Makeup%20Light%20(₹1439)" class="text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-xs font-semibold">Direct Book</a>
-          </div>
-        </div>
+      <div id="home-services-list" class="divide-y divide-gray-200">
+        <p class="text-xs text-gray-400 py-6 text-center">Loading salon menu...</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FLOATING DARK "MENU" PILL BUTTON (Exact Screenshot Style) -->
+  <div class="fixed bottom-16 md:bottom-6 inset-x-0 flex justify-center z-30 pointer-events-none">
+    <button onclick="toggleQuickMenu()" class="pointer-events-auto bg-neutral-900 hover:bg-black text-white px-5 py-2.5 rounded-full shadow-xl flex items-center gap-2 text-xs font-bold tracking-wide">
+      <span>☰</span>
+      <span>Menu</span>
+    </button>
+  </div>
+
+  <!-- QUICK CATEGORY JUMP POPUP -->
+  <div id="quick-menu-modal" class="fixed inset-0 bg-black/50 hidden items-end md:items-center justify-center z-50 p-4" onclick="if(event.target===this) toggleQuickMenu()">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-base text-gray-900">Jump to Category</h3>
+        <button onclick="toggleQuickMenu()" class="text-xl font-bold text-gray-400">×</button>
+      </div>
+      <div class="grid grid-cols-2 gap-2 mt-3 text-xs font-semibold">
+        <a href="services.html?cat=Cleanup" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">Cleanup</a>
+        <a href="services.html?cat=Facial" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">Facial</a>
+        <a href="services.html?cat=Makeup" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">Makeup</a>
+        <a href="services.html?cat=Waxing" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">Waxing</a>
+        <a href="services.html?cat=Waxing%20(Rica)" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">Waxing (Rica)</a>
+        <a href="services.html?cat=Basic%20Work" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">Pedicure & Basic</a>
+        <a href="services.html?cat=Hair%20Services" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">Hair Services</a>
+        <a href="services.html?cat=Hair%20Cut" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">Hair Cut</a>
+        <a href="services.html?cat=D-Tan" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">D-Tan</a>
+        <a href="services.html?cat=Pre-Bridal" class="p-2.5 rounded-xl bg-gray-50 hover:bg-pink-50 text-gray-800">Pre-Bridal</a>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- FOOTER -->
-  <footer class="bg-pink-900 text-pink-100 mt-12 py-8 px-4 text-center text-sm">
-    <p class="brand-font text-xl font-bold text-white">Rs Beauty Parlour</p>
-    <p class="text-xs mt-1">Freelance Home-Service Beauty Salon (Strictly for Girls & Women)</p>
-    <p class="text-xs mt-2">WhatsApp Booking: <a href="https://wa.me/919625447178" class="underline font-bold text-white">+91 9625447178</a></p>
-  </footer>
-
-  
-  <!-- MOBILE APP-STYLE FIXED BOTTOM NAVIGATION -->
-  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-pink-100 shadow-[0_-4px_12px_rgba(0,0,0,0.06)] z-40">
+  <!-- MOBILE BOTTOM BAR -->
+  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 z-40">
     <div class="grid grid-cols-5 py-2 text-center text-[11px]">
-      <a href="index.html" class="flex flex-col items-center justify-center gap-0.5 text-pink-600 font-bold">
+      <a href="index.html" class="flex flex-col items-center gap-0.5 text-purple-700 font-bold">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
         <span>Home</span>
       </a>
-      <a href="services.html" class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-pink-600">
+      <a href="services.html" class="flex flex-col items-center gap-0.5 text-gray-500">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-        <span>Menu</span>
+        <span>Rate Card</span>
       </a>
-      <button onclick="openCartDrawer()" class="flex flex-col items-center justify-center gap-0.5 relative">
-        <div class="bg-pink-600 text-white p-1.5 rounded-full -mt-4 shadow-md border-2 border-white relative">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-          <span class="cart-badge hidden absolute -top-1.5 -right-1.5 bg-green-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
-        </div>
-        <span class="font-semibold text-pink-600">Cart</span>
+      <button onclick="openCartDrawer()" class="flex flex-col items-center gap-0.5 text-gray-500 relative">
+        <svg class="w-5 h-5 text-purple-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <span class="cart-badge hidden absolute top-0 right-4 bg-purple-700 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+        <span class="font-semibold text-purple-700">Cart</span>
       </button>
-      <a href="gallery.html" class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-pink-600">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-        <span>Gallery</span>
+      <a href="booking.html" class="flex flex-col items-center gap-0.5 text-gray-500">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        <span>Bookings</span>
       </a>
-      <a href="contact.html" class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-pink-600">
+      <a href="contact.html" class="flex flex-col items-center gap-0.5 text-gray-500">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
         <span>Contact</span>
       </a>
@@ -194,18 +230,17 @@
   <div id="auth-modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-sm w-full p-6 relative shadow-2xl">
       <button onclick="closeAuthModal()" class="absolute right-4 top-3 text-gray-400 hover:text-gray-700 text-xl font-bold">×</button>
-      <h3 class="text-xl font-bold text-pink-700 text-center">Customer Login / Signup</h3>
-      <p class="text-xs text-gray-500 text-center mt-1">Login to track your appointments & save details</p>
-
+      <h3 class="text-lg font-bold text-gray-900 text-center">Customer Login / Signup</h3>
+      <p class="text-xs text-gray-500 text-center mt-1">Track your booking confirmation status live</p>
       <div class="mt-4 space-y-3">
-        <input type="text" id="cust-name" placeholder="Your Full Name (For New Signup)" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+        <input type="text" id="cust-name" placeholder="Full Name (For New Signup)" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
         <input type="tel" id="cust-phone" placeholder="Mobile Number (10 digits)" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
         <input type="email" id="cust-email" placeholder="Email Address" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
         <input type="password" id="cust-pass" placeholder="Password (min 6 chars)" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
         <p id="auth-msg" class="text-xs text-red-500 text-center"></p>
         <div class="grid grid-cols-2 gap-2 pt-1">
-          <button onclick="handleCustomerLogin()" class="bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-sm font-semibold">Login</button>
-          <button onclick="handleCustomerSignup()" class="bg-pink-100 hover:bg-pink-200 text-pink-800 py-2 rounded-lg text-sm font-semibold">New Signup</button>
+          <button onclick="handleCustomerLogin()" class="bg-gray-900 text-white py-2.5 rounded-lg text-sm font-semibold">Login</button>
+          <button onclick="handleCustomerSignup()" class="bg-purple-100 text-purple-800 py-2.5 rounded-lg text-sm font-semibold">New Signup</button>
         </div>
       </div>
     </div>
@@ -214,56 +249,77 @@
   <script src="assets/js/config.js"></script>
   <script src="assets/js/cart.js"></script>
   <script>
-    let currentSlide = 0;
-    function showSlide(n) {
-      const slides = document.querySelectorAll('.slide');
-      if (!slides.length) return;
-      slides.forEach(s => s.classList.remove('active'));
-      currentSlide = (n + slides.length) % slides.length;
-      slides[currentSlide].classList.add('active');
+    const defaultImgs = {
+      'Cleanup': 'assets/images/services/facial.jpg',
+      'Facial': 'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=300&q=80',
+      'Makeup': 'assets/images/services/makeup.jpg',
+      'Waxing': 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=300&q=80',
+      'Waxing (Rica)': 'https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=300&q=80',
+      'Hair Services': 'assets/images/services/hair.jpg',
+      'Hair Cut': 'https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=300&q=80',
+      'Basic Work': 'https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?auto=format&fit=crop&w=300&q=80',
+      'D-Tan': 'https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&w=300&q=80',
+      'Pre-Bridal': 'assets/images/services/makeup.jpg'
+    };
+
+    function toggleQuickMenu() {
+      const m = document.getElementById('quick-menu-modal');
+      m.classList.toggle('hidden');
+      m.classList.toggle('flex');
     }
-    function nextSlide() { showSlide(currentSlide + 1); }
-    function prevSlide() { showSlide(currentSlide - 1); }
-    setInterval(nextSlide, 4500);
 
-    async function loadDynamicContent() {
+    async function loadHomeServices() {
       if (!sb) return;
-
-      const { data: sliders } = await sb.from('sliders').select('*').order('created_at', { ascending: false });
+      const { data: sliders } = await sb.from('sliders').select('*').order('created_at', { ascending: false }).limit(1);
       if (sliders && sliders.length > 0) {
-        document.getElementById('slider-container').innerHTML = sliders.map((sl, idx) => `
-          <div class="slide ${idx === 0 ? 'active' : ''} h-full relative">
-            <img src="${sl.image_url}" class="w-full h-full object-cover" alt="${sl.title || 'Banner'}">
-            ${sl.title ? `<div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-6 text-white"><h2 class="text-xl md:text-3xl font-bold">${sl.title}</h2></div>` : ''}
-          </div>
-        `).join('');
+        document.getElementById('slider-container').innerHTML = `
+          <div class="flex items-center justify-between p-5 sm:p-7 min-h-[185px]">
+            <div class="max-w-[58%]">
+              <span class="text-[10px] uppercase font-bold text-rose-800 bg-white/80 px-2 py-0.5 rounded">Special Offer</span>
+              <h3 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mt-1.5">${sliders[0].title || 'Luxury Home Salon'}</h3>
+              <a href="services.html" class="inline-block mt-3 bg-gray-900 text-white text-xs font-semibold px-4 py-2 rounded-lg">Book Now</a>
+            </div>
+            <img src="${sliders[0].image_url}" class="w-36 sm:w-48 h-40 object-cover rounded-xl shadow-md" alt="Banner">
+          </div>`;
       }
 
-      const { data: services } = await sb.from('services').select('*').order('created_at', { ascending: true }).limit(6);
-      if (services && services.length > 0) {
-        document.getElementById('home-services-grid').innerHTML = services.map(s => {
-          const safeName = s.name.replace(/'/g, "\\'");
-          const safeCat = (s.category || 'Salon').replace(/'/g, "\\'");
-          return `
-          <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden flex flex-col justify-between">
-            <div>
-              ${s.image_url ? `<img src="${s.image_url}" class="w-full h-44 object-cover" alt="${s.name}">` : ''}
-              <div class="p-4">
-                <span class="text-[10px] uppercase bg-pink-100 text-pink-700 px-2 py-0.5 rounded-full font-semibold">${s.category || 'Salon'}</span>
-                <div class="flex justify-between items-center mt-1.5">
-                  <h3 class="font-bold text-lg text-gray-800">${s.name}</h3>
-                  <span class="text-pink-600 font-bold">₹${s.price}</span>
-                </div>
-                <p class="text-xs text-gray-500 mt-1">${s.description || ''}</p>
-              </div>
+      const { data: services } = await sb.from('services').select('*').order('created_at', { ascending: true }).limit(10);
+      if (!services || services.length === 0) return;
+
+      document.getElementById('home-services-list').innerHTML = services.map(s => {
+        const safeName = s.name.replace(/'/g, "\\'");
+        const safeCat = (s.category || 'Salon').replace(/'/g, "\\'");
+        const img = s.image_url || defaultImgs[s.category] || 'assets/images/services/facial.jpg';
+        return `
+        <div class="py-5 flex justify-between items-start gap-4">
+          <div class="flex-1 pr-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-purple-700">${s.category || 'Salon'}</span>
+            <h3 class="text-base font-bold text-gray-900 mt-0.5">${s.name}</h3>
+            <div class="flex items-center gap-1.5 text-xs text-gray-600 mt-1">
+              <span class="font-semibold text-gray-800">★ 4.9</span>
+              <span>(240+ reviews)</span>
             </div>
-            <div class="p-4 pt-0 grid grid-cols-2 gap-2">
-              <button onclick="addToCart('${s.id}', '${safeName}', ${s.price}, '${safeCat}')" class="bg-pink-100 hover:bg-pink-200 text-pink-800 py-2 rounded-lg text-xs font-bold">+ Add to Cart</button>
-              <a href="booking.html?service=${encodeURIComponent(s.name + ' (₹' + s.price + ')')}" class="text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-xs font-semibold">Direct Book</a>
+            <div class="flex items-center gap-2 mt-1.5 text-xs">
+              <span class="font-bold text-gray-900 text-sm">₹${s.price}</span>
+              <span class="text-gray-400">• 45 mins</span>
             </div>
-          </div>`;
-        }).join('');
-      }
+            <ul class="mt-2.5 space-y-1 text-xs text-gray-600 list-disc pl-4">
+              <li>${s.description || 'Hygienic single-use salon kit included'}</li>
+              <li>Doorstep service strictly for girls & women</li>
+            </ul>
+            <a href="booking.html?service=${encodeURIComponent(s.name + ' (₹' + s.price + ')')}" class="inline-block mt-3 text-xs font-bold text-purple-700 hover:underline">
+              Direct single book →
+            </a>
+          </div>
+
+          <div class="relative w-28 sm:w-32 shrink-0 pb-3">
+            <img src="${img}" onerror="this.src='https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=300&q=80'" class="w-28 sm:w-32 h-28 sm:h-32 rounded-2xl object-cover border border-gray-100" alt="${s.name}">
+            <button onclick="addToCart('${s.id}', '${safeName}', ${s.price}, '${safeCat}')" class="absolute bottom-0 inset-x-3 bg-white hover:bg-purple-50 text-purple-700 border border-gray-200 uc-card-shadow py-1.5 rounded-lg text-xs font-bold transition">
+              Add
+            </button>
+          </div>
+        </div>`;
+      }).join('');
     }
 
     function openAuthModal() { document.getElementById('auth-modal').classList.replace('hidden', 'flex'); }
@@ -285,7 +341,7 @@
       const email = document.getElementById('cust-email').value;
       const password = document.getElementById('cust-pass').value;
       const { error } = await sb.auth.signInWithPassword({ email, password });
-      if (error) { document.getElementById('auth-msg').innerText = error.message; }
+      if (error) document.getElementById('auth-msg').innerText = error.message;
       else { closeAuthModal(); checkUser(); }
     }
 
@@ -296,16 +352,11 @@
       const password = document.getElementById('cust-pass').value;
       if (!full_name || !phone) return document.getElementById('auth-msg').innerText = 'Naam aur Mobile Number zaroori hai!';
 
-      const { data, error } = await sb.auth.signUp({
-        email, password,
-        options: { data: { full_name, phone } }
-      });
-      if (error) { document.getElementById('auth-msg').innerText = error.message; }
+      const { data, error } = await sb.auth.signUp({ email, password, options: { data: { full_name, phone } } });
+      if (error) document.getElementById('auth-msg').innerText = error.message;
       else {
-        if (data.user) {
-          await sb.from('customers').insert([{ id: data.user.id, full_name, phone, email }]);
-        }
-        alert('Account created! Welcome to Rs Beauty Parlour.');
+        if (data.user) await sb.from('customers').insert([{ id: data.user.id, full_name, phone, email }]);
+        alert('Account created!');
         closeAuthModal();
         checkUser();
       }
@@ -316,7 +367,7 @@
       location.reload();
     }
 
-    loadDynamicContent();
+    loadHomeServices();
     checkUser();
   </script>
 </body>
