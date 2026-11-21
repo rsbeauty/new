@@ -9,9 +9,14 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-    body { font-family: 'Inter', sans-serif; background-color: #fff5f8; color: #2d1f27; }
-    .uc-card-shadow { box-shadow: 0 3px 12px rgba(219, 39, 119, 0.14); }
+    body { font-family: 'Inter', sans-serif; background-color: #fff2f6; color: #2d1f27; }
+    .uc-card-shadow { box-shadow: 0 3px 12px rgba(219, 39, 119, 0.16); }
     .pink-grad { background: linear-gradient(135deg, #ec4899 0%, #db2777 55%, #be185d 100%); }
+    .menu-pink-card {
+      background: linear-gradient(135deg, #fff0f6 0%, #ffe4ef 55%, #fdf2f8 100%);
+      border: 1px solid #fbcfe8;
+      box-shadow: 0 4px 14px rgba(236, 72, 153, 0.08);
+    }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .slide { display: none; }
     .slide.active { display: block; animation: fade 0.5s ease-in-out; }
@@ -20,19 +25,19 @@
 </head>
 <body class="pb-32 md:pb-16">
 
-  <!-- TOP APP HEADER -->
+  <!-- TOP APP HEADER (Clickable Logo + Brand Name) -->
   <header class="bg-white/95 backdrop-blur sticky top-0 z-40 border-b border-pink-100 shadow-sm">
     <div class="max-w-3xl mx-auto px-4 py-3 flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <img src="assets/images/logo/logo.jpeg" onerror="this.src='https://placehold.co/100x100/db2777/white?text=RS'" alt="Rs Beauty" class="w-10 h-10 rounded-full object-cover border-2 border-pink-400">
+      <a href="index.html" class="flex items-center gap-3 group cursor-pointer" title="Go to Home">
+        <img src="assets/images/logo/logo.jpeg" onerror="this.src='https://placehold.co/100x100/db2777/white?text=RS'" alt="Rs Beauty" class="w-10 h-10 rounded-full object-cover border-2 border-pink-400 group-hover:scale-105 transition">
         <div>
-          <h1 class="text-base md:text-lg font-bold text-pink-900 leading-tight">Rs Beauty Parlour</h1>
+          <h1 class="text-base md:text-lg font-bold text-pink-900 group-hover:text-pink-600 transition leading-tight">Rs Beauty Parlour</h1>
           <p class="text-[11px] text-pink-600 font-medium flex items-center gap-1">
             <span class="w-2 h-2 rounded-full bg-pink-500 inline-block"></span>
             Ladies Home Service Only
           </p>
         </div>
-      </div>
+      </a>
 
       <div class="flex items-center gap-2">
         <a href="services.html" class="w-9 h-9 rounded-full bg-pink-50 border border-pink-200 flex items-center justify-center text-pink-700 hover:bg-pink-100" title="Search Services">
@@ -43,12 +48,10 @@
           <span class="cart-badge hidden absolute -top-1 -right-1 bg-pink-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
         </button>
 
-        <!-- LOGIN BUTTON (Before Login) -->
         <button id="nav-auth-btn" onclick="openAuthModal('login')" class="text-xs font-semibold pink-grad text-white px-3.5 py-2 rounded-full shadow-sm">
           Login
         </button>
 
-        <!-- PROFILE ICON BUTTON (After Login) -->
         <div id="nav-user-box" class="hidden items-center gap-1.5">
           <button onclick="openProfileModal()" class="flex items-center gap-1.5 bg-pink-50 hover:bg-pink-100 text-pink-900 border border-pink-200 pl-1.5 pr-3 py-1 rounded-full transition" title="Edit Profile">
             <span class="w-7 h-7 rounded-full pink-grad text-white flex items-center justify-center">
@@ -92,7 +95,7 @@
     </section>
 
     <!-- 4-COLUMN CATEGORY TILE GRID -->
-    <section class="bg-white rounded-2xl p-4 border border-pink-100 shadow-sm">
+    <section class="bg-gradient-to-br from-white via-pink-50/70 to-rose-50 rounded-2xl p-4 border border-pink-200/80 shadow-sm">
       <div class="grid grid-cols-4 gap-x-3 gap-y-5 text-center">
         <a href="services.html?cat=Cleanup" class="group flex flex-col items-center">
           <div class="w-full aspect-square rounded-2xl bg-pink-50 overflow-hidden border border-pink-200 relative">
@@ -171,14 +174,14 @@
       </div>
     </section>
 
-    <!-- PINKISH SERVICE LIST -->
-    <section class="mt-6 bg-white rounded-2xl p-4 sm:p-5 border border-pink-100 shadow-sm">
-      <div class="flex justify-between items-center mb-2">
+    <!-- COLORFUL LIGHT PINKISH MENU CARDS -->
+    <section class="mt-6">
+      <div class="flex justify-between items-center mb-3">
         <h2 class="text-lg font-extrabold text-pink-950">Popular Services</h2>
         <a href="services.html" class="text-xs font-bold text-pink-600 hover:underline">View full menu →</a>
       </div>
 
-      <div id="home-services-list" class="divide-y divide-pink-100">
+      <div id="home-services-list" class="space-y-3.5">
         <p class="text-xs text-pink-400 py-6 text-center">Loading salon menu...</p>
       </div>
     </section>
@@ -242,7 +245,7 @@
     </div>
   </nav>
 
-  <!-- CUSTOMER PROFILE & EDIT MODAL (Opens on Profile Icon Click) -->
+  <!-- CUSTOMER PROFILE & EDIT MODAL -->
   <div id="profile-modal" class="fixed inset-0 bg-pink-950/60 hidden items-center justify-center z-50 p-4" onclick="if(event.target===this) closeProfileModal()">
     <div class="bg-white rounded-2xl max-w-sm w-full p-6 relative shadow-2xl border border-pink-100">
       <button onclick="closeProfileModal()" class="absolute right-4 top-3 text-pink-400 hover:text-pink-700 text-xl font-bold">×</button>
@@ -303,7 +306,6 @@
 
       <p id="auth-subtitle" class="text-xs text-gray-500 text-center mt-3">Login with your Email ID & Password</p>
 
-      <!-- LOGIN FORM (Only Email + Password) -->
       <div id="login-form-box" class="mt-4 space-y-3">
         <input type="email" id="login-email" placeholder="Email Address *" class="w-full border border-pink-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-pink-500">
         <input type="password" id="login-pass" placeholder="Password *" class="w-full border border-pink-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-pink-500">
@@ -316,7 +318,6 @@
         </p>
       </div>
 
-      <!-- SIGNUP FORM (Name + Mobile + Email + Password) -->
       <div id="signup-form-box" class="hidden mt-4 space-y-3">
         <input type="text" id="cust-name" placeholder="Full Name *" class="w-full border border-pink-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-pink-500">
         <input type="tel" id="cust-phone" placeholder="Mobile Number (10 digits) *" class="w-full border border-pink-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-pink-500">
@@ -363,6 +364,12 @@
       'Pre-Bridal': 'assets/images/services/makeup.jpg'
     };
 
+    const cardGradients = [
+      'from-pink-50 via-rose-50/90 to-fuchsia-50/80 border-pink-200',
+      'from-rose-50 via-pink-100/70 to-amber-50/60 border-rose-200',
+      'from-fuchsia-50/80 via-pink-50 to-rose-100/70 border-pink-200'
+    ];
+
     function toggleQuickMenu() {
       const m = document.getElementById('quick-menu-modal');
       m.classList.toggle('hidden');
@@ -384,31 +391,32 @@
       const { data: services } = await sb.from('services').select('*').order('created_at', { ascending: true }).limit(10);
       if (!services || services.length === 0) return;
 
-      document.getElementById('home-services-list').innerHTML = services.map(s => {
+      document.getElementById('home-services-list').innerHTML = services.map((s, idx) => {
         const safeName = s.name.replace(/'/g, "\\'");
         const safeCat = (s.category || 'Salon').replace(/'/g, "\\'");
         const img = s.image_url || defaultImgs[s.category] || 'assets/images/services/facial.jpg';
+        const grad = cardGradients[idx % cardGradients.length];
         return `
-        <div class="py-5 flex justify-between items-start gap-4">
+        <div class="bg-gradient-to-br ${grad} border rounded-2xl p-4 shadow-sm hover:shadow-md transition flex justify-between items-start gap-4">
           <div class="flex-1 pr-1">
-            <span class="text-[10px] font-bold uppercase tracking-wider bg-pink-100 text-pink-700 px-2 py-0.5 rounded-full">${s.category || 'Salon'}</span>
-            <h3 class="text-base font-bold text-gray-900 mt-1">${s.name}</h3>
+            <span class="text-[10px] font-bold uppercase tracking-wider bg-white/90 text-pink-700 border border-pink-200 px-2.5 py-0.5 rounded-full">${s.category || 'Salon'}</span>
+            <h3 class="text-base font-bold text-pink-950 mt-1.5">${s.name}</h3>
             <div class="flex items-center gap-2 mt-1 text-xs">
-              <span class="font-bold text-pink-700 text-sm">₹${s.price}</span>
-              <span class="text-gray-400">• Doorstep Home Visit</span>
+              <span class="font-extrabold text-pink-700 text-sm">₹${s.price}</span>
+              <span class="text-pink-800/60">• Doorstep Home Visit</span>
             </div>
-            <ul class="mt-2 space-y-1 text-xs text-gray-600 list-disc pl-4">
+            <ul class="mt-2 space-y-1 text-xs text-gray-700 list-disc pl-4">
               <li>${s.description || 'Hygienic single-use salon kit included'}</li>
               <li>Strictly for girls & women at home</li>
             </ul>
-            <a href="booking.html?service=${encodeURIComponent(s.name + ' (₹' + s.price + ')')}" class="inline-block mt-3 text-xs font-bold text-pink-600 hover:underline">
+            <a href="booking.html?service=${encodeURIComponent(s.name + ' (₹' + s.price + ')')}" class="inline-block mt-3 text-xs font-bold text-pink-700 hover:underline">
               Direct single book →
             </a>
           </div>
 
           <div class="relative w-28 sm:w-32 shrink-0 pb-3">
-            <img src="${img}" onerror="this.src='https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=300&q=80'" class="w-28 sm:w-32 h-28 sm:h-32 rounded-2xl object-cover border border-pink-200" alt="${s.name}">
-            <button onclick="addToCart('${s.id}', '${safeName}', ${s.price}, '${safeCat}')" class="absolute bottom-0 inset-x-3 bg-white hover:bg-pink-50 text-pink-600 border border-pink-300 uc-card-shadow py-1.5 rounded-lg text-xs font-bold transition">
+            <img src="${img}" onerror="this.src='https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=300&q=80'" class="w-28 sm:w-32 h-28 sm:h-32 rounded-2xl object-cover border-2 border-white shadow-sm" alt="${s.name}">
+            <button onclick="addToCart('${s.id}', '${safeName}', ${s.price}, '${safeCat}')" class="absolute bottom-0 inset-x-3 bg-white hover:bg-pink-600 hover:text-white text-pink-600 border border-pink-300 uc-card-shadow py-1.5 rounded-lg text-xs font-bold transition">
               Add
             </button>
           </div>
@@ -416,7 +424,6 @@
       }).join('');
     }
 
-    // PROFILE MODAL FUNCTIONS
     function openProfileModal() {
       if (!activeUser) return;
       const fullName = activeUser.user_metadata?.full_name || activeUser.email.split('@')[0];
@@ -469,7 +476,6 @@
         return;
       }
 
-      // Sync updated Name & Phone to customers table for Admin Panel
       await sb.from('customers').upsert([{
         id: activeUser.id,
         full_name,
@@ -487,7 +493,6 @@
       msgEl.innerText = '✓ Profile successfully updated!';
     }
 
-    // AUTH MODAL FUNCTIONS
     function switchAuthTab(mode) {
       const loginBox = document.getElementById('login-form-box');
       const signupBox = document.getElementById('signup-form-box');
