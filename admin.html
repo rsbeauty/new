@@ -6,34 +6,40 @@
   <title>Admin Panel - Rs Beauty Parlour</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    .pink-grad { background: linear-gradient(135deg, #ec4899 0%, #db2777 55%, #be185d 100%); }
+  </style>
 </head>
-<body class="bg-pink-50 min-h-screen p-4 font-sans text-gray-800">
+<body class="bg-pink-50 min-h-screen p-3 md:p-5 font-sans text-gray-800">
 
   <!-- ADMIN LOGIN -->
   <div id="admin-login-box" class="max-w-sm mx-auto mt-16 bg-white p-6 rounded-2xl shadow-lg border border-pink-100">
     <img src="assets/images/logo/logo.jpeg" onerror="this.src='https://placehold.co/100x100/db2777/white?text=RS'" class="w-16 h-16 rounded-full mx-auto border-2 border-pink-500 object-cover">
     <h1 class="text-xl font-bold text-center text-pink-700 mt-3">Rs Beauty Admin Panel</h1>
     <p class="text-xs text-center text-gray-500 mb-4">Authorized Access Only</p>
-    <input type="email" id="adm-email" placeholder="Admin Email" class="w-full border rounded-lg px-3 py-2 text-sm mb-3">
-    <input type="password" id="adm-pass" placeholder="Admin Password" class="w-full border rounded-lg px-3 py-2 text-sm mb-3">
-    <button onclick="loginAdmin()" class="w-full bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg font-semibold text-sm">Login to Dashboard</button>
+    <input type="email" id="adm-email" placeholder="Admin Email" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mb-3 focus:outline-none focus:border-pink-500">
+    <input type="password" id="adm-pass" placeholder="Admin Password" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mb-3 focus:outline-none focus:border-pink-500">
+    <button onclick="loginAdmin()" class="w-full pink-grad text-white py-2.5 rounded-lg font-semibold text-sm shadow">Login to Dashboard</button>
     <p id="adm-err" class="text-xs text-red-500 text-center mt-2"></p>
   </div>
 
   <!-- ADMIN DASHBOARD -->
-  <div id="admin-dashboard" class="hidden max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-5 border border-pink-100">
+  <div id="admin-dashboard" class="hidden max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-4 md:p-6 border border-pink-100">
     <div class="flex flex-wrap justify-between items-center border-b border-pink-100 pb-4 gap-3">
       <div>
         <h1 class="text-xl font-bold text-pink-700">Rs Beauty Parlour — Control Panel</h1>
-        <a href="index.html" target="_blank" class="text-xs text-pink-500 underline">View Live Website ↗</a>
+        <a href="index.html" target="_blank" class="text-xs text-pink-500 underline font-medium">View Live Website ↗</a>
       </div>
-      <button onclick="logoutAdmin()" class="bg-red-500 text-white text-xs px-4 py-2 rounded-lg font-semibold">Logout</button>
+      <div class="flex gap-2">
+        <button onclick="loadAdminData()" class="bg-pink-50 hover:bg-pink-100 text-pink-800 border border-pink-200 text-xs px-3 py-2 rounded-lg font-semibold">↻ Refresh</button>
+        <button onclick="logoutAdmin()" class="bg-red-500 hover:bg-red-600 text-white text-xs px-4 py-2 rounded-lg font-semibold">Logout</button>
+      </div>
     </div>
 
-    <!-- TABS -->
+    <!-- MAIN TABS -->
     <div class="flex flex-wrap gap-2 my-4">
-      <button onclick="showTab('bookings', this)" class="tab-btn bg-pink-600 text-white px-4 py-2 rounded-lg text-xs font-semibold">1. Bookings & Cart Orders</button>
-      <button onclick="showTab('menu', this)" class="tab-btn bg-pink-100 text-pink-800 px-4 py-2 rounded-lg text-xs font-semibold">2. Edit Menu / Prices</button>
+      <button onclick="showTab('bookings', this)" class="tab-btn pink-grad text-white px-4 py-2 rounded-lg text-xs font-semibold shadow-sm">1. Bookings & Cart Orders</button>
+      <button onclick="showTab('menu', this)" class="tab-btn bg-pink-100 text-pink-800 px-4 py-2 rounded-lg text-xs font-semibold">2. Organized Menu & Categories</button>
       <button onclick="showTab('sliders', this)" class="tab-btn bg-pink-100 text-pink-800 px-4 py-2 rounded-lg text-xs font-semibold">3. Edit Slider Images</button>
       <button onclick="showTab('customers', this)" class="tab-btn bg-pink-100 text-pink-800 px-4 py-2 rounded-lg text-xs font-semibold">4. Registered Customers</button>
     </div>
@@ -52,29 +58,44 @@
             <th class="p-2.5">Action</th>
           </tr>
         </thead>
-        <tbody id="adm-bookings-body" class="divide-y"></tbody>
+        <tbody id="adm-bookings-body" class="divide-y divide-pink-100"></tbody>
       </table>
     </div>
 
-    <!-- TAB 2: EDIT MENU / SERVICES -->
-    <div id="tab-menu" class="tab-content hidden">
-      <div class="bg-pink-50 p-4 rounded-xl mb-6 grid sm:grid-cols-5 gap-2">
-        <input type="text" id="m-name" placeholder="Service Name (e.g. Fruit Facial)" class="border rounded-lg px-3 py-2 text-xs bg-white">
-        <input type="text" id="m-cat" placeholder="Category (Facial/Hair/Makeup)" class="border rounded-lg px-3 py-2 text-xs bg-white">
-        <input type="number" id="m-price" placeholder="Price ₹ (e.g. 599)" class="border rounded-lg px-3 py-2 text-xs bg-white">
-        <input type="text" id="m-desc" placeholder="Short Details" class="border rounded-lg px-3 py-2 text-xs bg-white">
-        <input type="file" id="m-img" accept="image/*" class="text-xs bg-white p-1.5 rounded-lg border">
-        <button onclick="addServiceItem()" class="sm:col-span-5 bg-pink-600 text-white py-2 rounded-lg text-xs font-bold">+ Add New Service to Website Menu</button>
+    <!-- TAB 2: ORGANIZED MENU & CATEGORIES -->
+    <div id="tab-menu" class="tab-content hidden space-y-6">
+      <!-- Add New Service Form -->
+      <div class="bg-pink-50/80 p-4 rounded-2xl border border-pink-200">
+        <h2 class="text-sm font-bold text-pink-900 mb-3">+ Add New Service to Menu</h2>
+        <div class="grid sm:grid-cols-5 gap-2.5">
+          <input type="text" id="m-name" placeholder="Service Name (e.g. Diamond Facial)" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white focus:outline-none focus:border-pink-500">
+          <input type="text" id="m-cat" list="cat-suggestions" placeholder="Category (Select or Type New)" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white focus:outline-none focus:border-pink-500">
+          <datalist id="cat-suggestions"></datalist>
+          <input type="number" id="m-price" placeholder="Price ₹ (e.g. 999)" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white focus:outline-none focus:border-pink-500">
+          <input type="text" id="m-desc" placeholder="Short Description" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white focus:outline-none focus:border-pink-500">
+          <input type="file" id="m-img" accept="image/*" class="text-xs bg-white p-1.5 rounded-lg border border-pink-200">
+        </div>
+        <button onclick="addServiceItem()" class="mt-3 pink-grad text-white px-5 py-2 rounded-lg text-xs font-bold shadow-sm">
+          + Save New Service
+        </button>
       </div>
-      <div id="adm-services-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
+
+      <!-- Search & Category Filter Bar -->
+      <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 bg-white p-3 rounded-xl border border-pink-100">
+        <div id="adm-cat-pills" class="flex flex-wrap gap-1.5"></div>
+        <input type="text" id="adm-menu-search" onkeyup="renderOrganizedMenu()" placeholder="Search service or price..." class="border border-pink-200 rounded-lg px-3 py-1.5 text-xs bg-pink-50/40 focus:bg-white focus:outline-none focus:border-pink-500 sm:w-64">
+      </div>
+
+      <!-- Category-Grouped Menu Container -->
+      <div id="adm-organized-menu" class="space-y-6"></div>
     </div>
 
     <!-- TAB 3: SLIDER IMAGES -->
     <div id="tab-sliders" class="tab-content hidden">
-      <div class="bg-pink-50 p-4 rounded-xl mb-6 flex flex-wrap gap-2 items-center">
-        <input type="text" id="s-title" placeholder="Banner Heading (Optional)" class="border rounded-lg px-3 py-2 text-xs bg-white flex-1">
-        <input type="file" id="s-img" accept="image/*" class="text-xs bg-white p-1.5 rounded-lg border">
-        <button onclick="addSliderItem()" class="bg-pink-600 text-white px-5 py-2 rounded-lg text-xs font-bold">+ Upload Slider Banner</button>
+      <div class="bg-pink-50 p-4 rounded-xl mb-6 flex flex-wrap gap-2 items-center border border-pink-200">
+        <input type="text" id="s-title" placeholder="Banner Heading (Optional)" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white flex-1">
+        <input type="file" id="s-img" accept="image/*" class="text-xs bg-white p-1.5 rounded-lg border border-pink-200">
+        <button onclick="addSliderItem()" class="pink-grad text-white px-5 py-2 rounded-lg text-xs font-bold">+ Upload Slider Banner</button>
       </div>
       <div id="adm-sliders-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
     </div>
@@ -91,13 +112,60 @@
             <th class="p-2.5">WhatsApp</th>
           </tr>
         </thead>
-        <tbody id="adm-customers-body" class="divide-y"></tbody>
+        <tbody id="adm-customers-body" class="divide-y divide-pink-100"></tbody>
       </table>
+    </div>
+  </div>
+
+  <!-- FULL SERVICE ITEM EDIT MODAL -->
+  <div id="edit-service-modal" class="fixed inset-0 bg-pink-950/60 hidden items-center justify-center z-50 p-4" onclick="if(event.target===this) closeEditModal()">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 relative shadow-2xl border border-pink-100">
+      <button onclick="closeEditModal()" class="absolute right-4 top-3 text-pink-400 hover:text-pink-700 text-xl font-bold">×</button>
+      <h3 class="text-lg font-bold text-pink-900">Edit Menu Item</h3>
+      <p class="text-xs text-gray-500 mt-0.5">Update service name, category, price or photo</p>
+
+      <input type="hidden" id="edit-srv-id">
+      <div class="mt-4 space-y-3 text-xs">
+        <div>
+          <label class="font-bold text-pink-900">Service Name *</label>
+          <input type="text" id="edit-srv-name" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1 focus:outline-none focus:border-pink-500">
+        </div>
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label class="font-bold text-pink-900">Category *</label>
+            <input type="text" id="edit-srv-cat" list="cat-suggestions" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1 focus:outline-none focus:border-pink-500">
+          </div>
+          <div>
+            <label class="font-bold text-pink-900">Price (₹) *</label>
+            <input type="number" id="edit-srv-price" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1 focus:outline-none focus:border-pink-500">
+          </div>
+        </div>
+        <div>
+          <label class="font-bold text-pink-900">Description</label>
+          <input type="text" id="edit-srv-desc" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1 focus:outline-none focus:border-pink-500">
+        </div>
+        <div>
+          <label class="font-bold text-pink-900">Change Photo <span class="font-normal text-gray-400">(Optional)</span></label>
+          <input type="file" id="edit-srv-img" accept="image/*" class="w-full border border-pink-200 rounded-lg p-1.5 text-xs mt-1 bg-pink-50/40">
+        </div>
+
+        <div class="flex gap-2 pt-2">
+          <button onclick="saveEditedService()" class="flex-1 pink-grad text-white py-2.5 rounded-xl font-bold text-sm shadow">
+            Save Changes
+          </button>
+          <button onclick="closeEditModal()" class="px-4 py-2.5 rounded-xl bg-gray-100 text-gray-700 font-semibold text-sm">
+            Cancel
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
   <script src="assets/js/config.js"></script>
   <script>
+    let allAdminServices = [];
+    let selectedAdminCat = 'All';
+
     async function checkAdmin() {
       if (!sb) return;
       const { data: { session } } = await sb.auth.getSession();
@@ -112,7 +180,7 @@
     }
 
     async function loginAdmin() {
-      const email = document.getElementById('adm-email').value;
+      const email = document.getElementById('adm-email').value.trim();
       const password = document.getElementById('adm-pass').value;
       if (email !== ADMIN_EMAIL) return document.getElementById('adm-err').innerText = 'Invalid Admin Email!';
       const { error } = await sb.auth.signInWithPassword({ email, password });
@@ -128,12 +196,10 @@
     function showTab(name, btn) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
       document.querySelectorAll('.tab-btn').forEach(el => {
-        el.classList.remove('bg-pink-600', 'text-white');
-        el.classList.add('bg-pink-100', 'text-pink-800');
+        el.className = 'tab-btn bg-pink-100 text-pink-800 px-4 py-2 rounded-lg text-xs font-semibold';
       });
       document.getElementById('tab-' + name).classList.remove('hidden');
-      btn.classList.replace('bg-pink-100', 'bg-pink-600');
-      btn.classList.replace('text-pink-800', 'text-white');
+      btn.className = 'tab-btn pink-grad text-white px-4 py-2 rounded-lg text-xs font-semibold shadow-sm';
     }
 
     async function uploadImage(file, folder) {
@@ -144,47 +210,43 @@
     }
 
     async function loadAdminData() {
+      // 1. Bookings
       const { data: bookings } = await sb.from('bookings').select('*').order('created_at', { ascending: false });
-      document.getElementById('adm-bookings-body').innerHTML = (bookings || []).map(b => `
-        <tr>
+      document.getElementById('adm-bookings-body').innerHTML = (bookings || []).map(b => {
+        const statusColor = b.status === 'Confirmed' ? 'text-green-600' : (b.status === 'Completed' ? 'text-blue-600' : 'text-amber-600');
+        return `
+        <tr class="hover:bg-pink-50/40">
           <td class="p-2.5">${b.booking_date}</td>
           <td class="p-2.5 font-bold">${b.customer_name}</td>
           <td class="p-2.5"><a href="https://wa.me/91${b.phone}" target="_blank" class="text-green-600 underline font-semibold">${b.phone}</a></td>
           <td class="p-2.5 font-medium">${b.service_name}</td>
           <td class="p-2.5">${b.address}</td>
-          <td class="p-2.5 font-bold text-pink-600">${b.status}</td>
-          <td class="p-2.5 flex gap-1">
-            <button onclick="setBookingStatus('${b.id}', 'Confirmed')" class="bg-green-600 text-white px-2 py-1 rounded">Confirm</button>
-            <button onclick="setBookingStatus('${b.id}', 'Completed')" class="bg-gray-700 text-white px-2 py-1 rounded">Done</button>
+          <td class="p-2.5 font-bold ${statusColor}">${b.status}</td>
+          <td class="p-2.5 flex flex-wrap gap-1">
+            <button onclick="setBookingStatus('${b.id}', 'Confirmed')" class="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1 rounded font-semibold">Confirm</button>
+            <button onclick="setBookingStatus('${b.id}', 'Completed')" class="bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1 rounded font-semibold">Done</button>
+            <button onclick="deleteRow('bookings', '${b.id}')" class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded">Del</button>
           </td>
-        </tr>
-      `).join('');
+        </tr>`;
+      }).join('');
 
-      const { data: services } = await sb.from('services').select('*').order('created_at', { ascending: false });
-      document.getElementById('adm-services-grid').innerHTML = (services || []).map(s => `
-        <div class="border rounded-xl p-3 bg-white shadow-sm">
-          ${s.image_url ? `<img src="${s.image_url}" class="w-full h-32 object-cover rounded-lg">` : ''}
-          <div class="flex justify-between font-bold mt-2 text-sm">
-            <span>${s.name}</span>
-            <span class="text-pink-600">₹${s.price}</span>
-          </div>
-          <p class="text-xs text-gray-500 mt-1">${s.description || ''}</p>
-          <div class="flex gap-2 mt-3">
-            <button onclick="editServicePrice('${s.id}', ${s.price})" class="bg-blue-600 text-white text-xs px-3 py-1 rounded">Edit Price</button>
-            <button onclick="deleteRow('services', '${s.id}')" class="bg-red-500 text-white text-xs px-3 py-1 rounded">Delete</button>
-          </div>
-        </div>
-      `).join('');
+      // 2. Services (Organized by Category)
+      const { data: services } = await sb.from('services').select('*').order('created_at', { ascending: true });
+      allAdminServices = services || [];
+      buildCategoryControls();
+      renderOrganizedMenu();
 
+      // 3. Sliders
       const { data: sliders } = await sb.from('sliders').select('*').order('created_at', { ascending: false });
       document.getElementById('adm-sliders-grid').innerHTML = (sliders || []).map(sl => `
-        <div class="border rounded-xl p-3 bg-white shadow-sm">
+        <div class="border border-pink-100 rounded-xl p-3 bg-white shadow-sm">
           <img src="${sl.image_url}" class="w-full h-32 object-cover rounded-lg">
           <p class="text-xs font-semibold mt-2">${sl.title || 'Slider Image'}</p>
           <button onclick="deleteRow('sliders', '${sl.id}')" class="mt-2 bg-red-500 text-white text-xs px-3 py-1 rounded">Delete Banner</button>
         </div>
       `).join('');
 
+      // 4. Customers
       const { data: custs } = await sb.from('customers').select('*').order('created_at', { ascending: false });
       document.getElementById('adm-customers-body').innerHTML = (custs || []).map(c => `
         <tr>
@@ -197,25 +259,196 @@
       `).join('');
     }
 
-    async function addServiceItem() {
-      const name = document.getElementById('m-name').value;
-      const category = document.getElementById('m-cat').value || 'General';
-      const price = document.getElementById('m-price').value;
-      const description = document.getElementById('m-desc').value;
-      const file = document.getElementById('m-img').files[0];
-      if (!name || !price) return alert('Service Name aur Price zaroori hai!');
-      const image_url = file ? await uploadImage(file, 'services') : '';
-      await sb.from('services').insert([{ name, category, price, description, image_url }]);
-      alert('Service Added!');
+    function buildCategoryControls() {
+      const categories = [...new Set(allAdminServices.map(s => (s.category || 'General').trim()))];
+      if (selectedAdminCat !== 'All' && !categories.includes(selectedAdminCat)) {
+        selectedAdminCat = 'All';
+      }
+
+      // Datalist suggestions for Add & Edit inputs
+      document.getElementById('cat-suggestions').innerHTML = categories.map(c => `<option value="${c}">`).join('');
+
+      // Filter pills
+      const pills = ['All', ...categories];
+      document.getElementById('adm-cat-pills').innerHTML = pills.map(cat => `
+        <button onclick="selectAdminCategory('${cat.replace(/'/g, "\\'")}')" class="px-3 py-1.5 rounded-full text-xs font-semibold transition ${selectedAdminCat === cat ? 'pink-grad text-white shadow-sm' : 'bg-pink-50 text-pink-800 hover:bg-pink-100'}">
+          ${cat} ${cat === 'All' ? `(${allAdminServices.length})` : ''}
+        </button>
+      `).join('');
+    }
+
+    function selectAdminCategory(cat) {
+      selectedAdminCat = cat;
+      buildCategoryControls();
+      renderOrganizedMenu();
+    }
+
+    function renderOrganizedMenu() {
+      const query = (document.getElementById('adm-menu-search')?.value || '').toLowerCase();
+      const filtered = allAdminServices.filter(s => {
+        const cat = (s.category || 'General').trim();
+        const matchCat = selectedAdminCat === 'All' || cat === selectedAdminCat;
+        const matchQuery = s.name.toLowerCase().includes(query) || cat.toLowerCase().includes(query) || String(s.price).includes(query);
+        return matchCat && matchQuery;
+      });
+
+      const container = document.getElementById('adm-organized-menu');
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="text-center py-8 text-xs text-gray-400 bg-pink-50/40 rounded-xl">Koi matching service nahi mili.</div>`;
+        return;
+      }
+
+      // Group items by Category
+      const grouped = {};
+      filtered.forEach(item => {
+        const cat = (item.category || 'General').trim();
+        if (!grouped[cat]) grouped[cat] = [];
+        grouped[cat].push(item);
+      });
+
+      container.innerHTML = Object.keys(grouped).map(catName => {
+        const items = grouped[catName];
+        const safeCat = catName.replace(/'/g, "\\'");
+        return `
+        <div class="border border-pink-200 rounded-2xl overflow-hidden bg-white shadow-sm">
+          <!-- Category Header with Rename Button -->
+          <div class="bg-pink-100/80 px-4 py-3 flex flex-wrap justify-between items-center gap-2 border-b border-pink-200">
+            <div class="flex items-center gap-2">
+              <h3 class="font-bold text-sm md:text-base text-pink-950">${catName}</h3>
+              <span class="text-[11px] bg-white text-pink-700 font-bold px-2.5 py-0.5 rounded-full border border-pink-200">${items.length} items</span>
+            </div>
+            <button onclick="renameCategory('${safeCat}')" class="bg-white hover:bg-pink-50 text-pink-700 border border-pink-300 px-3 py-1 rounded-lg text-xs font-bold shadow-sm transition">
+              ✏️ Rename Category
+            </button>
+          </div>
+
+          <!-- Organized Table of Items under this Category -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-pink-50/50 text-pink-900 border-b border-pink-100">
+                  <th class="p-3 w-14">Photo</th>
+                  <th class="p-3">Service Name</th>
+                  <th class="p-3">Description</th>
+                  <th class="p-3 w-24">Price</th>
+                  <th class="p-3 w-36 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-pink-100">
+                ${items.map(s => `
+                  <tr class="hover:bg-pink-50/30">
+                    <td class="p-2.5">
+                      ${s.image_url
+                        ? `<img src="${s.image_url}" class="w-10 h-10 rounded-lg object-cover border border-pink-200">`
+                        : `<div class="w-10 h-10 rounded-lg bg-pink-100 text-pink-600 flex items-center justify-center font-bold text-[10px]">No Img</div>`
+                      }
+                    </td>
+                    <td class="p-2.5 font-bold text-gray-900">${s.name}</td>
+                    <td class="p-2.5 text-gray-500 max-w-xs truncate">${s.description || '-'}</td>
+                    <td class="p-2.5 font-bold text-pink-700 text-sm">₹${s.price}</td>
+                    <td class="p-2.5 text-right whitespace-nowrap">
+                      <button onclick="openEditModal('${s.id}')" class="bg-pink-600 hover:bg-pink-700 text-white px-3 py-1.5 rounded-lg font-semibold mr-1">
+                        Edit
+                      </button>
+                      <button onclick="deleteRow('services', '${s.id}')" class="bg-rose-100 hover:bg-rose-200 text-rose-700 px-2.5 py-1.5 rounded-lg font-semibold">
+                        Del
+                      </button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // RENAME CATEGORY (Updates all items in that category)
+    async function renameCategory(oldCatName) {
+      const newCatName = prompt(`Category "${oldCatName}" ka naya naam likhein:`, oldCatName);
+      if (!newCatName || newCatName.trim() === '' || newCatName.trim() === oldCatName) return;
+
+      const cleanNewName = newCatName.trim();
+      const { error } = await sb
+        .from('services')
+        .update({ category: cleanNewName })
+        .eq('category', oldCatName);
+
+      if (error) {
+        alert('Category rename error: ' + error.message);
+        return;
+      }
+
+      if (selectedAdminCat === oldCatName) selectedAdminCat = cleanNewName;
+      alert(`Category "${oldCatName}" ko "${cleanNewName}" mein update kar diya gaya hai!`);
       loadAdminData();
     }
 
-    async function editServicePrice(id, oldPrice) {
-      const newPrice = prompt('Naya Price (₹) enter karein:', oldPrice);
-      if (newPrice && !isNaN(newPrice)) {
-        await sb.from('services').update({ price: parseInt(newPrice) }).eq('id', id);
-        loadAdminData();
+    // OPEN EDIT MODAL FOR ANY MENU ITEM
+    function openEditModal(id) {
+      const item = allAdminServices.find(s => String(s.id) === String(id));
+      if (!item) return;
+
+      document.getElementById('edit-srv-id').value = item.id;
+      document.getElementById('edit-srv-name').value = item.name;
+      document.getElementById('edit-srv-cat').value = item.category || 'General';
+      document.getElementById('edit-srv-price').value = item.price;
+      document.getElementById('edit-srv-desc').value = item.description || '';
+      document.getElementById('edit-srv-img').value = '';
+
+      document.getElementById('edit-service-modal').classList.replace('hidden', 'flex');
+    }
+
+    function closeEditModal() {
+      document.getElementById('edit-service-modal').classList.replace('flex', 'hidden');
+    }
+
+    async function saveEditedService() {
+      const id = document.getElementById('edit-srv-id').value;
+      const name = document.getElementById('edit-srv-name').value.trim();
+      const category = document.getElementById('edit-srv-cat').value.trim() || 'General';
+      const price = parseInt(document.getElementById('edit-srv-price').value);
+      const description = document.getElementById('edit-srv-desc').value.trim();
+      const file = document.getElementById('edit-srv-img').files[0];
+
+      if (!name || isNaN(price)) {
+        return alert('Service Name aur sahi Price (₹) zaroori hai!');
       }
+
+      const updateObj = { name, category, price, description };
+      if (file) {
+        const uploadedUrl = await uploadImage(file, 'services');
+        if (uploadedUrl) updateObj.image_url = uploadedUrl;
+      }
+
+      const { error } = await sb.from('services').update(updateObj).eq('id', id);
+      if (error) {
+        alert('Update failed: ' + error.message);
+        return;
+      }
+
+      closeEditModal();
+      alert('Service updated successfully!');
+      loadAdminData();
+    }
+
+    async function addServiceItem() {
+      const name = document.getElementById('m-name').value.trim();
+      const category = document.getElementById('m-cat').value.trim() || 'General';
+      const price = document.getElementById('m-price').value;
+      const description = document.getElementById('m-desc').value.trim();
+      const file = document.getElementById('m-img').files[0];
+      if (!name || !price) return alert('Service Name aur Price zaroori hai!');
+      const image_url = file ? await uploadImage(file, 'services') : '';
+      const { error } = await sb.from('services').insert([{ name, category, price: parseInt(price), description, image_url }]);
+      if (error) return alert('Error: ' + error.message);
+
+      document.getElementById('m-name').value = '';
+      document.getElementById('m-price').value = '';
+      document.getElementById('m-desc').value = '';
+      document.getElementById('m-img').value = '';
+      alert('New Service Added!');
+      loadAdminData();
     }
 
     async function addSliderItem() {
@@ -224,20 +457,23 @@
       if (!file) return alert('Slider image select karein!');
       const image_url = await uploadImage(file, 'sliders');
       if (image_url) {
-        await sb.from('sliders').insert([{ title, image_url }]);
+        const { error } = await sb.from('sliders').insert([{ title, image_url }]);
+        if (error) return alert('Error: ' + error.message);
         alert('Slider Banner Uploaded!');
         loadAdminData();
       }
     }
 
     async function setBookingStatus(id, status) {
-      await sb.from('bookings').update({ status }).eq('id', id);
+      const { error } = await sb.from('bookings').update({ status }).eq('id', id);
+      if (error) return alert('Update Failed: ' + error.message);
       loadAdminData();
     }
 
     async function deleteRow(table, id) {
-      if (confirm('Delete karna hai?')) {
-        await sb.from(table).delete().eq('id', id);
+      if (confirm('Kya aap ise permanently delete karna chahti hain?')) {
+        const { error } = await sb.from(table).delete().eq('id', id);
+        if (error) return alert('Delete Error: ' + error.message);
         loadAdminData();
       }
     }
