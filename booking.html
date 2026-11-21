@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Appointment - Rs Beauty Parlour</title>
+  <title>My Account & Bookings - Rs Beauty Parlour</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="assets/css/style.css">
@@ -21,15 +21,15 @@
         <a href="services.html" class="hover:text-pink-600">Services & Menu</a>
         <a href="gallery.html" class="hover:text-pink-600">Gallery</a>
         <a href="about.html" class="hover:text-pink-600">About</a>
-        <a href="booking.html" class="text-pink-600 font-bold">Book Appointment</a>
+        <a href="booking.html" class="text-pink-600 font-bold">My Bookings</a>
         <a href="contact.html" class="hover:text-pink-600">Contact</a>
       </div>
     </div>
   </nav>
 
-  <main class="max-w-4xl mx-auto px-4 py-8 grid md:grid-cols-2 gap-8">
-    <!-- BOOKING FORM -->
-    <div class="bg-white p-6 rounded-2xl shadow-md border border-pink-100">
+  <main class="max-w-5xl mx-auto px-4 py-8 grid md:grid-cols-2 gap-8">
+    <!-- LEFT: QUICK SINGLE SERVICE BOOKING -->
+    <div class="bg-white p-6 rounded-2xl shadow-md border border-pink-100 h-fit">
       <div class="flex justify-between items-center">
         <h1 class="text-2xl font-bold text-pink-700">Book Home Service</h1>
         <button onclick="openCartDrawer()" class="text-xs bg-pink-100 text-pink-800 px-3 py-1 rounded-full font-bold">Open Cart</button>
@@ -66,15 +66,22 @@
       </form>
     </div>
 
-    <!-- CUSTOMER BOOKING HISTORY -->
+    <!-- RIGHT: CUSTOMER ACCOUNT LIVE BOOKING STATUS -->
     <div class="bg-white p-6 rounded-2xl shadow-md border border-pink-100">
-      <h2 class="text-xl font-bold text-pink-700">My Appointments</h2>
-      <p class="text-xs text-gray-500 mt-1" id="history-subtitle">Login on Home page to view your saved booking history</p>
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-xl font-bold text-pink-700">My Appointments Status</h2>
+          <p class="text-xs text-gray-500 mt-0.5" id="history-subtitle">Checking your account...</p>
+        </div>
+        <button onclick="loadCustomerBookings()" class="text-xs bg-pink-50 hover:bg-pink-100 text-pink-700 border border-pink-200 px-3 py-1.5 rounded-lg font-semibold">
+          ↻ Refresh
+        </button>
+      </div>
+
       <div id="my-bookings-list" class="mt-4 space-y-3"></div>
     </div>
   </main>
 
-  
   <!-- MOBILE APP-STYLE FIXED BOTTOM NAVIGATION -->
   <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-pink-100 shadow-[0_-4px_12px_rgba(0,0,0,0.06)] z-40">
     <div class="grid grid-cols-5 py-2 text-center text-[11px]">
@@ -109,6 +116,48 @@
   <script>
     let currentUserId = null;
 
+    function getStatusBadge(status) {
+      if (status === 'Confirmed') {
+        return '<span class="px-2.5 py-1 rounded-full bg-green-100 text-green-800 border border-green-300 font-bold text-[11px]">✓ Confirmed by Salon</span>';
+      }
+      if (status === 'Completed') {
+        return '<span class="px-2.5 py-1 rounded-full bg-blue-100 text-blue-800 border border-blue-300 font-bold text-[11px]">★ Completed</span>';
+      }
+      return '<span class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 border border-amber-300 font-bold text-[11px]">⏳ Pending Confirmation</span>';
+    }
+
+    async function loadCustomerBookings() {
+      if (!sb || !currentUserId) return;
+      const { data: myBookings, error } = await sb
+        .from('bookings')
+        .select('*')
+        .eq('user_id', currentUserId)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      const listEl = document.getElementById('my-bookings-list');
+      if (!myBookings || myBookings.length === 0) {
+        listEl.innerHTML = '<div class="text-center py-6 text-xs text-gray-400 bg-pink-50/50 rounded-xl">Abhi tak aapke account se koi booking nahi hui hai.</div>';
+        return;
+      }
+
+      listEl.innerHTML = myBookings.map(b => `
+        <div class="p-4 rounded-xl bg-pink-50/70 border border-pink-200 text-xs space-y-1.5 shadow-sm">
+          <div class="flex flex-wrap justify-between items-center gap-2">
+            <span class="font-bold text-pink-900 text-sm">${b.service_name}</span>
+            ${getStatusBadge(b.status)}
+          </div>
+          <p class="text-gray-700"><strong>Date & Time:</strong> ${b.booking_date}</p>
+          <p class="text-gray-600"><strong>Address:</strong> ${b.address}</p>
+          ${b.status === 'Confirmed' ? '<p class="text-green-700 font-semibold pt-1">Aapki booking confirm ho chuki hai! Hamari beautician time par aapke ghar pahunch jayengi.</p>' : ''}
+        </div>
+      `).join('');
+    }
+
     async function initBookingPage() {
       if (sb) {
         const { data: services } = await sb.from('services').select('*').order('created_at', { ascending: true });
@@ -133,21 +182,14 @@
         const { data: { session } } = await sb.auth.getSession();
         if (session) {
           currentUserId = session.user.id;
+          const userName = session.user.user_metadata?.full_name || session.user.email;
           document.getElementById('b-name').value = session.user.user_metadata?.full_name || '';
           document.getElementById('b-phone').value = session.user.user_metadata?.phone || '';
-          document.getElementById('history-subtitle').innerText = 'Your recent home service requests:';
-
-          const { data: myBookings } = await sb.from('bookings').select('*').eq('user_id', currentUserId).order('created_at', { ascending: false });
-          document.getElementById('my-bookings-list').innerHTML = (myBookings || []).map(b => `
-            <div class="p-3 rounded-xl bg-pink-50 border border-pink-100 text-xs">
-              <div class="flex justify-between font-bold text-pink-800">
-                <span>${b.service_name}</span>
-                <span class="px-2 py-0.5 rounded bg-white text-pink-600">${b.status}</span>
-              </div>
-              <p class="text-gray-600 mt-1">Date: ${b.booking_date}</p>
-              <p class="text-gray-500">Address: ${b.address}</p>
-            </div>
-          `).join('') || '<p class="text-xs text-gray-400">No appointments yet.</p>';
+          document.getElementById('history-subtitle').innerText = 'Logged in as: ' + userName;
+          loadCustomerBookings();
+        } else {
+          document.getElementById('history-subtitle').innerText = 'Please login from Home page to see your booking status';
+          document.getElementById('my-bookings-list').innerHTML = '<div class="text-center py-6 text-xs text-gray-500 bg-pink-50 rounded-xl">Apni booking ka status dekhne ke liye Home page par <strong>Customer Login</strong> karein.</div>';
         }
       }
     }
@@ -162,8 +204,9 @@
 
       if (sb) {
         await sb.from('bookings').insert([{
-          user_id: currentUserId, customer_name, phone, service_name, booking_date, address
+          user_id: currentUserId, customer_name, phone, service_name, booking_date, address, status: 'Pending'
         }]);
+        loadCustomerBookings();
       }
 
       const msg = `🌸 *RS BEAUTY PARLOUR — NEW HOME SERVICE BOOKING* 🌸\n\n👤 *Name:* ${customer_name}\n📱 *Mobile:* ${phone}\n💅 *Service:* ${service_name}\n📅 *Date & Time:* ${booking_date}\n🏠 *Address:* ${address}`;
