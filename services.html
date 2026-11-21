@@ -26,74 +26,80 @@
   </nav>
 
   <main class="max-w-6xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold text-pink-800 text-center">Complete Home Salon Menu</h1>
-    <p class="text-center text-xs md:text-sm text-gray-600 mt-1">All prices updated live by Rs Beauty Parlour</p>
+    <h1 class="text-3xl font-bold text-pink-800 text-center">Home Salon Rate Card</h1>
+    <p class="text-center text-xs md:text-sm text-gray-600 mt-1">Ladies Home Service Only • Tap any service to book on WhatsApp</p>
 
-    <div id="all-services-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8">
-      <!-- Default Fallback Services -->
-      <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden">
-        <img src="assets/images/services/facial.jpg" onerror="this.src='https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80'" class="w-full h-48 object-cover" alt="Facial">
-        <div class="p-4">
-          <div class="flex justify-between items-center">
-            <h2 class="font-bold text-lg text-gray-800">Glow & Gold Facial</h2>
-            <span class="text-pink-600 font-bold text-lg">₹799</span>
-          </div>
-          <p class="text-xs text-gray-500 mt-1">Deep cleansing, scrubbing, massage & radiant glow pack.</p>
-          <a href="booking.html?service=Glow%20%26%20Gold%20Facial%20(₹799)" class="mt-4 block text-center bg-pink-600 text-white py-2 rounded-lg text-sm font-medium">Book Home Visit</a>
-        </div>
-      </div>
-      <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden">
-        <img src="assets/images/services/hair.jpg" onerror="this.src='https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=600&q=80'" class="w-full h-48 object-cover" alt="Hair">
-        <div class="p-4">
-          <div class="flex justify-between items-center">
-            <h2 class="font-bold text-lg text-gray-800">Hair Spa & Styling</h2>
-            <span class="text-pink-600 font-bold text-lg">₹699</span>
-          </div>
-          <p class="text-xs text-gray-500 mt-1">Nourishing hair spa, steam, head massage & blow dry.</p>
-          <a href="booking.html?service=Hair%20Spa%20%26%20Styling%20(₹699)" class="mt-4 block text-center bg-pink-600 text-white py-2 rounded-lg text-sm font-medium">Book Home Visit</a>
-        </div>
-      </div>
-      <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden">
-        <img src="assets/images/services/makeup.jpg" onerror="this.src='https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=600&q=80'" class="w-full h-48 object-cover" alt="Makeup">
-        <div class="p-4">
-          <div class="flex justify-between items-center">
-            <h2 class="font-bold text-lg text-gray-800">Party & Bridal Makeup</h2>
-            <span class="text-pink-600 font-bold text-lg">₹1499</span>
-          </div>
-          <p class="text-xs text-gray-500 mt-1">HD waterproof makeup with hair styling & saree draping.</p>
-          <a href="booking.html?service=Party%20%26%20Bridal%20Makeup%20(₹1499)" class="mt-4 block text-center bg-pink-600 text-white py-2 rounded-lg text-sm font-medium">Book Home Visit</a>
-        </div>
-      </div>
+    <!-- CATEGORY FILTER BUTTONS -->
+    <div id="category-tabs" class="flex flex-wrap justify-center gap-2 mt-6">
+      <button onclick="filterCategory('All', this)" class="cat-btn bg-pink-600 text-white px-4 py-1.5 rounded-full text-xs font-semibold shadow-sm">All Services</button>
+    </div>
+
+    <!-- SERVICES GRID -->
+    <div id="all-services-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-6">
+      <p class="col-span-full text-center text-gray-500 text-sm">Loading menu...</p>
     </div>
   </main>
 
   <script src="assets/js/config.js"></script>
   <script>
+    let allServices = [];
+
     async function loadMenu() {
       if (!sb) return;
-      const { data: services } = await sb.from('services').select('*').order('created_at', { ascending: false });
-      const grid = document.getElementById('all-services-grid');
-      if (!services || services.length === 0) return;
+      const { data: services } = await sb.from('services').select('*').order('created_at', { ascending: true });
+      allServices = services || [];
+      if (allServices.length === 0) return;
 
-      grid.innerHTML = services.map(s => `
-        <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden flex flex-col justify-between">
+      // Generate Dynamic Category Tabs
+      const categories = ['All', ...new Set(allServices.map(s => s.category || 'General'))];
+      document.getElementById('category-tabs').innerHTML = categories.map((cat, idx) => `
+        <button onclick="filterCategory('${cat}', this)" class="cat-btn ${idx === 0 ? 'bg-pink-600 text-white' : 'bg-white text-pink-800 border border-pink-200'} px-4 py-1.5 rounded-full text-xs font-semibold shadow-sm transition">
+          ${cat}
+        </button>
+      `).join('');
+
+      renderServices(allServices);
+    }
+
+    function filterCategory(category, btn) {
+      document.querySelectorAll('.cat-btn').forEach(b => {
+        b.classList.remove('bg-pink-600', 'text-white');
+        b.classList.add('bg-white', 'text-pink-800', 'border', 'border-pink-200');
+      });
+      btn.classList.remove('bg-white', 'text-pink-800', 'border', 'border-pink-200');
+      btn.classList.add('bg-pink-600', 'text-white');
+
+      const filtered = category === 'All'
+        ? allServices
+        : allServices.filter(s => (s.category || 'General') === category);
+      renderServices(filtered);
+    }
+
+    function renderServices(list) {
+      document.getElementById('all-services-grid').innerHTML = list.map(s => `
+        <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden flex flex-col justify-between hover:shadow-md transition">
           <div>
-            <img src="${s.image_url || 'assets/images/services/facial.jpg'}" class="w-full h-48 object-cover" alt="${s.name}">
+            ${s.image_url ? `<img src="${s.image_url}" class="w-full h-44 object-cover" alt="${s.name}">` : ''}
             <div class="p-4">
-              <span class="text-[11px] bg-pink-100 text-pink-700 px-2 py-0.5 rounded-full">${s.category || 'Salon Service'}</span>
-              <div class="flex justify-between items-center mt-2">
-                <h2 class="font-bold text-lg text-gray-800">${s.name}</h2>
-                <span class="text-pink-600 font-bold text-lg">₹${s.price}</span>
+              <div class="flex justify-between items-start gap-2">
+                <div>
+                  <span class="text-[10px] uppercase tracking-wider bg-pink-100 text-pink-700 px-2 py-0.5 rounded-full font-semibold">${s.category || 'Salon'}</span>
+                  <h2 class="font-bold text-base text-gray-800 mt-1.5">${s.name}</h2>
+                </div>
+                <span class="text-pink-600 font-bold text-lg whitespace-nowrap">₹${s.price}</span>
               </div>
-              <p class="text-xs text-gray-500 mt-1">${s.description || ''}</p>
+              <p class="text-xs text-gray-500 mt-1.5">${s.description || ''}</p>
             </div>
           </div>
           <div class="p-4 pt-0">
-            <a href="booking.html?service=${encodeURIComponent(s.name + ' (₹' + s.price + ')')}" class="block text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-sm font-medium">Book Home Visit</a>
+            <a href="booking.html?service=${encodeURIComponent(s.name + ' (₹' + s.price + ')')}" class="block text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-xs font-semibold">
+              Book Home Visit
+            </a>
           </div>
         </div>
       `).join('');
     }
+
     loadMenu();
   </script>
 </body>
