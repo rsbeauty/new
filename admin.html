@@ -112,7 +112,6 @@
     }
 
     async function loginAdmin() {
-      if (!sb) return alert('Pehle assets/js/config.js mein Supabase keys daalein!');
       const email = document.getElementById('adm-email').value;
       const password = document.getElementById('adm-pass').value;
       if (email !== ADMIN_EMAIL) return document.getElementById('adm-err').innerText = 'Invalid Admin Email!';
@@ -122,7 +121,6 @@
     }
 
     async function logoutAdmin() {
-      if (!sb) return;
       await sb.auth.signOut();
       location.reload();
     }
@@ -165,7 +163,7 @@
       const { data: services } = await sb.from('services').select('*').order('created_at', { ascending: false });
       document.getElementById('adm-services-grid').innerHTML = (services || []).map(s => `
         <div class="border rounded-xl p-3 bg-white shadow-sm">
-          <img src="${s.image_url || 'assets/images/services/facial.jpg'}" class="w-full h-32 object-cover rounded-lg">
+          ${s.image_url ? `<img src="${s.image_url}" class="w-full h-32 object-cover rounded-lg">` : ''}
           <div class="flex justify-between font-bold mt-2 text-sm">
             <span>${s.name}</span>
             <span class="text-pink-600">₹${s.price}</span>

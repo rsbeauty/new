@@ -8,9 +8,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
+<body class="pb-20 md:pb-0">
 
-  <!-- NAVBAR -->
+  <!-- TOP NAVBAR (Admin link completely removed) -->
   <nav class="bg-white shadow-md sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
       <a href="index.html" class="flex items-center gap-3">
@@ -28,7 +28,6 @@
         <a href="about.html" class="hover:text-pink-600">About</a>
         <a href="booking.html" class="hover:text-pink-600">Book Appointment</a>
         <a href="contact.html" class="hover:text-pink-600">Contact</a>
-        <a href="admin.html" class="text-xs text-gray-400 hover:text-pink-600">Admin</a>
       </div>
 
       <div class="flex items-center gap-2">
@@ -41,20 +40,11 @@
         </div>
       </div>
     </div>
-    <!-- Mobile Nav Links -->
-    <div class="flex md:hidden justify-around border-t border-pink-100 py-2 text-xs font-medium bg-pink-50/50">
-      <a href="index.html" class="text-pink-600 font-bold">Home</a>
-      <a href="services.html">Menu</a>
-      <a href="booking.html">Book Now</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="admin.html" class="text-gray-500">Admin</a>
-    </div>
   </nav>
 
   <!-- HERO SLIDER (Dynamic from Supabase + Static Fallback) -->
   <section class="relative max-w-6xl mx-auto mt-4 px-3">
     <div id="slider-container" class="relative rounded-2xl overflow-hidden shadow-lg bg-pink-100 h-56 sm:h-80 md:h-[420px]">
-      <!-- Fallback Slides -->
       <div class="slide active h-full relative">
         <img src="assets/images/sliders/banner1.jpeg" onerror="this.src='https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=80'" class="w-full h-full object-cover" alt="Banner 1">
         <div class="absolute inset-0 bg-gradient-to-r from-black/65 via-black/30 to-transparent flex items-center p-6 md:p-12">
@@ -111,16 +101,15 @@
     </div>
 
     <div id="home-services-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      <!-- Default Cards (Replaced automatically if Supabase has items) -->
       <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden">
         <img src="assets/images/services/facial.jpg" onerror="this.src='https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80'" class="w-full h-48 object-cover" alt="Facial">
         <div class="p-4">
           <div class="flex justify-between items-center">
             <h3 class="font-bold text-lg text-gray-800">Glow & Gold Facial</h3>
-            <span class="text-pink-600 font-bold">₹799</span>
+            <span class="text-pink-600 font-bold">₹959</span>
           </div>
           <p class="text-xs text-gray-500 mt-1">Deep cleansing, scrubbing, massage & radiant glow pack.</p>
-          <a href="booking.html?service=Glow%20%26%20Gold%20Facial%20(₹799)" class="mt-4 block text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-sm font-medium">Book Now</a>
+          <a href="booking.html?service=Glow%20%26%20Gold%20Facial%20(₹959)" class="mt-4 block text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-sm font-medium">Book Now</a>
         </div>
       </div>
 
@@ -129,10 +118,10 @@
         <div class="p-4">
           <div class="flex justify-between items-center">
             <h3 class="font-bold text-lg text-gray-800">Hair Spa & Styling</h3>
-            <span class="text-pink-600 font-bold">₹699</span>
+            <span class="text-pink-600 font-bold">₹839</span>
           </div>
           <p class="text-xs text-gray-500 mt-1">Nourishing hair spa, steam, head massage & blow dry.</p>
-          <a href="booking.html?service=Hair%20Spa%20%26%20Styling%20(₹699)" class="mt-4 block text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-sm font-medium">Book Now</a>
+          <a href="booking.html?service=Hair%20Spa%20%26%20Styling%20(₹839)" class="mt-4 block text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-sm font-medium">Book Now</a>
         </div>
       </div>
 
@@ -141,10 +130,10 @@
         <div class="p-4">
           <div class="flex justify-between items-center">
             <h3 class="font-bold text-lg text-gray-800">Party & Bridal Makeup</h3>
-            <span class="text-pink-600 font-bold">₹1499</span>
+            <span class="text-pink-600 font-bold">₹1439</span>
           </div>
           <p class="text-xs text-gray-500 mt-1">HD waterproof makeup with hair styling & saree draping.</p>
-          <a href="booking.html?service=Party%20%26%20Bridal%20Makeup%20(₹1499)" class="mt-4 block text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-sm font-medium">Book Now</a>
+          <a href="booking.html?service=Party%20%26%20Bridal%20Makeup%20(₹1439)" class="mt-4 block text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-sm font-medium">Book Now</a>
         </div>
       </div>
     </div>
@@ -156,6 +145,35 @@
     <p class="text-xs mt-1">Freelance Home-Service Beauty Salon (Strictly for Girls & Women)</p>
     <p class="text-xs mt-2">WhatsApp Booking: <a href="https://wa.me/919625447178" class="underline font-bold text-white">+91 9625447178</a></p>
   </footer>
+
+  
+  <!-- MOBILE APP-STYLE FIXED BOTTOM NAVIGATION -->
+  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-pink-100 shadow-[0_-4px_12px_rgba(0,0,0,0.06)] z-50">
+    <div class="grid grid-cols-5 py-2 text-center text-[11px]">
+      <a href="index.html" class="flex flex-col items-center justify-center gap-0.5 text-pink-600 font-bold">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <span>Home</span>
+      </a>
+      <a href="services.html" class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-pink-600">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        <span>Menu</span>
+      </a>
+      <a href="booking.html" class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-pink-600">
+        <div class="bg-pink-600 text-white p-1.5 rounded-full -mt-4 shadow-md border-2 border-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        </div>
+        <span class="font-semibold text-pink-600">Book</span>
+      </a>
+      <a href="gallery.html" class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-pink-600">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        <span>Gallery</span>
+      </a>
+      <a href="contact.html" class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-pink-600">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+        <span>Contact</span>
+      </a>
+    </div>
+  </nav>
 
   <!-- CUSTOMER LOGIN / SIGNUP MODAL -->
   <div id="auth-modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4">
@@ -180,7 +198,6 @@
 
   <script src="assets/js/config.js"></script>
   <script>
-    // Slider Logic
     let currentSlide = 0;
     function showSlide(n) {
       const slides = document.querySelectorAll('.slide');
@@ -193,7 +210,6 @@
     function prevSlide() { showSlide(currentSlide - 1); }
     setInterval(nextSlide, 4500);
 
-    // Load Dynamic Sliders & Services from Supabase
     async function loadDynamicContent() {
       if (!sb) return;
 
@@ -211,9 +227,10 @@
       if (services && services.length > 0) {
         document.getElementById('home-services-grid').innerHTML = services.map(s => `
           <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden">
-            <img src="${s.image_url || 'assets/images/services/facial.jpg'}" class="w-full h-48 object-cover" alt="${s.name}">
+            ${s.image_url ? `<img src="${s.image_url}" class="w-full h-48 object-cover" alt="${s.name}">` : ''}
             <div class="p-4">
-              <div class="flex justify-between items-center">
+              <span class="text-[10px] uppercase bg-pink-100 text-pink-700 px-2 py-0.5 rounded-full font-semibold">${s.category || 'Salon'}</span>
+              <div class="flex justify-between items-center mt-1.5">
                 <h3 class="font-bold text-lg text-gray-800">${s.name}</h3>
                 <span class="text-pink-600 font-bold">₹${s.price}</span>
               </div>
@@ -241,7 +258,6 @@
     }
 
     async function handleCustomerLogin() {
-      if (!sb) return alert('Pehle assets/js/config.js mein Supabase keys daalein!');
       const email = document.getElementById('cust-email').value;
       const password = document.getElementById('cust-pass').value;
       const { error } = await sb.auth.signInWithPassword({ email, password });
@@ -250,7 +266,6 @@
     }
 
     async function handleCustomerSignup() {
-      if (!sb) return alert('Pehle assets/js/config.js mein Supabase keys daalein!');
       const full_name = document.getElementById('cust-name').value;
       const phone = document.getElementById('cust-phone').value;
       const email = document.getElementById('cust-email').value;
@@ -273,7 +288,6 @@
     }
 
     async function logoutCustomer() {
-      if (!sb) return;
       await sb.auth.signOut();
       location.reload();
     }
