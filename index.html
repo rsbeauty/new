@@ -42,7 +42,7 @@
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
           <span class="cart-badge hidden absolute -top-1 -right-1 bg-pink-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
         </button>
-        <button id="nav-auth-btn" onclick="openAuthModal()" class="text-xs font-semibold pink-grad text-white px-3.5 py-2 rounded-full shadow-sm">
+        <button id="nav-auth-btn" onclick="openAuthModal('login')" class="text-xs font-semibold pink-grad text-white px-3.5 py-2 rounded-full shadow-sm">
           Login
         </button>
         <div id="nav-user-box" class="hidden items-center gap-1.5">
@@ -234,22 +234,49 @@
     </div>
   </nav>
 
-  <!-- CUSTOMER LOGIN / SIGNUP MODAL -->
-  <div id="auth-modal" class="fixed inset-0 bg-pink-950/60 hidden items-center justify-center z-50 p-4">
+  <!-- SEPARATE LOGIN & SIGNUP TABS MODAL -->
+  <div id="auth-modal" class="fixed inset-0 bg-pink-950/60 hidden items-center justify-center z-50 p-4" onclick="if(event.target===this) closeAuthModal()">
     <div class="bg-white rounded-2xl max-w-sm w-full p-6 relative shadow-2xl border border-pink-100">
       <button onclick="closeAuthModal()" class="absolute right-4 top-3 text-pink-400 hover:text-pink-700 text-xl font-bold">×</button>
-      <h3 class="text-lg font-bold text-pink-900 text-center">Customer Login / Signup</h3>
-      <p class="text-xs text-gray-500 text-center mt-1">Track your booking confirmation status live</p>
-      <div class="mt-4 space-y-3">
-        <input type="text" id="cust-name" placeholder="Full Name (For New Signup)" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-500">
-        <input type="tel" id="cust-phone" placeholder="Mobile Number (10 digits)" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-500">
-        <input type="email" id="cust-email" placeholder="Email Address" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-500">
-        <input type="password" id="cust-pass" placeholder="Password (min 6 chars)" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-500">
-        <p id="auth-msg" class="text-xs text-red-500 text-center"></p>
-        <div class="grid grid-cols-2 gap-2 pt-1">
-          <button onclick="handleCustomerLogin()" class="pink-grad text-white py-2.5 rounded-lg text-sm font-semibold shadow">Login</button>
-          <button onclick="handleCustomerSignup()" class="bg-pink-100 text-pink-800 py-2.5 rounded-lg text-sm font-semibold">New Signup</button>
-        </div>
+
+      <!-- Tab Switcher -->
+      <div class="grid grid-cols-2 gap-1 bg-pink-50 p-1 rounded-xl mt-2">
+        <button id="tab-login-btn" onclick="switchAuthTab('login')" class="py-2 rounded-lg text-xs font-bold pink-grad text-white shadow-sm transition">
+          Login
+        </button>
+        <button id="tab-signup-btn" onclick="switchAuthTab('signup')" class="py-2 rounded-lg text-xs font-bold text-pink-800 hover:bg-pink-100 transition">
+          New Signup
+        </button>
+      </div>
+
+      <p id="auth-subtitle" class="text-xs text-gray-500 text-center mt-3">Login with your Email ID & Password</p>
+
+      <!-- LOGIN FORM (Only Email + Password) -->
+      <div id="login-form-box" class="mt-4 space-y-3">
+        <input type="email" id="login-email" placeholder="Email Address *" class="w-full border border-pink-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-pink-500">
+        <input type="password" id="login-pass" placeholder="Password *" class="w-full border border-pink-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-pink-500">
+        <p id="login-msg" class="text-xs text-red-500 text-center"></p>
+        <button onclick="handleCustomerLogin()" class="w-full pink-grad text-white py-2.5 rounded-lg text-sm font-bold shadow">
+          Login Now
+        </button>
+        <p class="text-center text-xs text-gray-500 pt-1">
+          Account nahi hai? <button type="button" onclick="switchAuthTab('signup')" class="text-pink-600 font-bold underline">New Signup karein</button>
+        </p>
+      </div>
+
+      <!-- SIGNUP FORM (Name + Mobile + Email + Password) -->
+      <div id="signup-form-box" class="hidden mt-4 space-y-3">
+        <input type="text" id="cust-name" placeholder="Full Name *" class="w-full border border-pink-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-pink-500">
+        <input type="tel" id="cust-phone" placeholder="Mobile Number (10 digits) *" class="w-full border border-pink-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-pink-500">
+        <input type="email" id="cust-email" placeholder="Email Address *" class="w-full border border-pink-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-pink-500">
+        <input type="password" id="cust-pass" placeholder="Create Password (min 6 chars) *" class="w-full border border-pink-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-pink-500">
+        <p id="signup-msg" class="text-xs text-red-500 text-center"></p>
+        <button onclick="handleCustomerSignup()" class="w-full pink-grad text-white py-2.5 rounded-lg text-sm font-bold shadow">
+          Create Account
+        </button>
+        <p class="text-center text-xs text-gray-500 pt-1">
+          Pehle se account hai? <button type="button" onclick="switchAuthTab('login')" class="text-pink-600 font-bold underline">Login karein</button>
+        </p>
       </div>
     </div>
   </div>
@@ -335,7 +362,35 @@
       }).join('');
     }
 
-    function openAuthModal() { document.getElementById('auth-modal').classList.replace('hidden', 'flex'); }
+    function switchAuthTab(mode) {
+      const loginBox = document.getElementById('login-form-box');
+      const signupBox = document.getElementById('signup-form-box');
+      const loginBtn = document.getElementById('tab-login-btn');
+      const signupBtn = document.getElementById('tab-signup-btn');
+      const subtitle = document.getElementById('auth-subtitle');
+
+      document.getElementById('login-msg').innerText = '';
+      document.getElementById('signup-msg').innerText = '';
+
+      if (mode === 'signup') {
+        loginBox.classList.add('hidden');
+        signupBox.classList.remove('hidden');
+        signupBtn.className = 'py-2 rounded-lg text-xs font-bold pink-grad text-white shadow-sm transition';
+        loginBtn.className = 'py-2 rounded-lg text-xs font-bold text-pink-800 hover:bg-pink-100 transition';
+        subtitle.innerText = 'Create your new account with Name & Mobile';
+      } else {
+        signupBox.classList.add('hidden');
+        loginBox.classList.remove('hidden');
+        loginBtn.className = 'py-2 rounded-lg text-xs font-bold pink-grad text-white shadow-sm transition';
+        signupBtn.className = 'py-2 rounded-lg text-xs font-bold text-pink-800 hover:bg-pink-100 transition';
+        subtitle.innerText = 'Login with your Email ID & Password';
+      }
+    }
+
+    function openAuthModal(mode = 'login') {
+      switchAuthTab(mode);
+      document.getElementById('auth-modal').classList.replace('hidden', 'flex');
+    }
     function closeAuthModal() { document.getElementById('auth-modal').classList.replace('flex', 'hidden'); }
 
     async function checkUser() {
@@ -351,25 +406,28 @@
     }
 
     async function handleCustomerLogin() {
-      const email = document.getElementById('cust-email').value;
-      const password = document.getElementById('cust-pass').value;
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-pass').value;
+      if (!email || !password) return document.getElementById('login-msg').innerText = 'Email ID aur Password daalein!';
       const { error } = await sb.auth.signInWithPassword({ email, password });
-      if (error) document.getElementById('auth-msg').innerText = error.message;
+      if (error) document.getElementById('login-msg').innerText = error.message;
       else { closeAuthModal(); checkUser(); }
     }
 
     async function handleCustomerSignup() {
-      const full_name = document.getElementById('cust-name').value;
-      const phone = document.getElementById('cust-phone').value;
-      const email = document.getElementById('cust-email').value;
+      const full_name = document.getElementById('cust-name').value.trim();
+      const phone = document.getElementById('cust-phone').value.trim();
+      const email = document.getElementById('cust-email').value.trim();
       const password = document.getElementById('cust-pass').value;
-      if (!full_name || !phone) return document.getElementById('auth-msg').innerText = 'Naam aur Mobile Number zaroori hai!';
+      if (!full_name || !phone || !email || !password) {
+        return document.getElementById('signup-msg').innerText = 'Naam, Mobile Number, Email aur Password sabhi zaroori hain!';
+      }
 
       const { data, error } = await sb.auth.signUp({ email, password, options: { data: { full_name, phone } } });
-      if (error) document.getElementById('auth-msg').innerText = error.message;
+      if (error) document.getElementById('signup-msg').innerText = error.message;
       else {
         if (data.user) await sb.from('customers').insert([{ id: data.user.id, full_name, phone, email }]);
-        alert('Account created!');
+        alert('Account created! Welcome to Rs Beauty Parlour.');
         closeAuthModal();
         checkUser();
       }
