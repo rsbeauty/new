@@ -9,59 +9,60 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-    body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1f2937; }
-    .uc-card-shadow { box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+    body { font-family: 'Inter', sans-serif; background-color: #fff2f6; color: #2d1f27; }
+    .uc-card-shadow { box-shadow: 0 3px 12px rgba(219, 39, 119, 0.16); }
+    .pink-grad { background: linear-gradient(135deg, #ec4899 0%, #db2777 55%, #be185d 100%); }
     .no-scrollbar::-webkit-scrollbar { display: none; }
   </style>
 </head>
 <body class="pb-32 md:pb-16">
 
-  <!-- TOP HEADER -->
-  <header class="bg-white sticky top-0 z-40 border-b border-gray-100">
+  <!-- TOP HEADER (Clickable Logo & Title) -->
+  <header class="bg-white/95 backdrop-blur sticky top-0 z-40 border-b border-pink-100 shadow-sm">
     <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
-      <div class="flex items-center gap-2.5">
-        <a href="index.html" class="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-800 font-bold">←</a>
+      <a href="index.html" class="flex items-center gap-2.5 group cursor-pointer" title="Go to Home">
+        <img src="assets/images/logo/logo.jpeg" onerror="this.src='https://placehold.co/100x100/db2777/white?text=RS'" alt="Rs Beauty" class="w-9 h-9 rounded-full object-cover border-2 border-pink-400 group-hover:scale-105 transition">
         <div>
-          <h1 class="text-base font-bold text-gray-900 leading-none">Rs Beauty Parlour</h1>
-          <p class="text-[11px] text-gray-500 mt-0.5">Earliest slot: Today, 10:00 AM</p>
+          <h1 class="text-base font-bold text-pink-900 group-hover:text-pink-600 transition leading-none">Rs Beauty Parlour</h1>
+          <p class="text-[11px] text-pink-600 mt-0.5">Home Salon Rate Card • Ladies Only</p>
         </div>
-      </div>
+      </a>
 
-      <button onclick="openCartDrawer()" class="relative bg-purple-700 text-white px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5">
+      <button onclick="openCartDrawer()" class="relative pink-grad text-white px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-sm">
         <span>Cart</span>
-        <span class="cart-badge hidden bg-white text-purple-800 text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+        <span class="cart-badge hidden bg-white text-pink-700 text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
       </button>
     </div>
 
     <!-- SEARCH + CATEGORY PILLS -->
     <div class="max-w-3xl mx-auto px-4 pb-2.5 space-y-2">
-      <input type="text" id="menu-search" onkeyup="searchServices()" placeholder="Search Cleanup, Facial, Rica Wax, Bridal..." class="w-full border border-gray-200 rounded-xl px-3.5 py-2 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-purple-600">
+      <input type="text" id="menu-search" onkeyup="searchServices()" placeholder="Search Cleanup, Facial, Rica Wax, Bridal..." class="w-full border border-pink-200 rounded-xl px-3.5 py-2 text-xs bg-pink-50/60 focus:bg-white focus:outline-none focus:border-pink-500">
       <div id="category-tabs" class="flex gap-2 overflow-x-auto no-scrollbar py-0.5"></div>
     </div>
   </header>
 
-  <!-- SERVICE LIST -->
-  <main class="max-w-3xl mx-auto px-4 pt-2">
-    <div id="all-services-grid" class="divide-y divide-gray-200">
-      <p class="text-center text-gray-400 text-xs py-10">Loading menu...</p>
+  <!-- COLORFUL PINKISH SERVICE CARDS -->
+  <main class="max-w-3xl mx-auto px-4 pt-3">
+    <div id="all-services-grid" class="space-y-3.5">
+      <p class="text-center text-pink-400 text-xs py-10">Loading menu...</p>
     </div>
   </main>
 
   <!-- MOBILE BOTTOM BAR -->
-  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 z-40">
+  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-pink-100 z-40 shadow-[0_-4px_12px_rgba(219,39,119,0.06)]">
     <div class="grid grid-cols-5 py-2 text-center text-[11px]">
       <a href="index.html" class="flex flex-col items-center gap-0.5 text-gray-500">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
         <span>Home</span>
       </a>
-      <a href="services.html" class="flex flex-col items-center gap-0.5 text-purple-700 font-bold">
+      <a href="services.html" class="flex flex-col items-center gap-0.5 text-pink-600 font-bold">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
         <span>Rate Card</span>
       </a>
-      <button onclick="openCartDrawer()" class="flex flex-col items-center gap-0.5 text-gray-500 relative">
-        <svg class="w-5 h-5 text-purple-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-        <span class="cart-badge hidden absolute top-0 right-4 bg-purple-700 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
-        <span class="font-semibold text-purple-700">Cart</span>
+      <button onclick="openCartDrawer()" class="flex flex-col items-center gap-0.5 text-pink-600 relative">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <span class="cart-badge hidden absolute top-0 right-4 bg-pink-600 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+        <span class="font-bold">Cart</span>
       </button>
       <a href="booking.html" class="flex flex-col items-center gap-0.5 text-gray-500">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -93,6 +94,12 @@
       'Pre-Bridal': 'assets/images/services/makeup.jpg'
     };
 
+    const cardGradients = [
+      'from-pink-50 via-rose-50/90 to-fuchsia-50/80 border-pink-200',
+      'from-rose-50 via-pink-100/70 to-amber-50/60 border-rose-200',
+      'from-fuchsia-50/80 via-pink-50 to-rose-100/70 border-pink-200'
+    ];
+
     async function loadMenu() {
       if (!sb) return;
       const { data: services } = await sb.from('services').select('*').order('created_at', { ascending: true });
@@ -103,7 +110,7 @@
       if (!categories.includes(activeCategory)) activeCategory = 'All';
 
       document.getElementById('category-tabs').innerHTML = categories.map(cat => `
-        <button onclick="filterCategory('${cat}')" class="whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-semibold transition ${activeCategory === cat ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}">
+        <button onclick="filterCategory('${cat}')" class="whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-semibold transition ${activeCategory === cat ? 'pink-grad text-white shadow-sm' : 'bg-pink-50 text-pink-800 border border-pink-200 hover:bg-pink-100'}">
           ${cat}
         </button>
       `).join('');
@@ -128,39 +135,36 @@
 
     function renderServices(list) {
       if (list.length === 0) {
-        document.getElementById('all-services-grid').innerHTML = `<p class="text-center text-gray-400 text-xs py-10">No matching service found.</p>`;
+        document.getElementById('all-services-grid').innerHTML = `<p class="text-center text-pink-400 text-xs py-10">No matching service found.</p>`;
         return;
       }
 
-      document.getElementById('all-services-grid').innerHTML = list.map(s => {
+      document.getElementById('all-services-grid').innerHTML = list.map((s, idx) => {
         const safeName = s.name.replace(/'/g, "\\'");
         const safeCat = (s.category || 'Salon').replace(/'/g, "\\'");
         const img = s.image_url || defaultImgs[s.category] || 'assets/images/services/facial.jpg';
+        const grad = cardGradients[idx % cardGradients.length];
         return `
-        <div class="py-5 flex justify-between items-start gap-4">
+        <div class="bg-gradient-to-br ${grad} border rounded-2xl p-4 shadow-sm hover:shadow-md transition flex justify-between items-start gap-4">
           <div class="flex-1 pr-1">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-purple-700">${s.category || 'Salon'}</span>
-            <h2 class="text-base font-bold text-gray-900 mt-0.5">${s.name}</h2>
-            <div class="flex items-center gap-1.5 text-xs text-gray-600 mt-1">
-              <span class="font-semibold text-gray-800">★ 4.9</span>
-              <span>(180+ reviews)</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider bg-white/90 text-pink-700 border border-pink-200 px-2.5 py-0.5 rounded-full">${s.category || 'Salon'}</span>
+            <h2 class="text-base font-bold text-pink-950 mt-1.5">${s.name}</h2>
+            <div class="flex items-center gap-2 mt-1 text-xs">
+              <span class="font-extrabold text-pink-700 text-sm">₹${s.price}</span>
+              <span class="text-pink-800/60">• Doorstep Home Visit</span>
             </div>
-            <div class="flex items-center gap-2 mt-1.5 text-xs">
-              <span class="font-bold text-gray-900 text-sm">₹${s.price}</span>
-              <span class="text-gray-400">• Doorstep Visit</span>
-            </div>
-            <ul class="mt-2.5 space-y-1 text-xs text-gray-600 list-disc pl-4">
+            <ul class="mt-2 space-y-1 text-xs text-gray-700 list-disc pl-4">
               <li>${s.description || 'Branded products & hygienic single-use kit'}</li>
               <li>Strictly for girls & women at home</li>
             </ul>
-            <a href="booking.html?service=${encodeURIComponent(s.name + ' (₹' + s.price + ')')}" class="inline-block mt-3 text-xs font-bold text-purple-700 hover:underline">
+            <a href="booking.html?service=${encodeURIComponent(s.name + ' (₹' + s.price + ')')}" class="inline-block mt-3 text-xs font-bold text-pink-700 hover:underline">
               Direct single book →
             </a>
           </div>
 
           <div class="relative w-28 sm:w-32 shrink-0 pb-3">
-            <img src="${img}" onerror="this.src='https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=300&q=80'" class="w-28 sm:w-32 h-28 sm:h-32 rounded-2xl object-cover border border-gray-100" alt="${s.name}">
-            <button onclick="addToCart('${s.id}', '${safeName}', ${s.price}, '${safeCat}')" class="absolute bottom-0 inset-x-3 bg-white hover:bg-purple-50 text-purple-700 border border-gray-200 uc-card-shadow py-1.5 rounded-lg text-xs font-bold transition">
+            <img src="${img}" onerror="this.src='https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=300&q=80'" class="w-28 sm:w-32 h-28 sm:h-32 rounded-2xl object-cover border-2 border-white shadow-sm" alt="${s.name}">
+            <button onclick="addToCart('${s.id}', '${safeName}', ${s.price}, '${safeCat}')" class="absolute bottom-0 inset-x-3 bg-white hover:bg-pink-600 hover:text-white text-pink-600 border border-pink-300 uc-card-shadow py-1.5 rounded-lg text-xs font-bold transition">
               Add
             </button>
           </div>
