@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment - Rs Beauty Parlour</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <nav class="bg-white shadow-md sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="assets/images/logo/logo.jpeg" onerror="this.src='https://placehold.co/100x100/db2777/white?text=RS'" alt="Logo" class="h-10 w-10 rounded-full object-cover border-2 border-pink-500">
+        <span class="brand-font text-lg font-bold text-pink-700">Rs Beauty Parlour</span>
+      </a>
+      <div class="flex gap-4 text-xs md:text-sm font-medium">
+        <a href="index.html" class="hover:text-pink-600">Home</a>
+        <a href="services.html" class="hover:text-pink-600">Menu</a>
+        <a href="booking.html" class="text-pink-600 font-bold">Book</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-4 py-8 grid md:grid-cols-2 gap-8">
+    <!-- BOOKING FORM -->
+    <div class="bg-white p-6 rounded-2xl shadow-md border border-pink-100">
+      <h1 class="text-2xl font-bold text-pink-700">Book Home Service</h1>
+      <p class="text-xs text-gray-500 mt-1">Strictly for Girls & Women at your home address</p>
+
+      <form id="booking-form" class="mt-4 space-y-3">
+        <div>
+          <label class="text-xs font-semibold text-gray-700">Full Name *</label>
+          <input type="text" id="b-name" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mt-1">
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-gray-700">WhatsApp / Mobile Number *</label>
+          <input type="tel" id="b-phone" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mt-1">
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-gray-700">Select Service *</label>
+          <select id="b-service" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mt-1">
+            <option value="Glow & Gold Facial (₹799)">Glow & Gold Facial (₹799)</option>
+            <option value="Hair Spa & Styling (₹699)">Hair Spa & Styling (₹699)</option>
+            <option value="Party & Bridal Makeup (₹1499)">Party & Bridal Makeup (₹1499)</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-gray-700">Preferred Date & Time *</label>
+          <input type="datetime-local" id="b-date" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mt-1">
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-gray-700">Complete Home Address *</label>
+          <textarea id="b-address" rows="2" required placeholder="House No, Street, Landmark, Area" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mt-1"></textarea>
+        </div>
+
+        <button type="submit" class="w-full bg-pink-600 hover:bg-pink-700 text-white py-2.5 rounded-lg font-semibold text-sm shadow">
+          Confirm & Send on WhatsApp
+        </button>
+      </form>
+    </div>
+
+    <!-- CUSTOMER BOOKING HISTORY -->
+    <div class="bg-white p-6 rounded-2xl shadow-md border border-pink-100">
+      <h2 class="text-xl font-bold text-pink-700">My Appointments</h2>
+      <p class="text-xs text-gray-500 mt-1" id="history-subtitle">Login on Home page to view your saved booking history</p>
+      <div id="my-bookings-list" class="mt-4 space-y-3"></div>
+    </div>
+  </main>
+
+  <script src="assets/js/config.js"></script>
+  <script>
+    let currentUserId = null;
+
+    async function initBookingPage() {
+      if (sb) {
+        const { data: services } = await sb.from('services').select('*');
+        if (services && services.length > 0) {
+          document.getElementById('b-service').innerHTML = services.map(s =>
+            `<option value="${s.name} (₹${s.price})">${s.name} (₹${s.price})</option>`
+          ).join('');
+        }
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('service')) {
+        const sel = document.getElementById('b-service');
+        const opt = document.createElement('option');
+        opt.value = params.get('service');
+        opt.text = params.get('service');
+        opt.selected = true;
+        sel.add(opt);
+      }
+
+      if (sb) {
+        const { data: { session } } = await sb.auth.getSession();
+        if (session) {
+          currentUserId = session.user.id;
+          document.getElementById('b-name').value = session.user.user_metadata?.full_name || '';
+          document.getElementById('b-phone').value = session.user.user_metadata?.phone || '';
+          document.getElementById('history-subtitle').innerText = 'Your recent home service requests:';
+
+          const { data: myBookings } = await sb.from('bookings').select('*').eq('user_id', currentUserId).order('created_at', { ascending: false });
+          document.getElementById('my-bookings-list').innerHTML = (myBookings || []).map(b => `
+            <div class="p-3 rounded-xl bg-pink-50 border border-pink-100 text-xs">
+              <div class="flex justify-between font-bold text-pink-800">
+                <span>${b.service_name}</span>
+                <span class="px-2 py-0.5 rounded bg-white text-pink-600">${b.status}</span>
+              </div>
+              <p class="text-gray-600 mt-1">Date: ${b.booking_date}</p>
+              <p class="text-gray-500">Address: ${b.address}</p>
+            </div>
+          `).join('') || '<p class="text-xs text-gray-400">No appointments yet.</p>';
+        }
+      }
+    }
+
+    document.getElementById('booking-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const customer_name = document.getElementById('b-name').value;
+      const phone = document.getElementById('b-phone').value;
+      const service_name = document.getElementById('b-service').value;
+      const booking_date = document.getElementById('b-date').value.replace('T', ' ');
+      const address = document.getElementById('b-address').value;
+
+      if (sb) {
+        await sb.from('bookings').insert([{
+          user_id: currentUserId, customer_name, phone, service_name, booking_date, address
+        }]);
+      }
+
+      const msg = `Hello Rs Beauty Parlour!%0A*New Home Service Booking*%0AName: ${customer_name}%0APhone: ${phone}%0AService: ${service_name}%0ADate: ${booking_date}%0AAddress: ${address}`;
+      window.open(`https://wa.me/919625447178?text=${msg}`, '_blank');
+      alert('Booking Saved! Redirecting to WhatsApp...');
+    });
+
+    initBookingPage();
+  </script>
+</body>
+</html>

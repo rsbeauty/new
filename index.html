@@ -1,49 +1,285 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#f8e9e9">
-  <title>Rs Beauty Parlour | Beauty, softly refined</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rs Beauty Parlour | Home Service Ladies Salon</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-<header class="topbar"><div class="container navrow">
-  <a class="brand" href="#home"><span class="brand-mark">Rs</span><span><b>Rs Beauty Parlour</b><small>BEAUTY, SOFTLY REFINED</small></span></a>
-  <nav class="desktop-nav"><a href="#home">Home</a><a href="#services">Services</a><a href="#reviews">Reviews</a><a href="#contact">Contact</a></nav>
-  <div class="nav-actions"><button class="btn btn-light" id="accountBtn">My account</button><a class="btn" href="#services">Quick book ↗</a></div>
-</div></header>
-<main>
-<section id="home" class="container hero">
-  <div class="hero-copy"><span class="eyebrow">✦ YOUR MOMENT OF SELF-CARE</span><h1>A little glow.<br><i>A lot of you.</i></h1>
-  <p>Thoughtful beauty rituals, expert hands and a welcoming space made for you. Come as you are; leave feeling luminous.</p>
-  <div class="hero-actions"><a class="btn" href="#services">Book an appointment →</a><a class="btn btn-light" href="#services">Explore services</a></div>
-  <div class="hero-stats"><div><b>12+</b><small>Beauty services</small></div><div><b>Care</b><small>In every detail</small></div><div><b>You</b><small>Come first</small></div></div></div>
-  <div class="hero-art"><div class="hero-orb"><span>✿</span><b>Feel beautiful</b><small>INSIDE & OUT</small></div><div class="hero-caption"><b>Your beauty, your way.</b><small>Personalised care • Calm ambience • Lovely results</small></div></div>
-</section>
-<section class="offer container"><div><span class="eyebrow">A LITTLE TREAT FOR YOU</span><h2>Your first visit deserves a little extra love.</h2><p>Ask us about current salon offers when you book.</p></div><a class="btn" href="#services">Discover services</a></section>
-<section id="services" class="container section"><div class="section-head"><span class="eyebrow">THE SALON MENU</span><h2>Find your feel-good ritual</h2><p>A little time for yourself goes a long way.</p></div>
-  <div id="categoryFilters" class="filters"></div><div id="serviceGrid" class="service-grid"><p>Loading salon menu…</p></div>
-</section>
-<section id="reviews" class="review-section"><div class="container section"><div class="section-head"><span class="eyebrow">KIND WORDS</span><h2>The glow says it all</h2></div><div class="review-grid">
-  <article class="review-card"><b class="stars">★★★★★</b><p>“Such a relaxing experience. I felt listened to and looked after.”</p><strong>— Happy guest</strong></article>
-  <article class="review-card"><b class="stars">★★★★★</b><p>“Beautiful finish and such a warm, welcoming team.”</p><strong>— Happy guest</strong></article>
-  <article class="review-card"><b class="stars">★★★★★</b><p>“My little self-care escape. Already looking forward to my next visit.”</p><strong>— Happy guest</strong></article>
-</div></div></section>
-<section class="container section"><div class="section-head"><span class="eyebrow">BEAUTY MOMENTS</span><h2>A peek at the possibilities</h2><p>A calm, pretty space for your next refresh.</p></div><div class="gallery"><div>🌸</div><div>🪞</div><div>💆🏻‍♀️</div><div>💄</div></div></section>
-<section id="contact" class="container section"><div class="contact-panel"><div><h2>Ready for your little reset?</h2><p>Choose your service and let us take care of the rest.</p></div><button class="btn" id="whatsappContact">Chat on WhatsApp ↗</button></div>
-  <div class="inquiry card"><div><span class="eyebrow">SAY HELLO</span><h2>Have a question?</h2><p>Send us an enquiry and our team will get back to you.</p></div><form id="inquiryForm" class="form-grid"><input name="name" placeholder="Your name" required><input name="phone" placeholder="WhatsApp number" required><textarea name="message" placeholder="How can we help?" required></textarea><button class="btn">Send enquiry</button></form></div>
-</section>
-</main>
-<footer><div class="container footer-row"><div><b class="serif">Rs Beauty Parlour</b><p>A little glow. A lot of you.</p></div><p>© <span id="year"></span> Rs Beauty Parlour</p><a href="admin.html">Salon team</a></div></footer>
-<nav class="mobile-nav"><a href="#home">⌂<small>Home</small></a><a href="#services">✿<small>Services</small></a><button id="mobileAccount">♡<small>Account</small></button><button id="mobileWhatsapp">☏<small>WhatsApp</small></button></nav>
-<div id="authModal" class="modal hidden"><div class="modal-card"><button class="modal-close" data-close="authModal">×</button><span class="eyebrow">YOUR BEAUTY SPACE</span><h2 id="authTitle">Welcome back</h2><div class="auth-tabs"><button data-auth="login" class="active">Login</button><button data-auth="signup">Create account</button></div>
-<form id="authForm" class="stack"><input id="authName" placeholder="Your name" class="hidden"><input id="authPhone" placeholder="WhatsApp number" required><input id="authEmail" type="email" placeholder="Email address" required><input id="authPassword" type="password" placeholder="Password (6+ characters)" minlength="6" required><button class="btn" id="authSubmit">Login</button></form><p class="hint">Sign in with your email and password. Your WhatsApp number is saved to your profile.</p></div></div>
-<div id="bookingModal" class="modal hidden"><div class="modal-card"><button class="modal-close" data-close="bookingModal">×</button><span class="eyebrow">RESERVE YOUR MOMENT</span><h2 id="bookingTitle">Book a service</h2><form id="bookingForm" class="stack"><label>Appointment date<input id="bookingDate" type="date" required></label><label>Time slot<select id="bookingTime" required><option value="">Choose a time</option><option>09:00 AM</option><option>10:00 AM</option><option>11:00 AM</option><option>12:00 PM</option><option>01:00 PM</option><option>02:00 PM</option><option>03:00 PM</option><option>04:00 PM</option><option>05:00 PM</option><option>06:00 PM</option><option>07:00 PM</option></select></label><label>Notes (optional)<textarea id="bookingNotes" placeholder="Anything we should know?"></textarea></label><button class="btn">Confirm booking & WhatsApp</button><p class="hint">Your booking request will be saved. The salon will confirm your appointment.</p></form></div></div>
-<div id="accountModal" class="modal hidden"><div class="modal-card wide"><button class="modal-close" data-close="accountModal">×</button><div class="account-head"><div><span class="eyebrow">YOUR BEAUTY SPACE</span><h2>Hello, <span id="profileName">there</span> ✨</h2><p id="profilePhone" class="hint"></p></div><button class="btn btn-light" id="signOutBtn">Sign out</button></div><h3>Your appointments</h3><div id="myBookings"></div></div></div>
-<div id="toast" class="toast hidden"></div>
-<script src="config.js"></script><script src="app.js"></script>
-</body></html>
+
+  <!-- NAVBAR -->
+  <nav class="bg-white shadow-md sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="assets/images/logo/logo.jpeg" onerror="this.src='https://placehold.co/100x100/db2777/white?text=RS'" alt="Rs Beauty Parlour" class="h-11 w-11 rounded-full object-cover border-2 border-pink-500">
+        <div>
+          <span class="brand-font text-xl font-bold text-pink-700 block leading-none">Rs Beauty Parlour</span>
+          <span class="text-[11px] text-pink-500 font-medium">Ladies Home Service Only</span>
+        </div>
+      </a>
+
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
+        <a href="index.html" class="text-pink-600 font-semibold">Home</a>
+        <a href="services.html" class="hover:text-pink-600">Services & Menu</a>
+        <a href="gallery.html" class="hover:text-pink-600">Gallery</a>
+        <a href="about.html" class="hover:text-pink-600">About</a>
+        <a href="booking.html" class="hover:text-pink-600">Book Appointment</a>
+        <a href="contact.html" class="hover:text-pink-600">Contact</a>
+        <a href="admin.html" class="text-xs text-gray-400 hover:text-pink-600">Admin</a>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="nav-auth-btn" onclick="openAuthModal()" class="bg-pink-600 hover:bg-pink-700 text-white text-xs md:text-sm px-4 py-2 rounded-full font-medium shadow">
+          Customer Login
+        </button>
+        <div id="nav-user-box" class="hidden items-center gap-2">
+          <a href="booking.html" class="bg-pink-100 text-pink-700 text-xs px-3 py-1.5 rounded-full font-semibold" id="nav-user-name">My Account</a>
+          <button onclick="logoutCustomer()" class="text-xs text-red-500 underline">Logout</button>
+        </div>
+      </div>
+    </div>
+    <!-- Mobile Nav Links -->
+    <div class="flex md:hidden justify-around border-t border-pink-100 py-2 text-xs font-medium bg-pink-50/50">
+      <a href="index.html" class="text-pink-600 font-bold">Home</a>
+      <a href="services.html">Menu</a>
+      <a href="booking.html">Book Now</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="admin.html" class="text-gray-500">Admin</a>
+    </div>
+  </nav>
+
+  <!-- HERO SLIDER (Dynamic from Supabase + Static Fallback) -->
+  <section class="relative max-w-6xl mx-auto mt-4 px-3">
+    <div id="slider-container" class="relative rounded-2xl overflow-hidden shadow-lg bg-pink-100 h-56 sm:h-80 md:h-[420px]">
+      <!-- Fallback Slides -->
+      <div class="slide active h-full relative">
+        <img src="assets/images/sliders/banner1.jpeg" onerror="this.src='https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=80'" class="w-full h-full object-cover" alt="Banner 1">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/65 via-black/30 to-transparent flex items-center p-6 md:p-12">
+          <div class="text-white max-w-md">
+            <span class="bg-pink-600 text-xs px-3 py-1 rounded-full uppercase tracking-wider">Girls & Women Only</span>
+            <h1 class="text-2xl md:text-4xl font-bold mt-2">Salon Luxury at Your Doorstep</h1>
+            <p class="text-xs md:text-sm text-pink-100 mt-2">Bridal Makeup, Facial, Waxing & Hair Spa in the comfort of your home.</p>
+            <a href="booking.html" class="inline-block mt-4 bg-pink-600 hover:bg-pink-700 text-white text-sm px-5 py-2.5 rounded-full font-semibold">Book Home Service</a>
+          </div>
+        </div>
+      </div>
+      <div class="slide h-full relative">
+        <img src="assets/images/sliders/banner2.jpeg" onerror="this.src='https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=1200&q=80'" class="w-full h-full object-cover" alt="Banner 2">
+      </div>
+      <div class="slide h-full relative">
+        <img src="assets/images/sliders/banner3.jpeg" onerror="this.src='https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=1200&q=80'" class="w-full h-full object-cover" alt="Banner 3">
+      </div>
+      <div class="slide h-full relative">
+        <img src="assets/images/sliders/banner4.jpeg" onerror="this.src='https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=1200&q=80'" class="w-full h-full object-cover" alt="Banner 4">
+      </div>
+    </div>
+    <button onclick="prevSlide()" class="absolute left-5 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-pink-700 w-9 h-9 rounded-full shadow font-bold">‹</button>
+    <button onclick="nextSlide()" class="absolute right-5 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-pink-700 w-9 h-9 rounded-full shadow font-bold">›</button>
+  </section>
+
+  <!-- HIGHLIGHTS -->
+  <section class="max-w-6xl mx-auto px-4 py-8 grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-pink-100">
+      <div class="text-pink-600 font-bold text-base">100% Hygienic</div>
+      <p class="text-xs text-gray-500 mt-1">Single-use kits & branded products</p>
+    </div>
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-pink-100">
+      <div class="text-pink-600 font-bold text-base">Ladies Only</div>
+      <p class="text-xs text-gray-500 mt-1">Safe & comfortable home service</p>
+    </div>
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-pink-100">
+      <div class="text-pink-600 font-bold text-base">Affordable Menu</div>
+      <p class="text-xs text-gray-500 mt-1">Transparent salon pricing at home</p>
+    </div>
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-pink-100">
+      <div class="text-pink-600 font-bold text-base">Instant Booking</div>
+      <p class="text-xs text-gray-500 mt-1">Direct confirmation on WhatsApp</p>
+    </div>
+  </section>
+
+  <!-- POPULAR SERVICES MENU (Dynamic from Supabase) -->
+  <section class="max-w-6xl mx-auto px-4 py-6">
+    <div class="flex justify-between items-end mb-6">
+      <div>
+        <h2 class="text-2xl md:text-3xl font-bold text-pink-800">Our Popular Services</h2>
+        <p class="text-xs md:text-sm text-gray-600">Select a service to book your home appointment</p>
+      </div>
+      <a href="services.html" class="text-sm text-pink-600 font-semibold hover:underline">View Full Menu →</a>
+    </div>
+
+    <div id="home-services-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <!-- Default Cards (Replaced automatically if Supabase has items) -->
+      <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden">
+        <img src="assets/images/services/facial.jpg" onerror="this.src='https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80'" class="w-full h-48 object-cover" alt="Facial">
+        <div class="p-4">
+          <div class="flex justify-between items-center">
+            <h3 class="font-bold text-lg text-gray-800">Glow & Gold Facial</h3>
+            <span class="text-pink-600 font-bold">₹799</span>
+          </div>
+          <p class="text-xs text-gray-500 mt-1">Deep cleansing, scrubbing, massage & radiant glow pack.</p>
+          <a href="booking.html?service=Glow%20%26%20Gold%20Facial%20(₹799)" class="mt-4 block text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-sm font-medium">Book Now</a>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden">
+        <img src="assets/images/services/hair.jpg" onerror="this.src='https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=600&q=80'" class="w-full h-48 object-cover" alt="Hair">
+        <div class="p-4">
+          <div class="flex justify-between items-center">
+            <h3 class="font-bold text-lg text-gray-800">Hair Spa & Styling</h3>
+            <span class="text-pink-600 font-bold">₹699</span>
+          </div>
+          <p class="text-xs text-gray-500 mt-1">Nourishing hair spa, steam, head massage & blow dry.</p>
+          <a href="booking.html?service=Hair%20Spa%20%26%20Styling%20(₹699)" class="mt-4 block text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-sm font-medium">Book Now</a>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden">
+        <img src="assets/images/services/makeup.jpg" onerror="this.src='https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=600&q=80'" class="w-full h-48 object-cover" alt="Makeup">
+        <div class="p-4">
+          <div class="flex justify-between items-center">
+            <h3 class="font-bold text-lg text-gray-800">Party & Bridal Makeup</h3>
+            <span class="text-pink-600 font-bold">₹1499</span>
+          </div>
+          <p class="text-xs text-gray-500 mt-1">HD waterproof makeup with hair styling & saree draping.</p>
+          <a href="booking.html?service=Party%20%26%20Bridal%20Makeup%20(₹1499)" class="mt-4 block text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-sm font-medium">Book Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-pink-900 text-pink-100 mt-12 py-8 px-4 text-center text-sm">
+    <p class="brand-font text-xl font-bold text-white">Rs Beauty Parlour</p>
+    <p class="text-xs mt-1">Freelance Home-Service Beauty Salon (Strictly for Girls & Women)</p>
+    <p class="text-xs mt-2">WhatsApp Booking: <a href="https://wa.me/919625447178" class="underline font-bold text-white">+91 9625447178</a></p>
+  </footer>
+
+  <!-- CUSTOMER LOGIN / SIGNUP MODAL -->
+  <div id="auth-modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 relative shadow-2xl">
+      <button onclick="closeAuthModal()" class="absolute right-4 top-3 text-gray-400 hover:text-gray-700 text-xl font-bold">×</button>
+      <h3 class="text-xl font-bold text-pink-700 text-center">Customer Login / Signup</h3>
+      <p class="text-xs text-gray-500 text-center mt-1">Login to track your appointments & save details</p>
+
+      <div class="mt-4 space-y-3">
+        <input type="text" id="cust-name" placeholder="Your Full Name (For New Signup)" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+        <input type="tel" id="cust-phone" placeholder="Mobile Number (10 digits)" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+        <input type="email" id="cust-email" placeholder="Email Address" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+        <input type="password" id="cust-pass" placeholder="Password (min 6 chars)" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+        <p id="auth-msg" class="text-xs text-red-500 text-center"></p>
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button onclick="handleCustomerLogin()" class="bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-sm font-semibold">Login</button>
+          <button onclick="handleCustomerSignup()" class="bg-pink-100 hover:bg-pink-200 text-pink-800 py-2 rounded-lg text-sm font-semibold">New Signup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/config.js"></script>
+  <script>
+    // Slider Logic
+    let currentSlide = 0;
+    function showSlide(n) {
+      const slides = document.querySelectorAll('.slide');
+      if (!slides.length) return;
+      slides.forEach(s => s.classList.remove('active'));
+      currentSlide = (n + slides.length) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }
+    function nextSlide() { showSlide(currentSlide + 1); }
+    function prevSlide() { showSlide(currentSlide - 1); }
+    setInterval(nextSlide, 4500);
+
+    // Load Dynamic Sliders & Services from Supabase
+    async function loadDynamicContent() {
+      if (!sb) return;
+
+      const { data: sliders } = await sb.from('sliders').select('*').order('created_at', { ascending: false });
+      if (sliders && sliders.length > 0) {
+        document.getElementById('slider-container').innerHTML = sliders.map((sl, idx) => `
+          <div class="slide ${idx === 0 ? 'active' : ''} h-full relative">
+            <img src="${sl.image_url}" class="w-full h-full object-cover" alt="${sl.title || 'Banner'}">
+            ${sl.title ? `<div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-6 text-white"><h2 class="text-xl md:text-3xl font-bold">${sl.title}</h2></div>` : ''}
+          </div>
+        `).join('');
+      }
+
+      const { data: services } = await sb.from('services').select('*').order('created_at', { ascending: false }).limit(6);
+      if (services && services.length > 0) {
+        document.getElementById('home-services-grid').innerHTML = services.map(s => `
+          <div class="bg-white rounded-2xl shadow-sm border border-pink-100 overflow-hidden">
+            <img src="${s.image_url || 'assets/images/services/facial.jpg'}" class="w-full h-48 object-cover" alt="${s.name}">
+            <div class="p-4">
+              <div class="flex justify-between items-center">
+                <h3 class="font-bold text-lg text-gray-800">${s.name}</h3>
+                <span class="text-pink-600 font-bold">₹${s.price}</span>
+              </div>
+              <p class="text-xs text-gray-500 mt-1">${s.description || ''}</p>
+              <a href="booking.html?service=${encodeURIComponent(s.name + ' (₹' + s.price + ')')}" class="mt-4 block text-center bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg text-sm font-medium">Book Now</a>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function openAuthModal() { document.getElementById('auth-modal').classList.replace('hidden', 'flex'); }
+    function closeAuthModal() { document.getElementById('auth-modal').classList.replace('flex', 'hidden'); }
+
+    async function checkUser() {
+      if (!sb) return;
+      const { data: { session } } = await sb.auth.getSession();
+      if (session) {
+        document.getElementById('nav-auth-btn').classList.add('hidden');
+        const box = document.getElementById('nav-user-box');
+        box.classList.replace('hidden', 'flex');
+        const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
+        document.getElementById('nav-user-name').innerText = `Hi, ${name}`;
+      }
+    }
+
+    async function handleCustomerLogin() {
+      if (!sb) return alert('Pehle assets/js/config.js mein Supabase keys daalein!');
+      const email = document.getElementById('cust-email').value;
+      const password = document.getElementById('cust-pass').value;
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) { document.getElementById('auth-msg').innerText = error.message; }
+      else { closeAuthModal(); checkUser(); }
+    }
+
+    async function handleCustomerSignup() {
+      if (!sb) return alert('Pehle assets/js/config.js mein Supabase keys daalein!');
+      const full_name = document.getElementById('cust-name').value;
+      const phone = document.getElementById('cust-phone').value;
+      const email = document.getElementById('cust-email').value;
+      const password = document.getElementById('cust-pass').value;
+      if (!full_name || !phone) return document.getElementById('auth-msg').innerText = 'Naam aur Mobile Number zaroori hai!';
+
+      const { data, error } = await sb.auth.signUp({
+        email, password,
+        options: { data: { full_name, phone } }
+      });
+      if (error) { document.getElementById('auth-msg').innerText = error.message; }
+      else {
+        if (data.user) {
+          await sb.from('customers').insert([{ id: data.user.id, full_name, phone, email }]);
+        }
+        alert('Account created! Welcome to Rs Beauty Parlour.');
+        closeAuthModal();
+        checkUser();
+      }
+    }
+
+    async function logoutCustomer() {
+      if (!sb) return;
+      await sb.auth.signOut();
+      location.reload();
+    }
+
+    loadDynamicContent();
+    checkUser();
+  </script>
+</body>
+</html>

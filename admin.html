@@ -1,11 +1,250 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f8e9e9"><title>Rs Beauty Parlour | Admin</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="/styles.css?v=4"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head>
-<body class="admin-body"><header class="topbar"><div class="container navrow"><a class="brand" href="/index.html"><span class="brand-mark">Rs</span><span><b>Rs Beauty Parlour</b><small>ADMIN CONSOLE</small></span></a><a class="btn btn-light" href="/index.html">← Public website</a></div></header>
-<main class="container admin-main">
-<section id="adminLogin" class="login-wrap card"><span class="eyebrow">PRIVATE ACCESS</span><h1>Salon admin</h1><p>Sign in with an authorised Supabase admin account.</p><form id="adminLoginForm" class="stack"><input id="adminEmail" type="email" placeholder="Admin email" required><input id="adminPassword" type="password" placeholder="Password" required><button class="btn">Sign in</button></form><p class="hint">Admin access is granted in Supabase SQL by setting your profile role to <code>admin</code>.</p></section>
-<section id="adminPanel" class="hidden"><div class="admin-heading"><div><span class="eyebrow">SALON MANAGEMENT</span><h1>Good day, Admin</h1><p id="adminIdentity" class="hint"></p></div><button class="btn btn-light" id="adminLogout">Sign out</button></div>
-<div id="stats" class="stats-grid"></div>
-<div class="card table-card"><div class="table-heading"><h2>Appointments</h2><button class="btn btn-light" id="refreshBookings">↻ Refresh</button></div><div class="table-scroll"><table><thead><tr><th>Customer / Contact</th><th>Service</th><th>Date & time</th><th>Price</th><th>Payment</th><th>Status</th><th>Update</th></tr></thead><tbody id="bookingRows"><tr><td colspan="7">Loading…</td></tr></tbody></table></div></div>
-<div class="card table-card"><h2>Contact inquiries</h2><div id="inquiryRows" class="inquiry-list">Loading…</div></div></section>
-</main><div id="toast" class="toast hidden"></div><script src="/config.js?v=4"></script><script src="/admin.js?v=4"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Rs Beauty Parlour</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-pink-50 min-h-screen p-4 font-sans text-gray-800">
+
+  <!-- ADMIN LOGIN -->
+  <div id="admin-login-box" class="max-w-sm mx-auto mt-16 bg-white p-6 rounded-2xl shadow-lg border border-pink-100">
+    <img src="assets/images/logo/logo.jpeg" onerror="this.src='https://placehold.co/100x100/db2777/white?text=RS'" class="w-16 h-16 rounded-full mx-auto border-2 border-pink-500 object-cover">
+    <h1 class="text-xl font-bold text-center text-pink-700 mt-3">Rs Beauty Admin Panel</h1>
+    <p class="text-xs text-center text-gray-500 mb-4">Authorized Access Only</p>
+    <input type="email" id="adm-email" placeholder="Admin Email" class="w-full border rounded-lg px-3 py-2 text-sm mb-3">
+    <input type="password" id="adm-pass" placeholder="Admin Password" class="w-full border rounded-lg px-3 py-2 text-sm mb-3">
+    <button onclick="loginAdmin()" class="w-full bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg font-semibold text-sm">Login to Dashboard</button>
+    <p id="adm-err" class="text-xs text-red-500 text-center mt-2"></p>
+  </div>
+
+  <!-- ADMIN DASHBOARD -->
+  <div id="admin-dashboard" class="hidden max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-5 border border-pink-100">
+    <div class="flex flex-wrap justify-between items-center border-b border-pink-100 pb-4 gap-3">
+      <div>
+        <h1 class="text-xl font-bold text-pink-700">Rs Beauty Parlour — Control Panel</h1>
+        <a href="index.html" target="_blank" class="text-xs text-pink-500 underline">View Live Website ↗</a>
+      </div>
+      <button onclick="logoutAdmin()" class="bg-red-500 text-white text-xs px-4 py-2 rounded-lg font-semibold">Logout</button>
+    </div>
+
+    <!-- TABS -->
+    <div class="flex flex-wrap gap-2 my-4">
+      <button onclick="showTab('bookings', this)" class="tab-btn bg-pink-600 text-white px-4 py-2 rounded-lg text-xs font-semibold">1. Bookings & Appointments</button>
+      <button onclick="showTab('menu', this)" class="tab-btn bg-pink-100 text-pink-800 px-4 py-2 rounded-lg text-xs font-semibold">2. Edit Menu / Prices</button>
+      <button onclick="showTab('sliders', this)" class="tab-btn bg-pink-100 text-pink-800 px-4 py-2 rounded-lg text-xs font-semibold">3. Edit Slider Images</button>
+      <button onclick="showTab('customers', this)" class="tab-btn bg-pink-100 text-pink-800 px-4 py-2 rounded-lg text-xs font-semibold">4. Registered Customers</button>
+    </div>
+
+    <!-- TAB 1: BOOKINGS -->
+    <div id="tab-bookings" class="tab-content overflow-x-auto">
+      <table class="w-full text-left border-collapse text-xs">
+        <thead>
+          <tr class="bg-pink-100 text-pink-900">
+            <th class="p-2.5">Date & Time</th>
+            <th class="p-2.5">Customer</th>
+            <th class="p-2.5">Phone</th>
+            <th class="p-2.5">Service</th>
+            <th class="p-2.5">Address</th>
+            <th class="p-2.5">Status</th>
+            <th class="p-2.5">Action</th>
+          </tr>
+        </thead>
+        <tbody id="adm-bookings-body" class="divide-y"></tbody>
+      </table>
+    </div>
+
+    <!-- TAB 2: EDIT MENU / SERVICES -->
+    <div id="tab-menu" class="tab-content hidden">
+      <div class="bg-pink-50 p-4 rounded-xl mb-6 grid sm:grid-cols-5 gap-2">
+        <input type="text" id="m-name" placeholder="Service Name (e.g. Fruit Facial)" class="border rounded-lg px-3 py-2 text-xs bg-white">
+        <input type="text" id="m-cat" placeholder="Category (Facial/Hair/Makeup)" class="border rounded-lg px-3 py-2 text-xs bg-white">
+        <input type="number" id="m-price" placeholder="Price ₹ (e.g. 599)" class="border rounded-lg px-3 py-2 text-xs bg-white">
+        <input type="text" id="m-desc" placeholder="Short Details" class="border rounded-lg px-3 py-2 text-xs bg-white">
+        <input type="file" id="m-img" accept="image/*" class="text-xs bg-white p-1.5 rounded-lg border">
+        <button onclick="addServiceItem()" class="sm:col-span-5 bg-pink-600 text-white py-2 rounded-lg text-xs font-bold">+ Add New Service to Website Menu</button>
+      </div>
+      <div id="adm-services-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
+    </div>
+
+    <!-- TAB 3: SLIDER IMAGES -->
+    <div id="tab-sliders" class="tab-content hidden">
+      <div class="bg-pink-50 p-4 rounded-xl mb-6 flex flex-wrap gap-2 items-center">
+        <input type="text" id="s-title" placeholder="Banner Heading (Optional)" class="border rounded-lg px-3 py-2 text-xs bg-white flex-1">
+        <input type="file" id="s-img" accept="image/*" class="text-xs bg-white p-1.5 rounded-lg border">
+        <button onclick="addSliderItem()" class="bg-pink-600 text-white px-5 py-2 rounded-lg text-xs font-bold">+ Upload Slider Banner</button>
+      </div>
+      <div id="adm-sliders-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
+    </div>
+
+    <!-- TAB 4: REGISTERED CUSTOMERS -->
+    <div id="tab-customers" class="tab-content hidden overflow-x-auto">
+      <table class="w-full text-left border-collapse text-xs">
+        <thead>
+          <tr class="bg-pink-100 text-pink-900">
+            <th class="p-2.5">Joined Date</th>
+            <th class="p-2.5">Customer Name</th>
+            <th class="p-2.5">Mobile Number</th>
+            <th class="p-2.5">Email</th>
+            <th class="p-2.5">WhatsApp</th>
+          </tr>
+        </thead>
+        <tbody id="adm-customers-body" class="divide-y"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="assets/js/config.js"></script>
+  <script>
+    async function checkAdmin() {
+      if (!sb) return;
+      const { data: { session } } = await sb.auth.getSession();
+      if (session && session.user.email === ADMIN_EMAIL) {
+        document.getElementById('admin-login-box').classList.add('hidden');
+        document.getElementById('admin-dashboard').classList.remove('hidden');
+        loadAdminData();
+      } else if (session) {
+        alert('Access Denied: Yeh sirf Admin ke liye hai.');
+        await sb.auth.signOut();
+      }
+    }
+
+    async function loginAdmin() {
+      if (!sb) return alert('Pehle assets/js/config.js mein Supabase keys daalein!');
+      const email = document.getElementById('adm-email').value;
+      const password = document.getElementById('adm-pass').value;
+      if (email !== ADMIN_EMAIL) return document.getElementById('adm-err').innerText = 'Invalid Admin Email!';
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) document.getElementById('adm-err').innerText = error.message;
+      else checkAdmin();
+    }
+
+    async function logoutAdmin() {
+      if (!sb) return;
+      await sb.auth.signOut();
+      location.reload();
+    }
+
+    function showTab(name, btn) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(el => {
+        el.classList.remove('bg-pink-600', 'text-white');
+        el.classList.add('bg-pink-100', 'text-pink-800');
+      });
+      document.getElementById('tab-' + name).classList.remove('hidden');
+      btn.classList.replace('bg-pink-100', 'bg-pink-600');
+      btn.classList.replace('text-pink-800', 'text-white');
+    }
+
+    async function uploadImage(file, folder) {
+      const path = `${folder}/${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+      const { error } = await sb.storage.from('salon-assets').upload(path, file);
+      if (error) { alert(error.message); return null; }
+      return sb.storage.from('salon-assets').getPublicUrl(path).data.publicUrl;
+    }
+
+    async function loadAdminData() {
+      const { data: bookings } = await sb.from('bookings').select('*').order('created_at', { ascending: false });
+      document.getElementById('adm-bookings-body').innerHTML = (bookings || []).map(b => `
+        <tr>
+          <td class="p-2.5">${b.booking_date}</td>
+          <td class="p-2.5 font-bold">${b.customer_name}</td>
+          <td class="p-2.5"><a href="https://wa.me/91${b.phone}" target="_blank" class="text-green-600 underline font-semibold">${b.phone}</a></td>
+          <td class="p-2.5">${b.service_name}</td>
+          <td class="p-2.5">${b.address}</td>
+          <td class="p-2.5 font-bold text-pink-600">${b.status}</td>
+          <td class="p-2.5 flex gap-1">
+            <button onclick="setBookingStatus('${b.id}', 'Confirmed')" class="bg-green-600 text-white px-2 py-1 rounded">Confirm</button>
+            <button onclick="setBookingStatus('${b.id}', 'Completed')" class="bg-gray-700 text-white px-2 py-1 rounded">Done</button>
+          </td>
+        </tr>
+      `).join('');
+
+      const { data: services } = await sb.from('services').select('*').order('created_at', { ascending: false });
+      document.getElementById('adm-services-grid').innerHTML = (services || []).map(s => `
+        <div class="border rounded-xl p-3 bg-white shadow-sm">
+          <img src="${s.image_url || 'assets/images/services/facial.jpg'}" class="w-full h-32 object-cover rounded-lg">
+          <div class="flex justify-between font-bold mt-2 text-sm">
+            <span>${s.name}</span>
+            <span class="text-pink-600">₹${s.price}</span>
+          </div>
+          <p class="text-xs text-gray-500 mt-1">${s.description || ''}</p>
+          <div class="flex gap-2 mt-3">
+            <button onclick="editServicePrice('${s.id}', ${s.price})" class="bg-blue-600 text-white text-xs px-3 py-1 rounded">Edit Price</button>
+            <button onclick="deleteRow('services', '${s.id}')" class="bg-red-500 text-white text-xs px-3 py-1 rounded">Delete</button>
+          </div>
+        </div>
+      `).join('');
+
+      const { data: sliders } = await sb.from('sliders').select('*').order('created_at', { ascending: false });
+      document.getElementById('adm-sliders-grid').innerHTML = (sliders || []).map(sl => `
+        <div class="border rounded-xl p-3 bg-white shadow-sm">
+          <img src="${sl.image_url}" class="w-full h-32 object-cover rounded-lg">
+          <p class="text-xs font-semibold mt-2">${sl.title || 'Slider Image'}</p>
+          <button onclick="deleteRow('sliders', '${sl.id}')" class="mt-2 bg-red-500 text-white text-xs px-3 py-1 rounded">Delete Banner</button>
+        </div>
+      `).join('');
+
+      const { data: custs } = await sb.from('customers').select('*').order('created_at', { ascending: false });
+      document.getElementById('adm-customers-body').innerHTML = (custs || []).map(c => `
+        <tr>
+          <td class="p-2.5">${new Date(c.created_at).toLocaleDateString()}</td>
+          <td class="p-2.5 font-bold">${c.full_name}</td>
+          <td class="p-2.5">${c.phone}</td>
+          <td class="p-2.5">${c.email}</td>
+          <td class="p-2.5"><a href="https://wa.me/91${c.phone}" target="_blank" class="bg-green-600 text-white px-2.5 py-1 rounded">Chat</a></td>
+        </tr>
+      `).join('');
+    }
+
+    async function addServiceItem() {
+      const name = document.getElementById('m-name').value;
+      const category = document.getElementById('m-cat').value || 'General';
+      const price = document.getElementById('m-price').value;
+      const description = document.getElementById('m-desc').value;
+      const file = document.getElementById('m-img').files[0];
+      if (!name || !price) return alert('Service Name aur Price zaroori hai!');
+      const image_url = file ? await uploadImage(file, 'services') : '';
+      await sb.from('services').insert([{ name, category, price, description, image_url }]);
+      alert('Service Added!');
+      loadAdminData();
+    }
+
+    async function editServicePrice(id, oldPrice) {
+      const newPrice = prompt('Naya Price (₹) enter karein:', oldPrice);
+      if (newPrice && !isNaN(newPrice)) {
+        await sb.from('services').update({ price: parseInt(newPrice) }).eq('id', id);
+        loadAdminData();
+      }
+    }
+
+    async function addSliderItem() {
+      const title = document.getElementById('s-title').value;
+      const file = document.getElementById('s-img').files[0];
+      if (!file) return alert('Slider image select karein!');
+      const image_url = await uploadImage(file, 'sliders');
+      if (image_url) {
+        await sb.from('sliders').insert([{ title, image_url }]);
+        alert('Slider Banner Uploaded!');
+        loadAdminData();
+      }
+    }
+
+    async function setBookingStatus(id, status) {
+      await sb.from('bookings').update({ status }).eq('id', id);
+      loadAdminData();
+    }
+
+    async function deleteRow(table, id) {
+      if (confirm('Delete karna hai?')) {
+        await sb.from(table).delete().eq('id', id);
+        loadAdminData();
+      }
+    }
+
+    checkAdmin();
+  </script>
+</body>
+</html>
