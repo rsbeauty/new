@@ -3,29 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rs Beauty Parlour | Home Salon Services</title>
+  <title>Rs Beauty Parlour | Home Salon & Beauty Store</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="assets/css/style.css">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-    body { font-family: 'Inter', sans-serif; background-color: #fff2f6; color: #2d1f27; }
-    .uc-card-shadow { box-shadow: 0 3px 12px rgba(219, 39, 119, 0.16); }
-    .pink-grad { background: linear-gradient(135deg, #ec4899 0%, #db2777 55%, #be185d 100%); }
-    .menu-pink-card {
-      background: linear-gradient(135deg, #fff0f6 0%, #ffe4ef 55%, #fdf2f8 100%);
-      border: 1px solid #fbcfe8;
-      box-shadow: 0 4px 14px rgba(236, 72, 153, 0.08);
-    }
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .slide { display: none; }
-    .slide.active { display: block; animation: fade 0.5s ease-in-out; }
-    @keyframes fade { from { opacity: 0.4; } to { opacity: 1; } }
-  </style>
 </head>
 <body class="pb-32 md:pb-16">
 
-  <!-- TOP APP HEADER (Clickable Logo + Brand Name) -->
+  <!-- TOP APP HEADER -->
   <header class="bg-white/95 backdrop-blur sticky top-0 z-40 border-b border-pink-100 shadow-sm">
     <div class="max-w-3xl mx-auto px-4 py-3 flex justify-between items-center">
       <a href="index.html" class="flex items-center gap-3 group cursor-pointer" title="Go to Home">
@@ -34,12 +19,15 @@
           <h1 class="text-base md:text-lg font-bold text-pink-900 group-hover:text-pink-600 transition leading-tight">Rs Beauty Parlour</h1>
           <p class="text-[11px] text-pink-600 font-medium flex items-center gap-1">
             <span class="w-2 h-2 rounded-full bg-pink-500 inline-block"></span>
-            Ladies Home Service Only
+            Ladies Home Service & Store
           </p>
         </div>
       </a>
 
       <div class="flex items-center gap-2">
+        <a href="products.html" class="hidden sm:inline-flex items-center gap-1 text-xs font-bold bg-pink-50 hover:bg-pink-100 text-pink-700 border border-pink-200 px-3 py-2 rounded-full">
+          🛍️ Store
+        </a>
         <a href="services.html" class="w-9 h-9 rounded-full bg-pink-50 border border-pink-200 flex items-center justify-center text-pink-700 hover:bg-pink-100" title="Search Services">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
         </a>
@@ -149,13 +137,26 @@
           <span class="text-[11px] font-semibold text-pink-950 mt-1.5 leading-tight">Pedicure & manicure</span>
         </a>
 
-        <a href="services.html?cat=D-Tan" class="group flex flex-col items-center">
-          <div class="w-full aspect-square rounded-2xl bg-pink-50 overflow-hidden border border-pink-200 relative">
-            <img src="https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover group-hover:scale-105 transition" alt="D-Tan">
+        <a href="products.html" class="group flex flex-col items-center">
+          <div class="w-full aspect-square rounded-2xl bg-pink-50 overflow-hidden border-2 border-pink-400 relative">
+            <span class="absolute top-0 inset-x-0 bg-rose-600 text-white text-[9px] font-bold py-0.5 z-10">Shop</span>
+            <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover group-hover:scale-105 transition" alt="Beauty Products">
           </div>
-          <span class="text-[11px] font-semibold text-pink-950 mt-1.5 leading-tight">Bleach, detan & polish</span>
+          <span class="text-[11px] font-bold text-pink-700 mt-1.5 leading-tight">Creams & Products</span>
         </a>
       </div>
+    </section>
+
+    <!-- BEAUTY PRODUCTS STORE BANNER -->
+    <section class="mt-5">
+      <a href="products.html" class="block bg-gradient-to-r from-pink-600 via-rose-500 to-pink-600 text-white rounded-2xl p-4 shadow-md flex items-center justify-between hover:opacity-95 transition">
+        <div>
+          <span class="text-[10px] uppercase tracking-wider bg-white/20 px-2.5 py-0.5 rounded-full font-bold">New Beauty Store</span>
+          <h3 class="text-base sm:text-lg font-extrabold mt-1">Shop Creams, Hair Oils & Herbal Packs</h3>
+          <p class="text-[11px] text-pink-100">Regular (₹49) & Fast Same-Day Delivery (₹99)</p>
+        </div>
+        <span class="bg-white text-pink-700 text-xs font-bold px-3.5 py-2 rounded-xl shadow shrink-0">Shop →</span>
+      </a>
     </section>
 
     <!-- FESTIVE / BRIDAL PROMO CARD -->
@@ -213,11 +214,12 @@
         <a href="services.html?cat=Hair%20Services" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Hair Services</a>
         <a href="services.html?cat=Hair%20Cut" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Hair Cut</a>
         <a href="services.html?cat=D-Tan" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">D-Tan</a>
-        <a href="services.html?cat=Pre-Bridal" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Pre-Bridal</a>
+        <a href="products.html" class="p-2.5 rounded-xl bg-rose-100 hover:bg-rose-200 text-pink-950 font-bold">🛍️ Beauty Products</a>
       </div>
     </div>
   </div>
 
+  
   <!-- MOBILE BOTTOM BAR -->
   <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-pink-100 z-40 shadow-[0_-4px_12px_rgba(219,39,119,0.06)]">
     <div class="grid grid-cols-5 py-2 text-center text-[11px]">
@@ -227,7 +229,11 @@
       </a>
       <a href="services.html" class="flex flex-col items-center gap-0.5 text-gray-500">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-        <span>Rate Card</span>
+        <span>Services</span>
+      </a>
+      <a href="products.html" class="flex flex-col items-center gap-0.5 text-gray-500">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        <span>Products</span>
       </a>
       <button onclick="openCartDrawer()" class="flex flex-col items-center gap-0.5 text-pink-600 relative">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
@@ -236,11 +242,7 @@
       </button>
       <a href="booking.html" class="flex flex-col items-center gap-0.5 text-gray-500">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-        <span>Bookings</span>
-      </a>
-      <a href="contact.html" class="flex flex-col items-center gap-0.5 text-gray-500">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-        <span>Contact</span>
+        <span>Orders</span>
       </a>
     </div>
   </nav>
@@ -416,7 +418,7 @@
 
           <div class="relative w-28 sm:w-32 shrink-0 pb-3">
             <img src="${img}" onerror="this.src='https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=300&q=80'" class="w-28 sm:w-32 h-28 sm:h-32 rounded-2xl object-cover border-2 border-white shadow-sm" alt="${s.name}">
-            <button onclick="addToCart('${s.id}', '${safeName}', ${s.price}, '${safeCat}')" class="absolute bottom-0 inset-x-3 bg-white hover:bg-pink-600 hover:text-white text-pink-600 border border-pink-300 uc-card-shadow py-1.5 rounded-lg text-xs font-bold transition">
+            <button onclick="addToCart('${s.id}', '${safeName}', ${s.price}, '${safeCat}', 'service')" class="absolute bottom-0 inset-x-3 bg-white hover:bg-pink-600 hover:text-white text-pink-600 border border-pink-300 uc-card-shadow py-1.5 rounded-lg text-xs font-bold transition">
               Add
             </button>
           </div>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beauty Products Store - Rs Beauty Parlour</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="pb-32 md:pb-16">
+
+  <!-- TOP HEADER -->
+  <header class="bg-white/95 backdrop-blur sticky top-0 z-40 border-b border-pink-100 shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <a href="index.html" class="flex items-center gap-2.5 group cursor-pointer" title="Go to Home">
+        <img src="assets/images/logo/logo.jpeg" onerror="this.src='https://placehold.co/100x100/db2777/white?text=RS'" alt="Rs Beauty" class="w-9 h-9 rounded-full object-cover border-2 border-pink-400 group-hover:scale-105 transition">
+        <div>
+          <h1 class="text-base font-bold text-pink-900 group-hover:text-pink-600 transition leading-none">Rs Beauty Store</h1>
+          <p class="text-[11px] text-pink-600 mt-0.5">Creams, Serums & Herbal Care</p>
+        </div>
+      </a>
+
+      <div class="flex items-center gap-2">
+        <a href="services.html" class="text-xs font-semibold bg-pink-50 text-pink-800 border border-pink-200 px-3 py-1.5 rounded-full">
+          Salon Menu
+        </a>
+        <button onclick="openCartDrawer()" class="relative pink-grad text-white px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-sm">
+          <span>Cart</span>
+          <span class="cart-badge hidden bg-white text-pink-700 text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- SEARCH & CATEGORY FILTER -->
+    <div class="max-w-4xl mx-auto px-4 pb-2.5 space-y-2">
+      <input type="text" id="prod-search" onkeyup="filterProducts()" placeholder="Search Cream, Hair Oil, Serum, Ubtan..." class="w-full border border-pink-200 rounded-xl px-3.5 py-2 text-xs bg-pink-50/60 focus:bg-white focus:outline-none focus:border-pink-500">
+      <div id="prod-cat-tabs" class="flex gap-2 overflow-x-auto no-scrollbar py-0.5"></div>
+    </div>
+  </header>
+
+  <!-- DELIVERY INFO STRIP -->
+  <div class="max-w-4xl mx-auto px-4 pt-3">
+    <div class="bg-gradient-to-r from-pink-100 via-rose-100 to-pink-100 border border-pink-200 rounded-xl p-2.5 flex flex-wrap justify-between items-center gap-2 text-[11px] text-pink-950 font-medium">
+      <span>🚚 <strong>Regular Delivery:</strong> ₹49 (1-2 Days)</span>
+      <span>⚡ <strong>Fast Express Delivery:</strong> ₹99 (Same Day)</span>
+    </div>
+  </div>
+
+  <!-- PRODUCTS GRID -->
+  <main class="max-w-4xl mx-auto px-4 pt-4">
+    <div id="products-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3.5 sm:gap-5">
+      <p class="col-span-full text-center text-pink-400 text-xs py-12">Loading beauty products...</p>
+    </div>
+  </main>
+
+  <!-- PRODUCT FULL INFORMATION MODAL -->
+  <div id="product-detail-modal" class="fixed inset-0 bg-pink-950/60 hidden items-end sm:items-center justify-center z-50 p-0 sm:p-4" onclick="if(event.target===this) closeProductModal()">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-5 sm:p-6 relative shadow-2xl border border-pink-100">
+      <button onclick="closeProductModal()" class="absolute right-4 top-4 w-8 h-8 rounded-full bg-pink-50 text-pink-700 font-bold text-lg">×</button>
+      <div id="modal-prod-content"></div>
+    </div>
+  </div>
+
+  
+  <!-- MOBILE BOTTOM BAR -->
+  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-pink-100 z-40 shadow-[0_-4px_12px_rgba(219,39,119,0.06)]">
+    <div class="grid grid-cols-5 py-2 text-center text-[11px]">
+      <a href="index.html" class="flex flex-col items-center gap-0.5 text-gray-500">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <span>Home</span>
+      </a>
+      <a href="services.html" class="flex flex-col items-center gap-0.5 text-gray-500">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        <span>Services</span>
+      </a>
+      <a href="products.html" class="flex flex-col items-center gap-0.5 text-pink-600 font-bold">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        <span>Products</span>
+      </a>
+      <button onclick="openCartDrawer()" class="flex flex-col items-center gap-0.5 text-pink-600 relative">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <span class="cart-badge hidden absolute top-0 right-4 bg-pink-600 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+        <span class="font-bold">Cart</span>
+      </button>
+      <a href="booking.html" class="flex flex-col items-center gap-0.5 text-gray-500">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        <span>Orders</span>
+      </a>
+    </div>
+  </nav>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script>
+    let allProducts = [];
+    let selectedProdCat = 'All';
+
+    const fallbackProdImg = 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=500&q=80';
+
+    async function loadProducts() {
+      if (!sb) return;
+      const { data } = await sb.from('products').select('*').order('created_at', { ascending: false });
+      allProducts = data || [];
+
+      const cats = ['All', ...new Set(allProducts.map(p => p.category || 'Skincare'))];
+      document.getElementById('prod-cat-tabs').innerHTML = cats.map(c => `
+        <button onclick="selectProdCat('${c}')" class="whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-semibold transition ${selectedProdCat === c ? 'pink-grad text-white shadow-sm' : 'bg-pink-50 text-pink-800 border border-pink-200'}">
+          ${c}
+        </button>
+      `).join('');
+
+      filterProducts();
+    }
+
+    function selectProdCat(cat) {
+      selectedProdCat = cat;
+      loadProducts();
+    }
+
+    function filterProducts() {
+      const q = document.getElementById('prod-search').value.toLowerCase();
+      const list = allProducts.filter(p => {
+        const matchCat = selectedProdCat === 'All' || (p.category || 'Skincare') === selectedProdCat;
+        const matchText = p.name.toLowerCase().includes(q) || (p.brand || '').toLowerCase().includes(q) || (p.description || '').toLowerCase().includes(q);
+        return matchCat && matchText;
+      });
+      renderProducts(list);
+    }
+
+    function renderProducts(list) {
+      const grid = document.getElementById('products-grid');
+      if (list.length === 0) {
+        grid.innerHTML = `<p class="col-span-full text-center text-pink-400 text-xs py-12">Abhi koi product available nahi hai. Admin panel se products add karein.</p>`;
+        return;
+      }
+
+      grid.innerHTML = list.map(p => {
+        const safeName = p.name.replace(/'/g, "\\'");
+        const safeCat = (p.category || 'Product').replace(/'/g, "\\'");
+        const discount = (p.mrp && p.mrp > p.price) ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
+
+        return `
+        <div class="bg-gradient-to-br from-white via-pink-50/70 to-rose-50 border border-pink-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
+          <div>
+            <div onclick="openProductModal('${p.id}')" class="relative cursor-pointer aspect-square bg-pink-50 overflow-hidden">
+              ${discount > 0 ? `<span class="absolute top-2 left-2 bg-pink-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full z-10">${discount}% OFF</span>` : ''}
+              <img src="${p.image_url || fallbackProdImg}" onerror="this.src='${fallbackProdImg}'" class="w-full h-full object-cover hover:scale-105 transition" alt="${p.name}">
+            </div>
+
+            <div class="p-3">
+              <div class="flex justify-between items-center text-[10px] text-pink-700 font-bold uppercase">
+                <span>${p.brand || 'Rs Beauty'}</span>
+                <span class="bg-white px-1.5 py-0.5 rounded border border-pink-200">${p.weight || '100g'}</span>
+              </div>
+              <h2 onclick="openProductModal('${p.id}')" class="cursor-pointer font-bold text-xs sm:text-sm text-gray-900 mt-1 line-clamp-2 hover:text-pink-600">
+                ${p.name}
+              </h2>
+              <div class="flex items-baseline gap-1.5 mt-1.5">
+                <span class="text-sm sm:text-base font-extrabold text-pink-700">₹${p.price}</span>
+                ${p.mrp ? `<span class="text-[11px] text-gray-400 line-through">₹${p.mrp}</span>` : ''}
+              </div>
+              <button onclick="openProductModal('${p.id}')" class="text-[11px] text-pink-600 font-semibold underline mt-1">
+                View Full Details
+              </button>
+            </div>
+          </div>
+
+          <div class="p-3 pt-0">
+            ${p.in_stock !== false
+              ? `<button onclick="addToCart('${p.id}', '${safeName}', ${p.price}, '${safeCat}', 'product')" class="w-full pink-grad text-white py-2 rounded-xl text-xs font-bold shadow-sm hover:opacity-95 transition">
+                  + Add to Cart
+                </button>`
+              : `<button disabled class="w-full bg-gray-200 text-gray-500 py-2 rounded-xl text-xs font-bold cursor-not-allowed">Out of Stock</button>`
+            }
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function openProductModal(id) {
+      const p = allProducts.find(item => String(item.id) === String(id));
+      if (!p) return;
+
+      const safeName = p.name.replace(/'/g, "\\'");
+      const safeCat = (p.category || 'Product').replace(/'/g, "\\'");
+
+      document.getElementById('modal-prod-content').innerHTML = `
+        <img src="${p.image_url || fallbackProdImg}" onerror="this.src='${fallbackProdImg}'" class="w-full h-56 object-cover rounded-2xl border border-pink-100">
+        <div class="mt-4">
+          <div class="flex flex-wrap gap-1.5">
+            <span class="text-[10px] font-bold uppercase bg-pink-100 text-pink-700 px-2.5 py-0.5 rounded-full">${p.category || 'Skincare'}</span>
+            <span class="text-[10px] font-bold bg-rose-100 text-rose-800 px-2.5 py-0.5 rounded-full">${p.brand || 'Rs Beauty'}</span>
+            <span class="text-[10px] font-bold bg-amber-100 text-amber-800 px-2.5 py-0.5 rounded-full">Net Qty: ${p.weight || '100 ml'}</span>
+          </div>
+
+          <h2 class="text-lg font-extrabold text-pink-950 mt-2">${p.name}</h2>
+
+          <div class="flex items-baseline gap-2 mt-1.5">
+            <span class="text-2xl font-extrabold text-pink-700">₹${p.price}</span>
+            ${p.mrp ? `<span class="text-xs text-gray-400 line-through">MRP ₹${p.mrp}</span>` : ''}
+          </div>
+
+          <div class="mt-4 space-y-3 text-xs text-gray-700 bg-pink-50/70 p-3.5 rounded-2xl border border-pink-100">
+            <div>
+              <span class="font-bold text-pink-950 block">Suitable For:</span>
+              <span>${p.skin_type || 'All Skin & Hair Types'}</span>
+            </div>
+            <div>
+              <span class="font-bold text-pink-950 block">Product Description:</span>
+              <p class="mt-0.5 leading-relaxed">${p.description || 'Authentic salon quality beauty product.'}</p>
+            </div>
+            ${p.how_to_use ? `<div><span class="font-bold text-pink-950 block">How to Use:</span><p class="mt-0.5">${p.how_to_use}</p></div>` : ''}
+            ${p.ingredients ? `<div><span class="font-bold text-pink-950 block">Key Ingredients:</span><p class="mt-0.5">${p.ingredients}</p></div>` : ''}
+            <div class="pt-1 border-t border-pink-200/70 text-[11px] text-pink-800 font-semibold">
+              🚚 Regular Delivery: ₹49 (1-2 Days) • ⚡ Fast Express: ₹99 (Same Day)
+            </div>
+          </div>
+
+          <button onclick="addToCart('${p.id}', '${safeName}', ${p.price}, '${safeCat}', 'product'); closeProductModal();" class="mt-4 w-full pink-grad text-white py-3 rounded-xl font-bold text-sm shadow-lg">
+            + Add Product to Cart (₹${p.price})
+          </button>
+        </div>
+      `;
+
+      document.getElementById('product-detail-modal').classList.replace('hidden', 'flex');
+    }
+
+    function closeProductModal() {
+      document.getElementById('product-detail-modal').classList.replace('flex', 'hidden');
+    }
+
+    loadProducts();
+  </script>
+</body>
+</html>

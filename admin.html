@@ -38,13 +38,14 @@
 
     <!-- MAIN TABS -->
     <div class="flex flex-wrap gap-2 my-4">
-      <button onclick="showTab('bookings', this)" class="tab-btn pink-grad text-white px-4 py-2 rounded-lg text-xs font-semibold shadow-sm">1. Bookings & Cart Orders</button>
-      <button onclick="showTab('menu', this)" class="tab-btn bg-pink-100 text-pink-800 px-4 py-2 rounded-lg text-xs font-semibold">2. Organized Menu & Categories</button>
-      <button onclick="showTab('sliders', this)" class="tab-btn bg-pink-100 text-pink-800 px-4 py-2 rounded-lg text-xs font-semibold">3. Edit Slider Images</button>
-      <button onclick="showTab('customers', this)" class="tab-btn bg-pink-100 text-pink-800 px-4 py-2 rounded-lg text-xs font-semibold">4. Registered Customers</button>
+      <button onclick="showTab('bookings', this)" class="tab-btn pink-grad text-white px-4 py-2 rounded-lg text-xs font-semibold shadow-sm">1. Bookings & Orders</button>
+      <button onclick="showTab('menu', this)" class="tab-btn bg-pink-100 text-pink-800 px-4 py-2 rounded-lg text-xs font-semibold">2. Organized Salon Menu</button>
+      <button onclick="showTab('products', this)" class="tab-btn bg-pink-100 text-pink-800 px-4 py-2 rounded-lg text-xs font-semibold">3. Beauty Products Store</button>
+      <button onclick="showTab('sliders', this)" class="tab-btn bg-pink-100 text-pink-800 px-4 py-2 rounded-lg text-xs font-semibold">4. Slider Banners</button>
+      <button onclick="showTab('customers', this)" class="tab-btn bg-pink-100 text-pink-800 px-4 py-2 rounded-lg text-xs font-semibold">5. Customers</button>
     </div>
 
-    <!-- TAB 1: BOOKINGS -->
+    <!-- TAB 1: BOOKINGS & ORDERS -->
     <div id="tab-bookings" class="tab-content overflow-x-auto">
       <table class="w-full text-left border-collapse text-xs">
         <thead>
@@ -52,7 +53,7 @@
             <th class="p-2.5">Date & Time</th>
             <th class="p-2.5">Customer</th>
             <th class="p-2.5">Phone</th>
-            <th class="p-2.5">Services & Total</th>
+            <th class="p-2.5">Services / Products & Total</th>
             <th class="p-2.5">Address</th>
             <th class="p-2.5">Status</th>
             <th class="p-2.5">Action</th>
@@ -64,15 +65,14 @@
 
     <!-- TAB 2: ORGANIZED MENU & CATEGORIES -->
     <div id="tab-menu" class="tab-content hidden space-y-6">
-      <!-- Add New Service Form -->
       <div class="bg-pink-50/80 p-4 rounded-2xl border border-pink-200">
         <h2 class="text-sm font-bold text-pink-900 mb-3">+ Add New Service to Menu</h2>
         <div class="grid sm:grid-cols-5 gap-2.5">
-          <input type="text" id="m-name" placeholder="Service Name (e.g. Diamond Facial)" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white focus:outline-none focus:border-pink-500">
-          <input type="text" id="m-cat" list="cat-suggestions" placeholder="Category (Select or Type New)" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white focus:outline-none focus:border-pink-500">
+          <input type="text" id="m-name" placeholder="Service Name (e.g. Diamond Facial)" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white">
+          <input type="text" id="m-cat" list="cat-suggestions" placeholder="Category (Select or Type New)" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white">
           <datalist id="cat-suggestions"></datalist>
-          <input type="number" id="m-price" placeholder="Price ₹ (e.g. 999)" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white focus:outline-none focus:border-pink-500">
-          <input type="text" id="m-desc" placeholder="Short Description" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white focus:outline-none focus:border-pink-500">
+          <input type="number" id="m-price" placeholder="Price ₹ (e.g. 999)" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white">
+          <input type="text" id="m-desc" placeholder="Short Description" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white">
           <input type="file" id="m-img" accept="image/*" class="text-xs bg-white p-1.5 rounded-lg border border-pink-200">
         </div>
         <button onclick="addServiceItem()" class="mt-3 pink-grad text-white px-5 py-2 rounded-lg text-xs font-bold shadow-sm">
@@ -80,17 +80,39 @@
         </button>
       </div>
 
-      <!-- Search & Category Filter Bar -->
       <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 bg-white p-3 rounded-xl border border-pink-100">
         <div id="adm-cat-pills" class="flex flex-wrap gap-1.5"></div>
-        <input type="text" id="adm-menu-search" onkeyup="renderOrganizedMenu()" placeholder="Search service or price..." class="border border-pink-200 rounded-lg px-3 py-1.5 text-xs bg-pink-50/40 focus:bg-white focus:outline-none focus:border-pink-500 sm:w-64">
+        <input type="text" id="adm-menu-search" onkeyup="renderOrganizedMenu()" placeholder="Search service or price..." class="border border-pink-200 rounded-lg px-3 py-1.5 text-xs bg-pink-50/40 sm:w-64">
       </div>
 
-      <!-- Category-Grouped Menu Container -->
       <div id="adm-organized-menu" class="space-y-6"></div>
     </div>
 
-    <!-- TAB 3: SLIDER IMAGES -->
+    <!-- TAB 3: BEAUTY PRODUCTS STORE -->
+    <div id="tab-products" class="tab-content hidden space-y-5">
+      <div class="bg-pink-50 p-4 rounded-2xl border border-pink-200 space-y-2.5">
+        <h2 class="text-sm font-bold text-pink-900">+ Add New Beauty Product (Cream, Hair Oil, Serum, Pack)</h2>
+        <div class="grid sm:grid-cols-4 gap-2">
+          <input type="text" id="p-name" placeholder="Product Name *" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white">
+          <input type="text" id="p-cat" placeholder="Category (Face Cream / Hair Care)" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white">
+          <input type="text" id="p-brand" placeholder="Brand (e.g. O3+ / Rs Beauty)" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white">
+          <input type="text" id="p-weight" placeholder="Net Weight (e.g. 50g / 100ml)" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white">
+          <input type="number" id="p-price" placeholder="Selling Price ₹ *" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white">
+          <input type="number" id="p-mrp" placeholder="MRP ₹ (Optional)" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white">
+          <input type="text" id="p-skin" placeholder="Suitable For (e.g. All Skin Types)" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white">
+          <input type="file" id="p-img" accept="image/*" class="text-xs bg-white p-1.5 rounded-lg border border-pink-200">
+        </div>
+        <div class="grid sm:grid-cols-3 gap-2">
+          <input type="text" id="p-desc" placeholder="Full Product Description" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white">
+          <input type="text" id="p-use" placeholder="How to Use" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white">
+          <input type="text" id="p-ing" placeholder="Key Ingredients" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white">
+        </div>
+        <button onclick="addProductItem()" class="pink-grad text-white px-5 py-2 rounded-lg text-xs font-bold shadow">+ Add Product to Store</button>
+      </div>
+      <div id="adm-products-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
+    </div>
+
+    <!-- TAB 4: SLIDER IMAGES -->
     <div id="tab-sliders" class="tab-content hidden">
       <div class="bg-pink-50 p-4 rounded-xl mb-6 flex flex-wrap gap-2 items-center border border-pink-200">
         <input type="text" id="s-title" placeholder="Banner Heading (Optional)" class="border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white flex-1">
@@ -100,7 +122,7 @@
       <div id="adm-sliders-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
     </div>
 
-    <!-- TAB 4: REGISTERED CUSTOMERS -->
+    <!-- TAB 5: REGISTERED CUSTOMERS -->
     <div id="tab-customers" class="tab-content hidden overflow-x-auto">
       <table class="w-full text-left border-collapse text-xs">
         <thead>
@@ -128,21 +150,21 @@
       <div class="mt-4 space-y-3 text-xs">
         <div>
           <label class="font-bold text-pink-900">Service Name *</label>
-          <input type="text" id="edit-srv-name" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1 focus:outline-none focus:border-pink-500">
+          <input type="text" id="edit-srv-name" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1">
         </div>
         <div class="grid grid-cols-2 gap-2.5">
           <div>
             <label class="font-bold text-pink-900">Category *</label>
-            <input type="text" id="edit-srv-cat" list="cat-suggestions" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1 focus:outline-none focus:border-pink-500">
+            <input type="text" id="edit-srv-cat" list="cat-suggestions" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1">
           </div>
           <div>
             <label class="font-bold text-pink-900">Price (₹) *</label>
-            <input type="number" id="edit-srv-price" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1 focus:outline-none focus:border-pink-500">
+            <input type="number" id="edit-srv-price" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1">
           </div>
         </div>
         <div>
           <label class="font-bold text-pink-900">Description</label>
-          <input type="text" id="edit-srv-desc" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1 focus:outline-none focus:border-pink-500">
+          <input type="text" id="edit-srv-desc" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1">
         </div>
         <div>
           <label class="font-bold text-pink-900">Change Photo <span class="font-normal text-gray-400">(Optional)</span></label>
@@ -210,7 +232,6 @@
     }
 
     async function loadAdminData() {
-      // 1. Bookings
       const { data: bookings } = await sb.from('bookings').select('*').order('created_at', { ascending: false });
       document.getElementById('adm-bookings-body').innerHTML = (bookings || []).map(b => {
         const statusColor = b.status === 'Confirmed' ? 'text-green-600' : (b.status === 'Completed' ? 'text-blue-600' : 'text-amber-600');
@@ -230,13 +251,12 @@
         </tr>`;
       }).join('');
 
-      // 2. Services (Organized by Category)
       const { data: services } = await sb.from('services').select('*').order('created_at', { ascending: true });
       allAdminServices = services || [];
       buildCategoryControls();
       renderOrganizedMenu();
+      loadAdminProducts();
 
-      // 3. Sliders
       const { data: sliders } = await sb.from('sliders').select('*').order('created_at', { ascending: false });
       document.getElementById('adm-sliders-grid').innerHTML = (sliders || []).map(sl => `
         <div class="border border-pink-100 rounded-xl p-3 bg-white shadow-sm">
@@ -246,7 +266,6 @@
         </div>
       `).join('');
 
-      // 4. Customers
       const { data: custs } = await sb.from('customers').select('*').order('created_at', { ascending: false });
       document.getElementById('adm-customers-body').innerHTML = (custs || []).map(c => `
         <tr>
@@ -265,13 +284,11 @@
         selectedAdminCat = 'All';
       }
 
-      // Datalist suggestions for Add & Edit inputs
       document.getElementById('cat-suggestions').innerHTML = categories.map(c => `<option value="${c}">`).join('');
 
-      // Filter pills
       const pills = ['All', ...categories];
       document.getElementById('adm-cat-pills').innerHTML = pills.map(cat => `
-        <button onclick="selectAdminCategory('${cat.replace(/'/g, "\\'")}')" class="px-3 py-1.5 rounded-full text-xs font-semibold transition ${selectedAdminCat === cat ? 'pink-grad text-white shadow-sm' : 'bg-pink-50 text-pink-800 hover:bg-pink-100'}">
+        <button onclick="selectAdminCategory('${cat.replace(/'/g, "\'")}')" class="px-3 py-1.5 rounded-full text-xs font-semibold transition ${selectedAdminCat === cat ? 'pink-grad text-white shadow-sm' : 'bg-pink-50 text-pink-800 hover:bg-pink-100'}">
           ${cat} ${cat === 'All' ? `(${allAdminServices.length})` : ''}
         </button>
       `).join('');
@@ -298,7 +315,6 @@
         return;
       }
 
-      // Group items by Category
       const grouped = {};
       filtered.forEach(item => {
         const cat = (item.category || 'General').trim();
@@ -308,10 +324,9 @@
 
       container.innerHTML = Object.keys(grouped).map(catName => {
         const items = grouped[catName];
-        const safeCat = catName.replace(/'/g, "\\'");
+        const safeCat = catName.replace(/'/g, "\'");
         return `
         <div class="border border-pink-200 rounded-2xl overflow-hidden bg-white shadow-sm">
-          <!-- Category Header with Rename Button -->
           <div class="bg-pink-100/80 px-4 py-3 flex flex-wrap justify-between items-center gap-2 border-b border-pink-200">
             <div class="flex items-center gap-2">
               <h3 class="font-bold text-sm md:text-base text-pink-950">${catName}</h3>
@@ -322,7 +337,6 @@
             </button>
           </div>
 
-          <!-- Organized Table of Items under this Category -->
           <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse text-xs">
               <thead>
@@ -363,7 +377,6 @@
       }).join('');
     }
 
-    // RENAME CATEGORY (Updates all items in that category)
     async function renameCategory(oldCatName) {
       const newCatName = prompt(`Category "${oldCatName}" ka naya naam likhein:`, oldCatName);
       if (!newCatName || newCatName.trim() === '' || newCatName.trim() === oldCatName) return;
@@ -374,17 +387,13 @@
         .update({ category: cleanNewName })
         .eq('category', oldCatName);
 
-      if (error) {
-        alert('Category rename error: ' + error.message);
-        return;
-      }
+      if (error) return alert('Category rename error: ' + error.message);
 
       if (selectedAdminCat === oldCatName) selectedAdminCat = cleanNewName;
       alert(`Category "${oldCatName}" ko "${cleanNewName}" mein update kar diya gaya hai!`);
       loadAdminData();
     }
 
-    // OPEN EDIT MODAL FOR ANY MENU ITEM
     function openEditModal(id) {
       const item = allAdminServices.find(s => String(s.id) === String(id));
       if (!item) return;
@@ -411,9 +420,7 @@
       const description = document.getElementById('edit-srv-desc').value.trim();
       const file = document.getElementById('edit-srv-img').files[0];
 
-      if (!name || isNaN(price)) {
-        return alert('Service Name aur sahi Price (₹) zaroori hai!');
-      }
+      if (!name || isNaN(price)) return alert('Service Name aur sahi Price (₹) zaroori hai!');
 
       const updateObj = { name, category, price, description };
       if (file) {
@@ -422,10 +429,7 @@
       }
 
       const { error } = await sb.from('services').update(updateObj).eq('id', id);
-      if (error) {
-        alert('Update failed: ' + error.message);
-        return;
-      }
+      if (error) return alert('Update failed: ' + error.message);
 
       closeEditModal();
       alert('Service updated successfully!');
@@ -449,6 +453,56 @@
       document.getElementById('m-img').value = '';
       alert('New Service Added!');
       loadAdminData();
+    }
+
+    async function addProductItem() {
+      const name = document.getElementById('p-name').value.trim();
+      const category = document.getElementById('p-cat').value.trim() || 'Skincare';
+      const brand = document.getElementById('p-brand').value.trim() || 'Rs Beauty';
+      const weight = document.getElementById('p-weight').value.trim() || '100g';
+      const price = parseInt(document.getElementById('p-price').value);
+      const mrp = parseInt(document.getElementById('p-mrp').value) || null;
+      const skin_type = document.getElementById('p-skin').value.trim() || 'All Skin Types';
+      const description = document.getElementById('p-desc').value.trim();
+      const how_to_use = document.getElementById('p-use').value.trim();
+      const ingredients = document.getElementById('p-ing').value.trim();
+      const file = document.getElementById('p-img').files[0];
+
+      if (!name || isNaN(price)) return alert('Product Name aur Price zaroori hai!');
+      const image_url = file ? await uploadImage(file, 'products') : '';
+
+      const { error } = await sb.from('products').insert([{
+        name, category, brand, weight, price, mrp, skin_type, description, how_to_use, ingredients, image_url
+      }]);
+      if (error) return alert('Error: ' + error.message);
+
+      document.getElementById('p-name').value = '';
+      document.getElementById('p-price').value = '';
+      document.getElementById('p-mrp').value = '';
+      document.getElementById('p-desc').value = '';
+      document.getElementById('p-use').value = '';
+      document.getElementById('p-ing').value = '';
+      document.getElementById('p-img').value = '';
+      alert('Product Added to Store!');
+      loadAdminProducts();
+    }
+
+    async function loadAdminProducts() {
+      const { data: prods } = await sb.from('products').select('*').order('created_at', { ascending: false });
+      const grid = document.getElementById('adm-products-grid');
+      if (!grid) return;
+      grid.innerHTML = (prods || []).map(p => `
+        <div class="border border-pink-200 rounded-xl p-3 bg-white shadow-sm">
+          ${p.image_url ? `<img src="${p.image_url}" class="w-full h-32 object-cover rounded-lg">` : ''}
+          <span class="text-[10px] bg-pink-100 text-pink-700 px-2 py-0.5 rounded-full font-bold mt-2 inline-block">${p.category} • ${p.weight}</span>
+          <div class="flex justify-between font-bold mt-1 text-sm">
+            <span>${p.name}</span>
+            <span class="text-pink-600">₹${p.price}</span>
+          </div>
+          <p class="text-xs text-gray-500 mt-1 line-clamp-2">${p.description || ''}</p>
+          <button onclick="deleteRow('products', '${p.id}')" class="mt-3 bg-red-500 text-white text-xs px-3 py-1 rounded">Delete</button>
+        </div>
+      `).join('');
     }
 
     async function addSliderItem() {
