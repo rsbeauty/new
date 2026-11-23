@@ -109,7 +109,9 @@
         </div>
         <button onclick="addProductItem()" class="pink-grad text-white px-5 py-2 rounded-lg text-xs font-bold shadow">+ Add Product to Store</button>
       </div>
-      <div id="adm-products-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
+
+      <!-- Products List Grid -->
+      <div id="adm-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
     </div>
 
     <!-- TAB 4: SLIDER IMAGES -->
@@ -183,9 +185,86 @@
     </div>
   </div>
 
+  <!-- FULL BEAUTY PRODUCT EDIT MODAL -->
+  <div id="edit-product-modal" class="fixed inset-0 bg-pink-950/60 hidden items-center justify-center z-50 p-3 overflow-y-auto" onclick="if(event.target===this) closeProductEditModal()">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-5 sm:p-6 relative shadow-2xl border border-pink-100 my-auto">
+      <button onclick="closeProductEditModal()" class="absolute right-4 top-3 text-pink-400 hover:text-pink-700 text-xl font-bold">×</button>
+      <h3 class="text-lg font-bold text-pink-900">Edit Beauty Product</h3>
+      <p class="text-xs text-gray-500 mt-0.5">Update product price, details, stock status or photo</p>
+
+      <input type="hidden" id="edit-prod-id">
+      <div class="mt-4 space-y-2.5 text-xs max-h-[75vh] overflow-y-auto pr-1">
+        <div class="grid grid-cols-2 gap-2">
+          <div class="col-span-2">
+            <label class="font-bold text-pink-900">Product Name *</label>
+            <input type="text" id="edit-prod-name" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1">
+          </div>
+          <div>
+            <label class="font-bold text-pink-900">Category</label>
+            <input type="text" id="edit-prod-cat" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1">
+          </div>
+          <div>
+            <label class="font-bold text-pink-900">Brand</label>
+            <input type="text" id="edit-prod-brand" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1">
+          </div>
+          <div>
+            <label class="font-bold text-pink-900">Selling Price (₹) *</label>
+            <input type="number" id="edit-prod-price" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1">
+          </div>
+          <div>
+            <label class="font-bold text-pink-900">MRP (₹)</label>
+            <input type="number" id="edit-prod-mrp" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1">
+          </div>
+          <div>
+            <label class="font-bold text-pink-900">Net Weight / Size</label>
+            <input type="text" id="edit-prod-weight" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1">
+          </div>
+          <div>
+            <label class="font-bold text-pink-900">Stock Availability</label>
+            <select id="edit-prod-stock" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1 bg-white font-semibold">
+              <option value="true">✓ In Stock</option>
+              <option value="false">✕ Out of Stock</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="font-bold text-pink-900">Suitable For (Skin/Hair Type)</label>
+          <input type="text" id="edit-prod-skin" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1">
+        </div>
+        <div>
+          <label class="font-bold text-pink-900">Full Description</label>
+          <textarea id="edit-prod-desc" rows="2" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1"></textarea>
+        </div>
+        <div>
+          <label class="font-bold text-pink-900">How to Use</label>
+          <input type="text" id="edit-prod-use" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1">
+        </div>
+        <div>
+          <label class="font-bold text-pink-900">Key Ingredients</label>
+          <input type="text" id="edit-prod-ing" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm mt-1">
+        </div>
+        <div>
+          <label class="font-bold text-pink-900">Change Product Photo <span class="font-normal text-gray-400">(Optional)</span></label>
+          <input type="file" id="edit-prod-img" accept="image/*" class="w-full border border-pink-200 rounded-lg p-1.5 text-xs mt-1 bg-pink-50/40">
+        </div>
+
+        <div class="flex gap-2 pt-2">
+          <button onclick="saveEditedProduct()" class="flex-1 pink-grad text-white py-2.5 rounded-xl font-bold text-sm shadow">
+            Save Product Changes
+          </button>
+          <button onclick="closeProductEditModal()" class="px-4 py-2.5 rounded-xl bg-gray-100 text-gray-700 font-semibold text-sm">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="assets/js/config.js"></script>
   <script>
     let allAdminServices = [];
+    let allAdminProducts = [];
     let selectedAdminCat = 'All';
 
     async function checkAdmin() {
@@ -288,7 +367,7 @@
 
       const pills = ['All', ...categories];
       document.getElementById('adm-cat-pills').innerHTML = pills.map(cat => `
-        <button onclick="selectAdminCategory('${cat.replace(/'/g, "\'")}')" class="px-3 py-1.5 rounded-full text-xs font-semibold transition ${selectedAdminCat === cat ? 'pink-grad text-white shadow-sm' : 'bg-pink-50 text-pink-800 hover:bg-pink-100'}">
+        <button onclick="selectAdminCategory('${cat.replace(/'/g, "\\'")}')" class="px-3 py-1.5 rounded-full text-xs font-semibold transition ${selectedAdminCat === cat ? 'pink-grad text-white shadow-sm' : 'bg-pink-50 text-pink-800 hover:bg-pink-100'}">
           ${cat} ${cat === 'All' ? `(${allAdminServices.length})` : ''}
         </button>
       `).join('');
@@ -324,7 +403,7 @@
 
       container.innerHTML = Object.keys(grouped).map(catName => {
         const items = grouped[catName];
-        const safeCat = catName.replace(/'/g, "\'");
+        const safeCat = catName.replace(/'/g, "\\'");
         return `
         <div class="border border-pink-200 rounded-2xl overflow-hidden bg-white shadow-sm">
           <div class="bg-pink-100/80 px-4 py-3 flex flex-wrap justify-between items-center gap-2 border-b border-pink-200">
@@ -455,6 +534,7 @@
       loadAdminData();
     }
 
+    // ==================== BEAUTY PRODUCTS MANAGEMENT ====================
     async function addProductItem() {
       const name = document.getElementById('p-name').value.trim();
       const category = document.getElementById('p-cat').value.trim() || 'Skincare';
@@ -472,7 +552,7 @@
       const image_url = file ? await uploadImage(file, 'products') : '';
 
       const { error } = await sb.from('products').insert([{
-        name, category, brand, weight, price, mrp, skin_type, description, how_to_use, ingredients, image_url
+        name, category, brand, weight, price, mrp, skin_type, description, how_to_use, ingredients, in_stock: true, image_url
       }]);
       if (error) return alert('Error: ' + error.message);
 
@@ -489,20 +569,119 @@
 
     async function loadAdminProducts() {
       const { data: prods } = await sb.from('products').select('*').order('created_at', { ascending: false });
+      allAdminProducts = prods || [];
       const grid = document.getElementById('adm-products-grid');
       if (!grid) return;
-      grid.innerHTML = (prods || []).map(p => `
-        <div class="border border-pink-200 rounded-xl p-3 bg-white shadow-sm">
-          ${p.image_url ? `<img src="${p.image_url}" class="w-full h-32 object-cover rounded-lg">` : ''}
-          <span class="text-[10px] bg-pink-100 text-pink-700 px-2 py-0.5 rounded-full font-bold mt-2 inline-block">${p.category} • ${p.weight}</span>
-          <div class="flex justify-between font-bold mt-1 text-sm">
-            <span>${p.name}</span>
-            <span class="text-pink-600">₹${p.price}</span>
+
+      grid.innerHTML = allAdminProducts.map(p => {
+        const isOut = p.in_stock === false;
+        return `
+        <div class="border ${isOut ? 'border-red-300 bg-red-50/30' : 'border-pink-200 bg-white'} rounded-2xl p-3.5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="relative">
+              ${p.image_url
+                ? `<img src="${p.image_url}" class="w-full h-36 object-cover rounded-xl ${isOut ? 'opacity-60 grayscale' : ''}">`
+                : `<div class="w-full h-36 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center font-bold text-xs">No Product Image</div>`
+              }
+              <span class="absolute top-2 right-2 text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow ${isOut ? 'bg-red-600 text-white' : 'bg-green-600 text-white'}">
+                ${isOut ? 'OUT OF STOCK' : 'IN STOCK'}
+              </span>
+            </div>
+
+            <span class="text-[10px] bg-pink-100 text-pink-700 px-2 py-0.5 rounded-full font-bold mt-2.5 inline-block">${p.category || 'Product'} • ${p.weight || '100g'}</span>
+            <div class="flex justify-between items-start gap-2 font-bold mt-1.5 text-sm">
+              <span class="text-gray-900">${p.name}</span>
+              <div class="text-right shrink-0">
+                <span class="text-pink-600">₹${p.price}</span>
+                ${p.mrp ? `<span class="block text-[10px] text-gray-400 line-through font-normal">₹${p.mrp}</span>` : ''}
+              </div>
+            </div>
+            <p class="text-xs text-gray-500 mt-1 line-clamp-2">${p.description || 'No description added.'}</p>
           </div>
-          <p class="text-xs text-gray-500 mt-1 line-clamp-2">${p.description || ''}</p>
-          <button onclick="deleteRow('products', '${p.id}')" class="mt-3 bg-red-500 text-white text-xs px-3 py-1 rounded">Delete</button>
-        </div>
-      `).join('');
+
+          <!-- ACTION BUTTONS: OUT OF STOCK TOGGLE + FULL EDIT + DELETE -->
+          <div class="mt-3.5 pt-2.5 border-t border-pink-100 flex flex-wrap gap-1.5">
+            <button onclick="toggleProductStock('${p.id}', ${isOut})" class="flex-1 ${isOut ? 'bg-green-600 hover:bg-green-700 text-white' : 'bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300'} text-[11px] font-bold py-1.5 px-2 rounded-lg transition">
+              ${isOut ? '✓ In Stock' : 'Out of Stock'}
+            </button>
+            <button onclick="openProductEditModal('${p.id}')" class="bg-pink-600 hover:bg-pink-700 text-white text-[11px] font-bold py-1.5 px-3 rounded-lg transition">
+              Edit
+            </button>
+            <button onclick="deleteRow('products', '${p.id}')" class="bg-rose-100 hover:bg-rose-200 text-rose-700 text-[11px] font-bold py-1.5 px-2.5 rounded-lg transition">
+              Del
+            </button>
+          </div>
+        </div>`;
+      }).join('') || '<p class="col-span-full text-center text-xs text-gray-400 py-6">Abhi koi product add nahi kiya gaya hai.</p>';
+    }
+
+    async function toggleProductStock(id, newStockState) {
+      const { error } = await sb
+        .from('products')
+        .update({ in_stock: newStockState })
+        .eq('id', id);
+
+      if (error) return alert('Stock status update error: ' + error.message);
+      loadAdminProducts();
+    }
+
+    function openProductEditModal(id) {
+      const p = allAdminProducts.find(item => String(item.id) === String(id));
+      if (!p) return;
+
+      document.getElementById('edit-prod-id').value = p.id;
+      document.getElementById('edit-prod-name').value = p.name || '';
+      document.getElementById('edit-prod-cat').value = p.category || 'Skincare';
+      document.getElementById('edit-prod-brand').value = p.brand || 'Rs Beauty';
+      document.getElementById('edit-prod-price').value = p.price || '';
+      document.getElementById('edit-prod-mrp').value = p.mrp || '';
+      document.getElementById('edit-prod-weight').value = p.weight || '100g';
+      document.getElementById('edit-prod-stock').value = (p.in_stock === false) ? 'false' : 'true';
+      document.getElementById('edit-prod-skin').value = p.skin_type || 'All Skin Types';
+      document.getElementById('edit-prod-desc').value = p.description || '';
+      document.getElementById('edit-prod-use').value = p.how_to_use || '';
+      document.getElementById('edit-prod-ing').value = p.ingredients || '';
+      document.getElementById('edit-prod-img').value = '';
+
+      document.getElementById('edit-product-modal').classList.replace('hidden', 'flex');
+    }
+
+    function closeProductEditModal() {
+      document.getElementById('edit-product-modal').classList.replace('flex', 'hidden');
+    }
+
+    async function saveEditedProduct() {
+      const id = document.getElementById('edit-prod-id').value;
+      const name = document.getElementById('edit-prod-name').value.trim();
+      const category = document.getElementById('edit-prod-cat').value.trim() || 'Skincare';
+      const brand = document.getElementById('edit-prod-brand').value.trim() || 'Rs Beauty';
+      const price = parseInt(document.getElementById('edit-prod-price').value);
+      const mrp = parseInt(document.getElementById('edit-prod-mrp').value) || null;
+      const weight = document.getElementById('edit-prod-weight').value.trim() || '100g';
+      const in_stock = document.getElementById('edit-prod-stock').value === 'true';
+      const skin_type = document.getElementById('edit-prod-skin').value.trim() || 'All Skin Types';
+      const description = document.getElementById('edit-prod-desc').value.trim();
+      const how_to_use = document.getElementById('edit-prod-use').value.trim();
+      const ingredients = document.getElementById('edit-prod-ing').value.trim();
+      const file = document.getElementById('edit-prod-img').files[0];
+
+      if (!name || isNaN(price)) return alert('Product Name aur sahi Selling Price (₹) zaroori hai!');
+
+      const updatePayload = {
+        name, category, brand, price, mrp, weight, in_stock, skin_type, description, how_to_use, ingredients
+      };
+
+      if (file) {
+        const uploadedUrl = await uploadImage(file, 'products');
+        if (uploadedUrl) updatePayload.image_url = uploadedUrl;
+      }
+
+      const { error } = await sb.from('products').update(updatePayload).eq('id', id);
+      if (error) return alert('Product update failed: ' + error.message);
+
+      closeProductEditModal();
+      alert('Product updated successfully!');
+      loadAdminProducts();
     }
 
     async function addSliderItem() {
