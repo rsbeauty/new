@@ -32,7 +32,7 @@
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
         </a>
         <button onclick="openCartDrawer()" class="relative w-9 h-9 rounded-full bg-pink-50 border border-pink-200 flex items-center justify-center text-pink-700 hover:bg-pink-100" title="Cart">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
           <span class="cart-badge hidden absolute -top-1 -right-1 bg-pink-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
         </button>
 
@@ -189,37 +189,17 @@
 
   </main>
 
-  <!-- FLOATING PINK "MENU" PILL BUTTON -->
+  <!-- FLOATING PINK BASKET / CART PILL BUTTON -->
   <div class="fixed bottom-16 md:bottom-6 inset-x-0 flex justify-center z-30 pointer-events-none">
-    <button onclick="toggleQuickMenu()" class="pointer-events-auto pink-grad hover:opacity-95 text-white px-5 py-2.5 rounded-full shadow-xl border border-pink-300/40 flex items-center gap-2 text-xs font-bold tracking-wide">
-      <span>☰</span>
-      <span>Menu</span>
+    <button onclick="openCartDrawer()" class="pointer-events-auto pink-grad hover:opacity-95 text-white px-5 py-2.5 rounded-full shadow-xl border border-pink-300/40 flex items-center gap-2 text-xs font-bold tracking-wide relative">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+      </svg>
+      <span>Cart</span>
+      <span class="cart-badge hidden bg-white text-pink-700 text-[10px] font-extrabold px-1.5 py-0.5 rounded-full leading-none">0</span>
     </button>
   </div>
 
-  <!-- QUICK CATEGORY JUMP POPUP -->
-  <div id="quick-menu-modal" class="fixed inset-0 bg-pink-950/50 hidden items-end md:items-center justify-center z-50 p-4" onclick="if(event.target===this) toggleQuickMenu()">
-    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-pink-100">
-      <div class="flex justify-between items-center border-b border-pink-100 pb-3">
-        <h3 class="font-bold text-base text-pink-900">Jump to Category</h3>
-        <button onclick="toggleQuickMenu()" class="text-xl font-bold text-pink-400">×</button>
-      </div>
-      <div class="grid grid-cols-2 gap-2 mt-3 text-xs font-semibold">
-        <a href="services.html?cat=Cleanup" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Cleanup</a>
-        <a href="services.html?cat=Facial" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Facial</a>
-        <a href="services.html?cat=Makeup" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Makeup</a>
-        <a href="services.html?cat=Waxing" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Waxing</a>
-        <a href="services.html?cat=Waxing%20(Rica)" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Waxing (Rica)</a>
-        <a href="services.html?cat=Basic%20Work" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Pedicure & Basic</a>
-        <a href="services.html?cat=Hair%20Services" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Hair Services</a>
-        <a href="services.html?cat=Hair%20Cut" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">Hair Cut</a>
-        <a href="services.html?cat=D-Tan" class="p-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-900">D-Tan</a>
-        <a href="products.html" class="p-2.5 rounded-xl bg-rose-100 hover:bg-rose-200 text-pink-950 font-bold">🛍️ Beauty Products</a>
-      </div>
-    </div>
-  </div>
-
-  
   <!-- MOBILE BOTTOM BAR -->
   <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-pink-100 z-40 shadow-[0_-4px_12px_rgba(219,39,119,0.06)]">
     <div class="grid grid-cols-5 py-2 text-center text-[11px]">
@@ -236,7 +216,7 @@
         <span>Products</span>
       </a>
       <button onclick="openCartDrawer()" class="flex flex-col items-center gap-0.5 text-pink-600 relative">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
         <span class="cart-badge hidden absolute top-0 right-4 bg-pink-600 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
         <span class="font-bold">Cart</span>
       </button>
@@ -371,12 +351,6 @@
       'from-rose-50 via-pink-100/70 to-amber-50/60 border-rose-200',
       'from-fuchsia-50/80 via-pink-50 to-rose-100/70 border-pink-200'
     ];
-
-    function toggleQuickMenu() {
-      const m = document.getElementById('quick-menu-modal');
-      m.classList.toggle('hidden');
-      m.classList.toggle('flex');
-    }
 
     async function loadHomeServices() {
       if (!sb) return;
