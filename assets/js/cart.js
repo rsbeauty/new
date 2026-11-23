@@ -1,5 +1,11 @@
-// RS BEAUTY PARLOUR - PERSISTENT CART & FULL WHATSAPP BOOKING SYSTEM
-const CART_KEY = 'rs_beauty_cart_v1';
+// RS BEAUTY PARLOUR - SERVICES + PRODUCTS CART WITH REGULAR & FAST DELIVERY
+const CART_KEY = 'rs_beauty_cart_v2';
+const DELIVERY_KEY = 'rs_beauty_delivery_type';
+
+const DELIVERY_RATES = {
+  regular: { label: 'Regular Delivery (1-2 Days)', charge: 49 },
+  fast: { label: 'Fast Express Delivery (Same Day)', charge: 99 }
+};
 
 function getCart() {
   try {
@@ -14,17 +20,29 @@ function saveCart(cart) {
   updateCartUI();
 }
 
-function addToCart(id, name, price, category) {
+function getDeliveryType() {
+  return localStorage.getItem(DELIVERY_KEY) || 'regular';
+}
+
+function setDeliveryType(type) {
+  localStorage.setItem(DELIVERY_KEY, type);
+  updateCartUI();
+}
+
+function addToCart(id, name, price, category, itemType = 'service') {
   const cart = getCart();
-  const existing = cart.find(item => String(item.id) === String(id));
+  const keyId = itemType + '_' + String(id);
+  const existing = cart.find(item => item.keyId === keyId);
   if (existing) {
     existing.qty += 1;
   } else {
     cart.push({
+      keyId: keyId,
       id: String(id),
       name: name,
       price: Number(price),
-      category: category || 'Salon',
+      category: category || (itemType === 'product' ? 'Product' : 'Salon'),
+      type: itemType,
       qty: 1
     });
   }
@@ -32,9 +50,9 @@ function addToCart(id, name, price, category) {
   showToast('"' + name + '" added to cart!');
 }
 
-function updateQty(id, delta) {
+function updateQty(keyId, delta) {
   let cart = getCart();
-  const idx = cart.findIndex(item => String(item.id) === String(id));
+  const idx = cart.findIndex(item => item.keyId === keyId);
   if (idx !== -1) {
     cart[idx].qty += delta;
     if (cart[idx].qty <= 0) {
@@ -63,6 +81,21 @@ function showToast(msg) {
   window._toastTimer = setTimeout(() => { toast.style.opacity = '0'; }, 2000);
 }
 
+function calculateCartTotals(cart) {
+  const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  const hasProducts = cart.some(item => item.type === 'product');
+  const deliveryType = getDeliveryType();
+  const deliveryCharge = hasProducts ? DELIVERY_RATES[deliveryType].charge : 0;
+  return {
+    subtotal,
+    hasProducts,
+    deliveryType,
+    deliveryLabel: hasProducts ? DELIVERY_RATES[deliveryType].label : 'Free Home Visit',
+    deliveryCharge,
+    grandTotal: subtotal + deliveryCharge
+  };
+}
+
 function injectCartDrawer() {
   if (document.getElementById('rs-cart-drawer')) return;
   const drawerHTML = `
@@ -71,15 +104,15 @@ function injectCartDrawer() {
       <span class="bg-white text-pink-700 font-bold text-xs px-2.5 py-1 rounded-full" id="float-count">0 Items</span>
       <span class="font-bold text-sm" id="float-total">₹0</span>
     </div>
-    <span class="text-xs font-bold uppercase tracking-wider">View Cart & Book →</span>
+    <span class="text-xs font-bold uppercase tracking-wider">View Cart & Order →</span>
   </div>
 
-  <div id="rs-cart-drawer" class="fixed inset-0 bg-black/60 hidden justify-end z-50">
+  <div id="rs-cart-drawer" class="fixed inset-0 bg-pink-950/60 hidden justify-end z-50" onclick="if(event.target===this) closeCartDrawer()">
     <div class="bg-white w-full max-w-md h-full flex flex-col justify-between shadow-2xl overflow-hidden">
-      <div class="p-4 bg-pink-600 text-white flex justify-between items-center">
+      <div class="p-4 bg-gradient-to-r from-pink-600 to-rose-600 text-white flex justify-between items-center">
         <div>
-          <h2 class="font-bold text-lg leading-none">Your Salon Cart</h2>
-          <p class="text-[11px] text-pink-100 mt-1">Select multiple services & book together on WhatsApp</p>
+          <h2 class="font-bold text-lg leading-none">Your Salon & Store Cart</h2>
+          <p class="text-[11px] text-pink-100 mt-1">Services & Beauty Products Checkout</p>
         </div>
         <button onclick="closeCartDrawer()" class="text-2xl font-bold leading-none px-2">×</button>
       </div>
@@ -87,29 +120,60 @@ function injectCartDrawer() {
       <div class="flex-1 overflow-y-auto p-4 space-y-4">
         <div id="cart-items-container" class="space-y-2.5"></div>
 
-        <div id="cart-checkout-form" class="bg-pink-50 p-4 rounded-xl border border-pink-100 space-y-2.5">
-          <h3 class="font-bold text-sm text-pink-800">Customer & Home Visit Details</h3>
-          <input type="text" id="c-name" placeholder="Full Name *" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs bg-white">
-          <input type="tel" id="c-phone" placeholder="WhatsApp / Mobile Number *" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs bg-white">
+        <div id="delivery-option-box" class="hidden bg-rose-50 p-3.5 rounded-xl border border-pink-200 space-y-2">
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-xs text-pink-950">🚚 Select Product Delivery Speed</h4>
+            <span class="text-[10px] bg-pink-200 text-pink-900 px-2 py-0.5 rounded-full font-bold">Product Order</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <label onclick="setDeliveryType('regular')" id="del-opt-regular" class="cursor-pointer border-2 border-pink-500 bg-white rounded-xl p-2.5 text-xs transition">
+              <div class="flex justify-between items-center font-bold text-pink-900">
+                <span>Regular</span>
+                <span>₹49</span>
+              </div>
+              <p class="text-[10px] text-gray-500 mt-0.5">1-2 Days Delivery</p>
+            </label>
+            <label onclick="setDeliveryType('fast')" id="del-opt-fast" class="cursor-pointer border border-pink-200 bg-white rounded-xl p-2.5 text-xs transition">
+              <div class="flex justify-between items-center font-bold text-pink-900">
+                <span>⚡ Fast Express</span>
+                <span>₹99</span>
+              </div>
+              <p class="text-[10px] text-gray-500 mt-0.5">Same Day Priority</p>
+            </label>
+          </div>
+        </div>
+
+        <div id="cart-checkout-form" class="bg-pink-50/80 p-4 rounded-xl border border-pink-100 space-y-2.5">
+          <h3 class="font-bold text-sm text-pink-900">Customer & Delivery / Visit Details</h3>
+          <input type="text" id="c-name" placeholder="Full Name *" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white">
+          <input type="tel" id="c-phone" placeholder="WhatsApp / Mobile Number *" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white">
           <div class="grid grid-cols-2 gap-2">
             <div>
               <label class="text-[10px] text-gray-600 font-semibold">Preferred Date *</label>
-              <input type="date" id="c-date" class="w-full border border-gray-300 rounded-lg px-2.5 py-1.5 text-xs bg-white">
+              <input type="date" id="c-date" class="w-full border border-pink-200 rounded-lg px-2.5 py-1.5 text-xs bg-white">
             </div>
             <div>
               <label class="text-[10px] text-gray-600 font-semibold">Preferred Time *</label>
-              <input type="time" id="c-time" class="w-full border border-gray-300 rounded-lg px-2.5 py-1.5 text-xs bg-white">
+              <input type="time" id="c-time" class="w-full border border-pink-200 rounded-lg px-2.5 py-1.5 text-xs bg-white">
             </div>
           </div>
-          <textarea id="c-address" rows="2" placeholder="Complete Home Address (House No, Street, Landmark, Area) *" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs bg-white"></textarea>
-          <input type="text" id="c-note" placeholder="Special Note / Skin Type (Optional)" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs bg-white">
+          <textarea id="c-address" rows="2" placeholder="Complete Address (House No, Street, Landmark, Pincode) *" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white"></textarea>
+          <input type="text" id="c-note" placeholder="Special Note (Optional)" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-xs bg-white">
         </div>
       </div>
 
-      <div class="p-4 border-t border-pink-100 bg-white space-y-2.5">
-        <div class="flex justify-between items-center text-sm">
-          <span class="text-gray-600 font-medium">Total Estimated Amount:</span>
-          <span class="text-xl font-bold text-pink-700" id="cart-grand-total">₹0</span>
+      <div class="p-4 border-t border-pink-100 bg-white space-y-2">
+        <div class="flex justify-between text-xs text-gray-600">
+          <span>Items Subtotal:</span>
+          <span class="font-semibold" id="cart-subtotal">₹0</span>
+        </div>
+        <div id="cart-delivery-row" class="hidden flex justify-between text-xs text-pink-700 font-semibold">
+          <span id="cart-delivery-label">Delivery Charge (Regular):</span>
+          <span id="cart-delivery-fee">+ ₹49</span>
+        </div>
+        <div class="flex justify-between items-center text-sm pt-1 border-t border-pink-100">
+          <span class="text-gray-800 font-bold">Grand Total:</span>
+          <span class="text-xl font-extrabold text-pink-700" id="cart-grand-total">₹0</span>
         </div>
         <button onclick="sendCartToWhatsApp()" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-bold text-sm shadow-lg">
           Send Full Order on WhatsApp
@@ -148,7 +212,7 @@ function updateCartUI() {
   injectCartDrawer();
   const cart = getCart();
   const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-  const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  const totals = calculateCartTotals(cart);
 
   document.querySelectorAll('.cart-badge').forEach(b => {
     b.innerText = totalQty;
@@ -160,8 +224,8 @@ function updateCartUI() {
   if (floatBar) {
     if (totalQty > 0) {
       floatBar.classList.remove('hidden');
-      document.getElementById('float-count').innerText = totalQty + ' Service' + (totalQty > 1 ? 's' : '');
-      document.getElementById('float-total').innerText = '₹' + totalAmount;
+      document.getElementById('float-count').innerText = totalQty + ' Item' + (totalQty > 1 ? 's' : '');
+      document.getElementById('float-total').innerText = '₹' + totals.grandTotal;
     } else {
       floatBar.classList.add('hidden');
     }
@@ -169,36 +233,69 @@ function updateCartUI() {
 
   const container = document.getElementById('cart-items-container');
   const checkoutForm = document.getElementById('cart-checkout-form');
+  const deliveryBox = document.getElementById('delivery-option-box');
+  const deliveryRow = document.getElementById('cart-delivery-row');
+
   if (container) {
     if (cart.length === 0) {
-      container.innerHTML = '<div class="text-center py-8 text-gray-400 text-xs">Aapka cart abhi khaali hai.<br>Menu se services add karein!</div>';
+      container.innerHTML = '<div class="text-center py-8 text-gray-400 text-xs">Aapka cart abhi khaali hai.<br>Salon services ya beauty products add karein!</div>';
       if (checkoutForm) checkoutForm.classList.add('hidden');
+      if (deliveryBox) deliveryBox.classList.add('hidden');
+      if (deliveryRow) deliveryRow.classList.add('hidden');
     } else {
       if (checkoutForm) checkoutForm.classList.remove('hidden');
+
+      if (totals.hasProducts) {
+        deliveryBox.classList.remove('hidden');
+        deliveryRow.classList.remove('hidden');
+        document.getElementById('cart-delivery-label').innerText = 'Delivery (' + (totals.deliveryType === 'fast' ? 'Fast Express' : 'Regular') + '):';
+        document.getElementById('cart-delivery-fee').innerText = '+ ₹' + totals.deliveryCharge;
+
+        const regCard = document.getElementById('del-opt-regular');
+        const fastCard = document.getElementById('del-opt-fast');
+        if (totals.deliveryType === 'fast') {
+          fastCard.className = 'cursor-pointer border-2 border-pink-600 bg-pink-50 rounded-xl p-2.5 text-xs transition';
+          regCard.className = 'cursor-pointer border border-pink-200 bg-white rounded-xl p-2.5 text-xs transition';
+        } else {
+          regCard.className = 'cursor-pointer border-2 border-pink-600 bg-pink-50 rounded-xl p-2.5 text-xs transition';
+          fastCard.className = 'cursor-pointer border border-pink-200 bg-white rounded-xl p-2.5 text-xs transition';
+        }
+      } else {
+        deliveryBox.classList.add('hidden');
+        deliveryRow.classList.add('hidden');
+      }
+
       container.innerHTML = cart.map((item, i) => `
-        <div class="flex justify-between items-center bg-white border border-pink-100 p-3 rounded-xl shadow-sm">
+        <div class="flex justify-between items-center bg-pink-50/50 border border-pink-100 p-3 rounded-xl">
           <div class="pr-2">
-            <span class="text-[10px] bg-pink-100 text-pink-700 px-2 py-0.5 rounded-full font-semibold">${item.category}</span>
-            <h4 class="font-bold text-xs text-gray-800 mt-1">${i + 1}. ${item.name}</h4>
-            <p class="text-xs text-pink-600 font-semibold">₹${item.price} × ${item.qty} = ₹${item.price * item.qty}</p>
+            <div class="flex items-center gap-1.5">
+              <span class="text-[9px] uppercase font-bold px-2 py-0.5 rounded-full ${item.type === 'product' ? 'bg-amber-100 text-amber-800' : 'bg-pink-100 text-pink-700'}">
+                ${item.type === 'product' ? 'Product' : 'Service'}
+              </span>
+              <span class="text-[10px] text-gray-500">${item.category}</span>
+            </div>
+            <h4 class="font-bold text-xs text-gray-900 mt-1">${i + 1}. ${item.name}</h4>
+            <p class="text-xs text-pink-700 font-bold">₹${item.price} × ${item.qty} = ₹${item.price * item.qty}</p>
           </div>
           <div class="flex items-center gap-1.5">
-            <button onclick="updateQty('${item.id}', -1)" class="w-7 h-7 rounded-lg bg-pink-100 text-pink-800 font-bold text-sm">-</button>
+            <button onclick="updateQty('${item.keyId}', -1)" class="w-7 h-7 rounded-lg bg-pink-100 text-pink-800 font-bold text-sm">-</button>
             <span class="text-xs font-bold w-5 text-center">${item.qty}</span>
-            <button onclick="updateQty('${item.id}', 1)" class="w-7 h-7 rounded-lg bg-pink-600 text-white font-bold text-sm">+</button>
+            <button onclick="updateQty('${item.keyId}', 1)" class="w-7 h-7 rounded-lg bg-pink-600 text-white font-bold text-sm">+</button>
           </div>
         </div>
       `).join('');
     }
   }
 
+  const subEl = document.getElementById('cart-subtotal');
   const grandTotalEl = document.getElementById('cart-grand-total');
-  if (grandTotalEl) grandTotalEl.innerText = '₹' + totalAmount;
+  if (subEl) subEl.innerText = '₹' + totals.subtotal;
+  if (grandTotalEl) grandTotalEl.innerText = '₹' + totals.grandTotal;
 }
 
 async function sendCartToWhatsApp() {
   const cart = getCart();
-  if (cart.length === 0) return alert('Pehle cart mein kam se kam 1 service add karein!');
+  if (cart.length === 0) return alert('Pehle cart mein kam se kam 1 item add karein!');
 
   const name = document.getElementById('c-name').value.trim();
   const phone = document.getElementById('c-phone').value.trim();
@@ -208,11 +305,12 @@ async function sendCartToWhatsApp() {
   const note = document.getElementById('c-note').value.trim();
 
   if (!name || !phone || !date || !time || !address) {
-    return alert('Kripya Name, Mobile Number, Date, Time aur Home Address sabhi details bharein!');
+    return alert('Kripya Name, Mobile Number, Date, Time aur Full Address sabhi details bharein!');
   }
 
-  const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-  const serviceSummary = cart.map(item => item.name + ' (x' + item.qty + ')').join(', ');
+  const totals = calculateCartTotals(cart);
+  const serviceSummary = cart.map(item => (item.type === 'product' ? '[Product] ' : '') + item.name + ' (x' + item.qty + ')').join(', ');
+  const deliverySummary = totals.hasProducts ? ' | Delivery: ' + totals.deliveryLabel + ' (₹' + totals.deliveryCharge + ')' : '';
   const bookingDateTime = date + ' ' + time;
 
   if (typeof sb !== 'undefined' && sb) {
@@ -225,30 +323,35 @@ async function sendCartToWhatsApp() {
       customer_name: name,
       phone: phone,
       address: note ? address + ' [Note: ' + note + ']' : address,
-      service_name: serviceSummary + ' | Total: ₹' + totalAmount,
+      service_name: serviceSummary + deliverySummary + ' | Total: ₹' + totals.grandTotal,
       booking_date: bookingDateTime,
       status: 'Pending'
     }]);
   }
 
   const itemsLines = cart.map((item, idx) =>
-    (idx + 1) + '. *' + item.name + '* (' + item.category + ')\n   Qty: ' + item.qty + ' × ₹' + item.price + ' = *₹' + (item.price * item.qty) + '*'
+    (idx + 1) + '. *' + item.name + '* [' + (item.type === 'product' ? 'Product' : 'Salon Service') + ']\n   Qty: ' + item.qty + ' × ₹' + item.price + ' = *₹' + (item.price * item.qty) + '*'
   ).join('\n');
 
+  const deliverySection = totals.hasProducts
+    ? '\n🚚 *Delivery Mode:* ' + totals.deliveryLabel + ' (+₹' + totals.deliveryCharge + ')'
+    : '';
+
   const fullMessage =
-    '🌸 *RS BEAUTY PARLOUR — NEW HOME SERVICE BOOKING* 🌸\n' +
+    '🌸 *RS BEAUTY PARLOUR — NEW ORDER / BOOKING* 🌸\n' +
     '_(Strictly for Girls & Women)_\n\n' +
     '👤 *Customer Details:*\n' +
     '• *Name:* ' + name + '\n' +
     '• *Mobile:* ' + phone + '\n' +
     '• *Date & Time:* ' + date + ' at ' + time + '\n' +
-    '• *Home Address:* ' + address + '\n' +
+    '• *Address:* ' + address + '\n' +
     (note ? '• *Note:* ' + note + '\n' : '') +
-    '\n📋 *Selected Services List:*\n' +
-    itemsLines + '\n\n' +
-    '💰 *Grand Total: ₹' + totalAmount + '*\n' +
-    '_(Home Service Doorstep Visit)_\n\n' +
-    'Please confirm my appointment!';
+    '\n🛍️ *Order Items List:*\n' +
+    itemsLines + '\n' +
+    '\n💵 *Subtotal:* ₹' + totals.subtotal +
+    deliverySection + '\n' +
+    '💰 *Grand Total: ₹' + totals.grandTotal + '*\n\n' +
+    'Please confirm my order!';
 
   const waUrl = 'https://wa.me/919625447178?text=' + encodeURIComponent(fullMessage);
   clearCart();
